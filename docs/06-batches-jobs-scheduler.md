@@ -1,5 +1,7 @@
 # Batches, jobs e scheduler
 
+Para uma introdução visual à hierarquia Batch → Journal Entry → Transaction → Investor Allocation, consulte [Ciclo contábil e batches](dominio/03-ciclo-contabil-e-batches.md).
+
 ## Modelo operacional
 
 Batches podem ser criados manualmente, por ATM, API, Data Import ou Business Events. O suporte deve distinguir criação, validação, hold, postagem, exportação, exclusão lógica e remoção permanente conforme o fluxo e a configuração da instalação.
@@ -39,4 +41,3 @@ Antes de restart, verificar dependências e trabalhos ativos. A documentação m
 - *Internal_Inv7_INV_Administrators_7.pdf*, seções Application Server, Scheduler Services e Batch Validation.
 - *Internal_Inv7_INV_Implementation.pdf*, páginas 4-5 e configuração dos schedulers.
 - *Internal_Inv7_INV_ATM_Dev_Guide_7.pdf*, execução e commit.
-

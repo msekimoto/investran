@@ -1,5 +1,7 @@
 # Report Wizard e Crystal Reports
 
+Consulte também o [mapa da arquitetura de reporting](reporting/01-arquitetura-reporting.md), que mostra consumidores e dependências do Report Wizard.
+
 ## Report Wizard
 
 O material disponível cobre componentes programáticos da InvDev Library: Login, Connection, Metadata, Report, Book, Column, Column Definition, Column Filter, Parameter Set, Time Period, RWReport e RWConnection. Na sustentação, trate um report como contrato: parâmetros, filtros, colunas, tipos, agregações, ordenação, acesso e consumidor downstream.
@@ -45,4 +47,3 @@ Comece por filtros, volume retornado, joins, colunas calculadas, parâmetros, hi
 - *Internal_Inv7_INV_RW_Dev_Guide_7.pdf*, páginas 3-6 e componentes da InvDev Library.
 - *Crystal Reports Guidebook.pdf*, páginas 1-37.
 - *Internal_Inv7_INV_WRS_Install-Admin_7.pdf*, seção Reports.
-

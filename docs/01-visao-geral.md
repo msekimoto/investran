@@ -27,6 +27,13 @@ O Investran é uma suíte para administração de investimentos e contabilidade,
 4. Relatórios ou driver reports alimentam regras, templates e saídas.
 5. Resultado é validado, reconciliado e, quando aplicável, transferido/commitado para o Investran.
 
+## Aprofundamento
+
+- [Entidades e relacionamentos](dominio/01-entidades-e-relacionamentos.md)
+- [Ciclo contábil e batches](dominio/03-ciclo-contabil-e-batches.md)
+- [Arquitetura lógica](arquitetura/01-arquitetura-logica.md)
+- [Fluxos ponta a ponta](arquitetura/03-fluxos-ponta-a-ponta.md)
+
 ## KT pendente - Goldman Sachs
 
 - versão e maintenance release atuais;
@@ -40,4 +47,3 @@ O Investran é uma suíte para administração de investimentos e contabilidade,
 - *Internal_Inv7_INV_Datasheet.pdf*, páginas 1-4.
 - *Internal_Inv7_INV_Architecture_7.pdf*, páginas 3-14.
 - *Internal_Inv7_INV_Implementation.pdf*, páginas 3-5.
-
