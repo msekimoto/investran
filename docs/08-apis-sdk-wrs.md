@@ -1,5 +1,7 @@
 # APIs, SDK e Web Reporting Services
 
+Para object model, DTOs, fetch options, versionamento e General Ledger API, consulte [API e SDK em profundidade](integracoes/01-api-e-sdk.md).
+
 ## Investran API/SDK
 
 A documentação de 2017 descreve uma API orientada a serviços baseada em C#/.NET 4.5, WCF e DTOs serializáveis em SOAP/XML/JSON. Os contratos expõem operações como Load, Publish e Remove, consultas LINQ, fetch options/lazy loading, transações ACID, versionamento, auditoria, arquivos e General Ledger (incluindo inserção de batch).
@@ -41,4 +43,3 @@ Web Reporting Services permite executar reports RW em tempo real via Data Exchan
 - *Internal_Inv7_INV_SDK_Datasheet_7.pdf* e *Internal_Inv7_INV_SDK_Implementation_7.pdf*.
 - *Internal_Inv7_InWRS_API_Guide.pdf*.
 - *Internal_Inv7_INV_WRS_Install-Admin_7.pdf*, páginas 3-6 e seção Reports.
-

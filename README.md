@@ -6,11 +6,14 @@ Base operacional para sustentação do Investran 7. O conteúdo foi consolidado 
 
 ## Comece por aqui
 
-1. [Visão geral e mapa de componentes](docs/01-visao-geral.md)
-2. [Arquitetura e ambientes](docs/02-arquitetura-e-ambientes.md)
-3. [Operação, criticidade e calendário](docs/03-operacao-e-calendario.md)
-4. [Troubleshooting](docs/13-troubleshooting.md)
-5. [Lacunas de KT e plano de transferência](docs/16-plano-de-kt.md)
+1. [Trilha de aprendizado](docs/17-trilha-de-aprendizado.md)
+2. [Entidades e relacionamentos](docs/dominio/01-entidades-e-relacionamentos.md)
+3. [Arquitetura lógica e componentes](docs/arquitetura/01-arquitetura-logica.md)
+4. [Visão geral e mapa de componentes](docs/01-visao-geral.md)
+5. [Arquitetura e ambientes](docs/02-arquitetura-e-ambientes.md)
+6. [Operação, criticidade e calendário](docs/03-operacao-e-calendario.md)
+7. [Troubleshooting](docs/13-troubleshooting.md)
+8. [Lacunas de KT e plano de transferência](docs/16-plano-de-kt.md)
 
 ## Conhecimento técnico
 
@@ -26,6 +29,15 @@ Base operacional para sustentação do Investran 7. O conteúdo foi consolidado 
 | Configurações e acessos | [Administração e segurança](docs/11-configuracoes-seguranca-sso.md) | Team Security, contas de serviço, IIS e SSO |
 | Deploy e upgrade | [Mudanças e releases](docs/12-deploy-upgrade.md) | Sequência, pré-checks, backup, validação e rollback decisório |
 | Business Events | [Business Events e Partner Transfer](docs/14-business-events.md) | Configuração, logs e fluxo funcional de Partner Transfer |
+
+## Mapas de entendimento
+
+- [Fundos, investidores e investimentos](docs/dominio/02-fundos-investidores-investimentos.md)
+- [Ciclo contábil e batches](docs/dominio/03-ciclo-contabil-e-batches.md)
+- [Application Server, workers e scheduler](docs/arquitetura/02-application-server.md)
+- [Fluxos ponta a ponta](docs/arquitetura/03-fluxos-ponta-a-ponta.md)
+- [Arquitetura de reporting](docs/reporting/01-arquitetura-reporting.md)
+- [API e SDK em profundidade](docs/integracoes/01-api-e-sdk.md)
 
 ## Runbooks
 
