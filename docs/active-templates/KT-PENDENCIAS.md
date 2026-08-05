@@ -1,6 +1,6 @@
 # Active Templates — Pendências para Knowledge Transfer
 
-Este checklist contém informações que não são suportadas pelo manual do Investran 6.2 SR3 ou que podem variar conforme ambiente e versão.
+Este checklist contém informações que não são confirmadas pelos manuais disponíveis ou que podem variar conforme ambiente, versão, maintenance release e customizações.
 
 ## Ambientes e acessos
 
