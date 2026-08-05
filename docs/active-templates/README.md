@@ -2,7 +2,7 @@
 
 ## 1. Escopo e confiabilidade
 
-Este documento foi iniciado a partir do **Developer's Guide to Active Template Manager**, voltado ao Investran 6.2 SR3. Ele descreve o comportamento padrão apresentado pela FIS/SunGard nessa versão.
+Este documento foi consolidado com o **Investran 7 Developer's Guide to Active Template Manager**, atualizado em 17/10/2014, e com materiais anteriores usados pela equipe. Ele descreve o comportamento padrão da FIS/SunGard; diferenças da versão e da maintenance release instaladas precisam ser confirmadas.
 
 Informações específicas da Goldman Sachs — nomes de bancos, servidores, caminhos, grupos, pipelines, credenciais, aprovações e procedimentos de promoção — não constam no manual e devem ser registradas durante o Knowledge Transfer.
 

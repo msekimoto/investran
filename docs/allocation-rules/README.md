@@ -93,10 +93,11 @@ Ao receber um incidente, não comece alterando a regra. Primeiro confirme:
 
 ## Fontes utilizadas
 
+- *Investran 7 Developer's Guide to Allocation Rule Manager* (17/10/2014).
 - *Investran Conceptual Design Document*, seção 3.6 — Investor Allocation Rules.
 - *Developer's Guide to Active Template Manager*, seções de VBA, desenvolvimento e troubleshooting.
 - *Accounting Supplemental Training Materials*, seções de batch e investor allocations.
 
 ## Limitação conhecida
 
-Os PDFs recebidos explicam o conceito, os tipos e o uso de Allocation Rules por outros componentes, mas **não incluem um manual completo do Allocation Rule Manager para criação, edição, debugging e publicação**. Por isso, procedimentos de interface e promoção entre ambientes permanecem marcados como KT obrigatório.
+O guia de ARM cobre estrutura, criação, edição, VBA, debugging e desenvolvimento de regras dinâmicas. Ele não confirma o processo específico da Goldman Sachs para promoção, aprovação, rollback, regras customizadas e validação funcional; esses pontos permanecem como KT obrigatório.
