@@ -1,101 +1,111 @@
-# Active Templates — Pendências para Knowledge Transfer
+# Active Templates - pendências de Knowledge Transfer
 
-Este checklist contém informações que não são confirmadas pelos manuais disponíveis ou que podem variar conforme ambiente, versão, maintenance release e customizações.
+O manual padrão já explica a interface, os menus, o VBA Editor, Simulation, Scheduler, Preview e Commit. Esta lista concentra o que precisa ser obtido sobre o ambiente Goldman Sachs.
 
-## Ambientes e acessos
+## 1. Onde acessar
 
-- [ ] URLs, servidores e bancos de DEV, QA/UAT e PROD.
-- [ ] Como confirmar visualmente o ambiente conectado.
-- [ ] Perfis e grupos necessários para abrir, editar, simular, executar e promover ATs.
-- [ ] Quem concede acesso e qual é o processo de solicitação.
+- [ ] servidor/workstation e caminho do ATM em DEV, UAT e PROD;
+- [ ] versão do ATM e maintenance release;
+- [ ] databases e identificação visual de ambiente;
+- [ ] entitlements para visualizar, editar, simular, executar e promover;
+- [ ] processo e owner para concessão de acesso.
 
-## Localização e inventário
+## 2. Inventário dos templates
 
-- [ ] Convenção de nomes dos ATs da Goldman Sachs.
-- [ ] Como pesquisar por nome, ID, Batch Type ou processo funcional.
-- [ ] Inventário dos ATs mais usados ou com maior volume de chamados.
-- [ ] ATs legados que não devem ser alterados sem aprovação específica.
+Para cada AT crítico:
 
-## Desenvolvimento
+- [ ] nome, ID, Batch Type, owner e criticidade;
+- [ ] processo funcional e calendário;
+- [ ] parâmetros e defaults;
+- [ ] Driver/Auxiliary Reports;
+- [ ] árvore de JEs/Transactions;
+- [ ] eventos VBA implementados;
+- [ ] Allocation Rules e UDFs;
+- [ ] consumidores e agendamentos;
+- [ ] baseline de linhas, batches, duração e volume.
 
-- [ ] Versão atual do Investran e do Active Template Manager.
-- [ ] Onde o código VBA é mantido e como é salvo.
-- [ ] Se existe exportação do código para controle de versão.
-- [ ] Bibliotecas, referências e componentes adicionais usados nos ATs.
-- [ ] Convenções internas de código, comentários e tratamento de erro.
-- [ ] Como localizar IDs de Allocation Rules e outros metadados no ambiente atual.
+## 3. Convenções de alteração e salvamento
 
-## Debugging
+- [ ] padrão para duplicar e nomear cópias;
+- [ ] quando usar `Locked`;
+- [ ] conteúdo obrigatório de Notes e Description;
+- [ ] onde exportar código/definição para versionamento;
+- [ ] referências VBA permitidas;
+- [ ] política para `Ignore Errors`;
+- [ ] revisão obrigatória após reordenar JE/TX;
+- [ ] owner que aprova mudança para `Normal`.
 
-- [ ] Demonstração prática de Simulation Mode.
-- [ ] Como habilitar e localizar o Debug Log.
-- [ ] Como usar breakpoints e inspecionar variáveis na versão atual.
-- [ ] Onde ficam logs locais e logs do servidor.
-- [ ] Como correlacionar chamado, usuário, execução, Process ID e batch gerado.
-- [ ] Como reproduzir um incidente com segurança.
+## 4. Debugging
 
-## Testes
+- [ ] AT seguro para treinamento;
+- [ ] demonstração de breakpoints, Watch, Immediate e Stack;
+- [ ] mensagens de log padronizadas;
+- [ ] localização de logs do Scheduler/Application Server;
+- [ ] correlação entre ticket, Process ID, usuário e batch;
+- [ ] procedimento para processo preso ou cancelamento.
 
-- [ ] Massa de teste recomendada.
-- [ ] AT seguro para treinamento prático.
-- [ ] Como limpar resultados de simulação e Staging.
-- [ ] Quando é permitido commit em DEV/QA.
-- [ ] Evidências exigidas para aprovação.
-- [ ] Quem realiza validação funcional ou contábil.
+## 5. Scheduler e Staging
 
-## Scheduler e Staging
+- [ ] nomes e hosts dos serviços;
+- [ ] frequência de polling e filas;
+- [ ] identidade e cofre da conta de serviço;
+- [ ] Staging database por ambiente;
+- [ ] dashboards/consultas aprovados;
+- [ ] retenção e limpeza do Staging;
+- [ ] autorização para restart/cancelamento;
+- [ ] tratamento de batches gerados e não commitados.
 
-- [ ] Nome e localização do Scheduler Service.
-- [ ] Como verificar se o serviço está ativo.
-- [ ] Como reiniciar o serviço e quem tem autorização.
-- [ ] Banco de Staging de cada ambiente.
-- [ ] Como consultar processos pendentes, falhos ou presos.
-- [ ] Política de limpeza do Staging.
-- [ ] Procedimento para batches gerados, mas não commitados.
+## 6. Promoção
 
-## Publicação
+- [ ] versão/caminho do ARM & ATM Export-Import Console;
+- [ ] conteúdo do pacote e dependências separadas;
+- [ ] origem, destino e ordem de importação;
+- [ ] tratamento de IDs e conflitos;
+- [ ] aprovações, tickets e janelas;
+- [ ] validação pós-importação e Refresh;
+- [ ] smoke test no destino.
 
-- [ ] Ferramenta usada atualmente para exportar/importar ATs.
-- [ ] Procedimento completo de DEV → QA/UAT → PROD.
-- [ ] Se o ARM & ATM Export-Import Console ainda é utilizado.
-- [ ] Objetos exportados junto com o AT.
-- [ ] Dependências que precisam ser promovidas separadamente.
-- [ ] Ordem correta de publicação.
-- [ ] Aprovações, tickets e janelas de mudança.
-- [ ] Smoke test obrigatório após publicação.
+## 7. Rollback
 
-## Versionamento e rollback
+- [ ] armazenamento da última versão aprovada;
+- [ ] passo a passo de reimportação/restauração;
+- [ ] rollback conjunto de reports, parameters e regras;
+- [ ] critério para interromper execuções;
+- [ ] tratamento de batch já commitado;
+- [ ] owner que aprova reversão/rebook contábil.
 
-- [ ] Como é feito o backup da versão anterior.
-- [ ] Onde os exports são armazenados.
-- [ ] Convenção de nome e versão dos pacotes.
-- [ ] Passo a passo real de rollback.
-- [ ] Como tratar um batch incorreto já commitado.
-- [ ] Quem aprova reversões contábeis.
+## 8. Sessão prática obrigatória
 
-## Incidentes conhecidos
+Peça que um colega demonstre, gravando evidências sanitizadas:
 
-Para cada incidente relevante, registrar:
+1. localizar um AT real;
+2. explicar toda a árvore;
+3. duplicar e manter uma cópia em Draft;
+4. alterar um Parameter e mapping;
+5. alterar/salvar VBA;
+6. alterar um driver e executar Refresh;
+7. simular com breakpoint e Debug Log;
+8. executar pelo Scheduler com Preview;
+9. promover DEV -> UAT;
+10. executar um rollback de treinamento;
+11. analisar um incidente histórico.
 
-- sintoma;
-- AT afetado;
-- ambiente;
-- causa raiz;
-- como foi diagnosticado;
-- correção aplicada;
-- validação realizada;
-- prevenção;
-- ticket ou referência.
+## Critério de conclusão
 
-## Sessões práticas obrigatórias
+O KT está concluído quando você consegue sozinho:
 
-- [ ] Localizar e abrir um AT existente.
-- [ ] Identificar todos os seus parâmetros e reports.
-- [ ] Alterar uma cópia segura em DEV.
-- [ ] Depurar VBA.
-- [ ] Executar Simulation Mode.
-- [ ] Executar pelo Scheduler Engine.
-- [ ] Ler log e abrir Preview.
-- [ ] Promover um AT entre ambientes.
-- [ ] Executar rollback de treinamento.
-- [ ] Investigar um incidente real já encerrado.
+- localizar e explicar um AT crítico;
+- identificar onde uma mudança deve ser feita;
+- alterar e confirmar que cada componente foi salvo;
+- simular e depurar;
+- executar via Scheduler sem commit automático;
+- reconciliar Preview;
+- promover e reverter em ambiente não produtivo;
+- escalar com logs, Process ID e evidências suficientes.
+
+## Referências
+
+- [Interface, acesso e navegação](01-interface-acesso-navegacao.md)
+- [Estrutura e funcionamento](02-estrutura-e-funcionamento.md)
+- [Alteração, salvamento e publicação](03-alteracao-salvamento-publicacao.md)
+- [Debug, execução, Preview e Commit](04-debug-execucao-preview-commit.md)
