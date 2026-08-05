@@ -26,6 +26,8 @@ flowchart TD
 | Active Template | Pode selecionar uma Allocation Rule por identificador. |
 | Report Wizard | Pode ser utilizado para consultar metadados, dados de suporte e identificadores de regras. |
 
+O ARM Engine recebe properties e parameters do Accounting ou de outro consumidor, propaga valores com nomes correspondentes aos reports RW associados e devolve um `InvestorSet` com `Amount`, `LEAmount` e `Quantity` por Investor.
+
 ## Fluxo Top Down
 
 No modelo Top Down, o valor nasce no nível da Legal Entity e é distribuído aos investidores.
@@ -89,4 +91,9 @@ Uma divergência de alocação não prova que a regra está defeituosa. A causa 
 
 ## Limitações da fonte
 
-Os materiais disponíveis descrevem o conceito, classificações, exemplos de regras e integração com Active Templates. Eles não documentam integralmente a arquitetura interna do Allocation Rule Manager, tabelas físicas, serviços de execução ou detalhes de implantação. Esses pontos permanecem dependentes de KT e validação no ambiente.
+O manual documenta a interface, o engine em nível funcional e o object model usado pelo VBA, mas não descreve tabelas físicas, stored procedures, processos internos do engine, formato do pacote de exportação nem a implantação específica da Goldman Sachs. Esses pontos permanecem dependentes de KT e validação no ambiente.
+
+## Referências detalhadas
+
+- [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md)
+- [Object model e contratos técnicos](object-model.md)

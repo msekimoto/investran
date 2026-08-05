@@ -7,7 +7,8 @@
 As Allocation Rules documentadas podem ser analisadas por dois eixos independentes:
 
 1. **Static vs. Dynamic** — define como os percentuais são obtidos.
-2. **Top Down vs. Bottom Up** — define em qual nível o valor nasce e como ele é distribuído ou agregado.
+2. **Simple vs. Complex** — define se uma Dynamic Rule usa somente um report ou também VBA.
+3. **Top Down vs. Bottom Up** — define em qual nível o valor nasce e como ele é distribuído ou agregado.
 
 ```mermaid
 flowchart TD
@@ -67,7 +68,21 @@ Dynamic Allocation Rules calculam os percentuais no momento da execução com ba
 - escopo da Legal Entity;
 - investidores elegíveis na data de execução.
 
-## 4. Top Down Allocation
+## 4. Simple e Complex Dynamic Allocation Rules
+
+### Simple Dynamic Allocation Rule
+
+Usa um único report RW e não utiliza VBA. O report deve ter quatro colunas visíveis, nesta ordem: Investor Account ID, base/valor para Amount, base/valor para LEAmount e base/valor para Quantity. Colunas adicionais usadas apenas para filtro devem ficar ocultas.
+
+No Top Down, as três colunas numéricas funcionam como bases proporcionais. No Bottom Up, elas representam os valores efetivos por Investor.
+
+### Complex Dynamic Allocation Rule
+
+Combina um ou mais reports RW com código VBA. O módulo deve expor `Sub Main`, ler `AllocationRule.Properties` e `AllocationRule.Parameters`, executar reports por `AllocationRule.Reports`, calcular com objetos `InvestorSet` e copiar o resultado final para `AllocationRule.Results`.
+
+Consulte [Object model e contratos técnicos](object-model.md) para os membros suportados e obsoletos.
+
+## 5. Top Down Allocation
 
 No modelo Top Down, o valor é informado no nível da **Legal Entity** e depois distribuído entre os investidores.
 
@@ -87,7 +102,7 @@ flowchart LR
 - arredondamento sem diferença material;
 - regra correta para a data e contexto da transação.
 
-## 5. Bottom Up Allocation
+## 6. Bottom Up Allocation
 
 No modelo Bottom Up, valores ou percentuais são definidos ou calculados no nível do investidor e depois agregados para Vehicle e Legal Entity.
 
@@ -107,7 +122,7 @@ flowchart LR
 - total da Legal Entity fecha com a soma dos níveis inferiores;
 - não existem duplicidades ou investidores fora do escopo.
 
-## 6. Regras de sistema usadas por Active Templates
+## 7. Regras de sistema usadas por Active Templates
 
 O guia de Active Template Manager apresenta os seguintes IDs de sistema:
 
@@ -127,7 +142,7 @@ Esses IDs aparecem como constantes no manual do ATM. Antes de utilizá-los diret
 4. evite espalhar números mágicos em código;
 5. documente a dependência no Active Template.
 
-## 7. Escolha do método para análise de incidente
+## 8. Escolha do método para análise de incidente
 
 | Sintoma | Método a investigar primeiro |
 |---|---|
@@ -139,7 +154,7 @@ Esses IDs aparecem como constantes no manual do ATM. Antes de utilizá-los diret
 | Contrapartida não fecha | Non-Dominant e arredondamento |
 | Active Template calcula investidores manualmente | User Provided e evento `AfterTransaction` |
 
-## 8. Regras de segurança
+## 9. Regras de segurança
 
 - Não altere uma regra antes de identificar todos os consumidores.
 - Não conclua que o defeito está na Allocation Rule sem validar os dados de entrada.

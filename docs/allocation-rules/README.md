@@ -77,6 +77,12 @@ Sem as permissões adequadas, uma falha de acesso pode ser confundida com defeit
 
 ## Documentos deste módulo
 
+- [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md)
+- [Object model e contratos técnicos](object-model.md)
+- [Arquitetura e fluxo](architecture.md)
+- [Anatomia de uma regra](anatomy.md)
+- [Tipos e métodos](types-and-methods.md)
+- [Desenvolvimento e alteração](development.md)
 - [Guia de manutenção](maintenance-guide.md)
 - [Troubleshooting e playbooks](troubleshooting.md)
 - [Pendências de KT](KT-PENDENCIAS.md)
@@ -98,6 +104,8 @@ Ao receber um incidente, não comece alterando a regra. Primeiro confirme:
 - *Developer's Guide to Active Template Manager*, seções de VBA, desenvolvimento e troubleshooting.
 - *Accounting Supplemental Training Materials*, seções de batch e investor allocations.
 
-## Limitação conhecida
+## O que o manual ARM confirma
 
-O guia de ARM cobre estrutura, criação, edição, VBA, debugging e desenvolvimento de regras dinâmicas. Ele não confirma o processo específico da Goldman Sachs para promoção, aprovação, rollback, regras customizadas e validação funcional; esses pontos permanecem como KT obrigatório.
+O guia de ARM documenta a interface, atributos, properties, parameters, reports, estados, simulação, regras simples e complexas, VBA, objetos `RWReport`/`InvestorSet`/`AllocationRule` e o uso do Import-Export Console.
+
+Ele não confirma o processo específico da Goldman Sachs para aprovação, promoção, rollback, regras customizadas, owners, baselines ou validação funcional. Esses pontos permanecem como KT obrigatório.

@@ -71,19 +71,25 @@ Confirme a permissão antes de diagnosticar uma falha de interface como defeito 
 
 - regras dinâmicas são administradas pelo Allocation Rule Manager;
 - regras estáticas são mantidas pela utility **Static Allocation Rules**, no Portfolio & Investor Manager;
+- o ARM permite localizar, adicionar, editar, excluir, duplicar e simular regras;
+- regras em uso por pelo menos uma transação não podem ser editadas nem excluídas;
+- `Run` simula a execução com properties e parameters e não modifica o banco;
+- regras começam em `Draft` e somente ficam disponíveis ao Accounting em `Normal`;
 - o guia do ATM informa que existe metadata do Investran que pode ser consultada por Report Wizard para localizar IDs de Allocation Rules por nome;
 - Active Templates podem definir a regra por ID no `Application.Context.AllocationRule`.
 
-### TODO (KT)
+### Dependências do ambiente que ainda exigem KT
 
 Documentar no ambiente Goldman Sachs:
 
 - caminho exato para abrir o ARM;
 - filtros de pesquisa disponíveis;
-- como identificar status, owner e data da última alteração;
-- onde visualizar código, expressão, query ou definição interna;
-- como duplicar uma regra existente;
-- como exportar a definição atual para backup.
+- owners funcionais e técnicos;
+- convenção para Notes, locks e nomes;
+- política de duplicação e preservação da versão anterior;
+- inventário de regras customizadas e consumidores.
+
+Para a operação detalhada da ferramenta, consulte [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md). Para as classes VBA, consulte [Object model e contratos técnicos](object-model.md).
 
 ## 4. Entender a regra antes de editar
 
@@ -294,13 +300,12 @@ Confirme:
 
 ## 10. Publicação e rollback
 
-Os documentos recebidos citam a aplicação **ARM & ATM Export-Import Console** para transferir Active Templates e related reports entre databases. Eles não fornecem um procedimento completo de promoção de Allocation Rules no ambiente Goldman Sachs.
+O guia do ARM confirma que o **Import-Export Console** transfere Allocation Rules e reports relacionados entre databases. Os materiais não fornecem o procedimento completo de promoção no ambiente Goldman Sachs.
 
 ### TODO (KT)
 
 Documentar:
 
-- se a mesma console exporta/importa as ARs customizadas;
 - formato do pacote;
 - ordem de promoção das dependências;
 - aprovação necessária;

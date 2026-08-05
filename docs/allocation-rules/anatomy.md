@@ -94,8 +94,9 @@ No fluxo documentado do ATM:
 
 ## Pontos que exigem KT
 
-- Estrutura interna disponível no Allocation Rule Manager da versão instalada.
-- Forma de visualizar código, fórmulas, queries ou componentes da regra.
-- Logs gerados pelo ARM.
-- Processo de exportação, importação e versionamento.
+- Caminho e versão do Allocation Rule Manager em cada ambiente.
+- Logs e recursos de debug disponíveis na versão instalada.
+- Processo Goldman Sachs para exportação, importação, aprovação e rollback.
 - Convenções de nomes e IDs usadas no ambiente Goldman Sachs.
+
+Para os componentes confirmados pelo manual, consulte [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md) e [Object model e contratos técnicos](object-model.md).

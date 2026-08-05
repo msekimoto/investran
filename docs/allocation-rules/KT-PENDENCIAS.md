@@ -1,129 +1,121 @@
-# Allocation Rules — Pendências de Knowledge Transfer
+# Allocation Rules - pendências de Knowledge Transfer
 
-Este documento contém apenas informações que não ficaram suficientemente demonstradas nos PDFs recebidos ou que podem variar conforme a versão e o ambiente Goldman Sachs.
+O manual padrão do ARM já documenta interface, atributos, ciclo `Draft` -> `Normal`, rules simples/complexas, VBA, simulação, object model e Import-Export Console. Esta lista concentra o conhecimento que continua específico da Goldman Sachs.
 
-## 1. Ferramentas e acesso
+## 1. Acesso e ambientes
 
-- [ ] Qual versão do Allocation Rule Manager (ARM) está instalada?
-- [ ] Como abrir o ARM em cada ambiente?
-- [ ] Quais grupos concedem `ARM Admin` e `ARM User`?
-- [ ] Há diferença de permissões entre DEV, QA/UAT e PROD?
-- [ ] Regras de sistema podem ser visualizadas, duplicadas ou editadas?
+- [ ] caminho de instalação/atalho do ARM em cada ambiente;
+- [ ] versão do ARM e compatibilidade com Investran/MR;
+- [ ] grupos e procedimento para solicitar `ARM Admin` e `ARM User`;
+- [ ] contas de serviço usadas por automações;
+- [ ] diferenças de configuração entre DEV, UAT e PROD.
 
-## 2. Localização e inventário
+## 2. Inventário das regras
 
-- [ ] Como pesquisar AR por nome?
-- [ ] Como pesquisar por ID?
-- [ ] Existe filtro por tipo, status, owner ou data de alteração?
-- [ ] Como exportar uma lista completa das ARs?
-- [ ] Existe convenção de nomenclatura Goldman Sachs?
-- [ ] Como identificar regras obsoletas ou sem uso?
-- [ ] Existe metadata/report oficial que relaciona nome e ID?
+Para cada regra crítica, obter:
 
-## 3. Estrutura interna
+- [ ] nome e identificador;
+- [ ] status, Top Down/Bottom Up e Use VBA;
+- [ ] owner funcional e técnico;
+- [ ] Legal Entities e processos atendidos;
+- [ ] properties, parameters, reports e referências VBA;
+- [ ] consumidores: Accounting, Active Template, Batch, BE, job ou integração;
+- [ ] volume, frequência e criticidade;
+- [ ] última alteração e motivo.
 
-- [ ] Quais componentes formam uma AR customizada na versão instalada?
-- [ ] A implementação usa VBA, SQL, fórmulas, reports ou outra linguagem?
-- [ ] Quais eventos/métodos podem ser customizados?
-- [ ] Quais objetos de contexto ficam disponíveis?
-- [ ] Onde são configurados parâmetros e valores padrão?
-- [ ] Como identificar tabelas, views e reports usados pela regra?
+## 3. Convenções de desenvolvimento
 
-## 4. Criação e alteração
+- [ ] padrão de nomes para rules, reports, parameters e UDFs;
+- [ ] pasta Public Read-only usada pelos driver reports;
+- [ ] política para `Locked`, `Notes` e `Allow performance optimization`;
+- [ ] bibliotecas/referências VBA aprovadas;
+- [ ] tratamento padrão de erro e logging;
+- [ ] regras para null Investor, GP/LP, rounding e tolerância;
+- [ ] valores configuráveis e UDFs usados pelas regras.
 
-- [ ] Passo a passo para criar uma nova AR.
-- [ ] Passo a passo para duplicar uma regra existente.
-- [ ] Passo a passo para editar e salvar.
-- [ ] Existe status Draft/Normal/System ou equivalente?
-- [ ] Há bloqueio/check-out para impedir edição concorrente?
-- [ ] Como comparar versão anterior e nova?
-- [ ] Como registrar change ticket e justificativa dentro da regra?
+## 4. Testes e validação funcional
 
-## 5. Debugging
+- [ ] massa de testes representativa e Legal Entities seguras;
+- [ ] casos de referência com resultado esperado;
+- [ ] tolerâncias para Amount, LEAmount e Quantity;
+- [ ] evidência exigida para aprovação;
+- [ ] responsável pela reconciliação financeira;
+- [ ] testes de AT/Batch integrados após simulação no ARM;
+- [ ] baselines de duração e volume.
 
-- [ ] Existe editor/debugger no ARM?
-- [ ] É possível usar breakpoint?
-- [ ] Quais variáveis e objetos podem ser inspecionados?
-- [ ] Como executar uma regra isoladamente?
-- [ ] Como informar Legal Entity, datas, valores e demais parâmetros?
-- [ ] Onde ficam debug log e execution log?
-- [ ] Como aumentar o nível de log?
-- [ ] Como correlacionar execução do ARM com Batch/AT?
+## 5. Promoção
 
-## 6. Testes
+Embora o produto forneça o Import-Export Console, é necessário documentar:
 
-- [ ] Existe massa padrão de teste?
-- [ ] Como capturar o resultado completo por investidor?
-- [ ] Como comparar duas versões da regra?
-- [ ] Existe ferramenta automatizada de regression test?
-- [ ] Quais tolerâncias de rounding são aceitas?
-- [ ] Quem valida o resultado funcional?
-- [ ] É obrigatório testar também via AT/Batch consumidor?
+- [ ] caminho e versão da console;
+- [ ] seleção da rule e dos reports relacionados;
+- [ ] formato/local do pacote;
+- [ ] ordem das dependências;
+- [ ] tratamento de IDs e conflitos no destino;
+- [ ] aprovações e segregação de função;
+- [ ] janela e comunicação;
+- [ ] validação pós-importação;
+- [ ] necessidade de Refresh, cache ou restart.
 
-## 7. Publicação
+## 6. Rollback
 
-- [ ] Qual ferramenta promove AR entre bancos/ambientes?
-- [ ] O `ARM & ATM Export-Import Console` é usado neste projeto?
-- [ ] O export inclui dependências automaticamente?
-- [ ] Reports, metadata ou configurações precisam ser promovidos separadamente?
-- [ ] Existe pipeline ou processo manual?
-- [ ] Quem aprova a promoção?
-- [ ] Existe janela de mudança?
-- [ ] Como validar que a versão correta chegou ao destino?
+- [ ] como preservar a última versão aprovada;
+- [ ] se rollback usa reimportação, duplicação ou troca de regra consumidora;
+- [ ] restrições quando a regra já está em uso;
+- [ ] como tratar transações geradas durante a janela;
+- [ ] critérios para abortar ou reverter;
+- [ ] reconciliação obrigatória após rollback.
 
-## 8. Rollback
+## 7. Troubleshooting e suporte
 
-- [ ] Como exportar/guardar a versão anterior?
-- [ ] É possível restaurar uma regra sem trocar o ID?
-- [ ] O rollback exige reinício de serviços ou limpeza de cache?
-- [ ] Como tratar batches gerados pela versão defeituosa?
-- [ ] Qual é o procedimento de rollback em produção?
+- [ ] localização dos logs e eventos úteis;
+- [ ] como depurar VBA na versão instalada;
+- [ ] erros conhecidos e workarounds;
+- [ ] consultas/relatórios para identificar regra e InvestorSet executados;
+- [ ] procedimento quando regra está locked por outro desenvolvedor;
+- [ ] procedimento quando uma regra em uso precisa mudar;
+- [ ] contatos de DBA, infraestrutura, funcional, desenvolvimento e FIS;
+- [ ] severidade e SLA de incidentes de alocação.
 
-## 9. Dependências
+## 8. Perguntas práticas para a sessão de KT
 
-- [ ] Como descobrir todos os ATs que referenciam uma AR?
-- [ ] Como descobrir Batch Types ou Transaction Templates que usam a regra?
-- [ ] Como descobrir regras chamadas por Business Events?
-- [ ] Como identificar dependências de Report Wizard?
-- [ ] Existe busca por Allocation Rule ID no banco ou metadata?
-- [ ] A alteração de uma AR invalida cache ou objetos compilados?
+1. Mostre uma regra simples e uma complexa usadas em produção.
+2. Mostre como identificar todos os consumidores de uma regra.
+3. Execute uma simulação e explique cada property e parameter.
+4. Mostre o driver report e reconcilie suas quatro colunas.
+5. Percorra um `Sub Main` real e o preenchimento de `AllocationRule.Results`.
+6. Provoque um erro controlado e mostre onde ele aparece.
+7. Demonstre exportação em DEV e importação em UAT.
+8. Demonstre o rollback da última alteração real.
+9. Explique um incidente histórico, sua causa raiz e prevenção.
+10. Mostre como validar cache/performance optimization quando a regra é chamada pelo ATM.
 
-## 10. Operação e incidentes
+## 9. Evidências que devem sair do KT
 
-- [ ] Quais são os erros mais frequentes de AR na Goldman Sachs?
-- [ ] Quais regras possuem maior volume de execução?
-- [ ] Quais processos têm SLA ou janela crítica?
-- [ ] Quais ARs participam do fechamento mensal/trimestral?
-- [ ] Há regras específicas para management fee, subsequent close, rebook ou GP allocations?
-- [ ] Quem é o contato funcional para validar cada família de regra?
+- screenshots sanitizados dos fluxos;
+- catálogo de rules e consumers;
+- exemplo de pacote de promoção sem dados sensíveis;
+- matriz de testes e resultados esperados;
+- links para tickets/releases anteriores;
+- locais de logs e consultas aprovadas;
+- owners e matriz de escalonamento;
+- runbook revisado com um caso real.
 
-## 11. Evidências que devem ser coletadas no KT
+## Critério de conclusão
 
-Para cada demonstração, salvar:
+O KT de ARM só está concluído quando você consegue, sem assistência:
 
-- screenshots das telas;
-- nome e versão do ambiente;
-- exemplo de regra real não sensível;
-- parâmetros usados;
-- resultado esperado e obtido;
-- localização dos logs;
-- passos de export/import;
-- passos de rollback;
-- incidentes conhecidos;
-- contatos responsáveis.
+1. identificar a regra executada e seus consumidores;
+2. explicar properties, parameters, reports e VBA;
+3. reproduzir uma execução no ARM;
+4. reconciliar o InvestorSet;
+5. diagnosticar regra versus contexto de entrada;
+6. promover em ambiente não produtivo;
+7. validar e reverter seguindo o processo Goldman Sachs.
 
-## 12. Critério de conclusão do KT
+## Referências
 
-O KT de Allocation Rules será considerado suficiente quando o responsável conseguir, sem assistência:
-
-- [ ] localizar uma regra por nome e ID;
-- [ ] identificar seus consumidores;
-- [ ] reproduzir uma execução;
-- [ ] inspecionar entradas e resultado por investidor;
-- [ ] identificar a camada onde o cálculo divergiu;
-- [ ] alterar uma cópia em DEV;
-- [ ] executar regressão;
-- [ ] promover para QA/UAT;
-- [ ] validar a promoção;
-- [ ] executar rollback;
-- [ ] documentar causa raiz e evidências.
+- [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md)
+- [Object model e contratos técnicos](object-model.md)
+- [Desenvolvimento e alteração](development.md)
+- [Troubleshooting e playbooks](troubleshooting.md)
