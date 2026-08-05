@@ -1,26 +1,26 @@
-# Request models and examples
+# Modelos de requisição e exemplos
 
-## General conventions
+## Convenções gerais
 
-- Request and response media type is JSON.
-- IDs are Investran IDs, not client-generated business keys.
-- Use lookup and UDF endpoints to discover valid IDs before a write.
-- Entity writes can depend on `Version` for optimistic concurrency.
-- UDF values use `{ "id": <field-id>, "value": "<value>" }`.
-- A successful create normally returns the created Investran DTO with its assigned ID.
+- O media type de requisição e resposta é JSON.
+- Os IDs pertencem ao Investran; não são chaves de negócio geradas pelo cliente.
+- Use os endpoints de lookup e UDF para descobrir IDs válidos antes de uma gravação.
+- Gravações de entidades podem depender de `Version` para controle de concorrência otimista.
+- Valores de UDF usam `{ "id": <field-id>, "value": "<value>" }`.
+- Normalmente, uma criação bem-sucedida retorna o DTO do Investran criado, com seu ID atribuído.
 
 ## UDFs
 
-Request value:
+Valor enviado na requisição:
 
 ```json
 {
   "id": 123,
-  "value": "Example"
+  "value": "Exemplo"
 }
 ```
 
-Definition returned by an `/udfs` endpoint:
+Definição retornada por um endpoint `/udfs`:
 
 ```json
 {
@@ -32,9 +32,9 @@ Definition returned by an `/udfs` endpoint:
 }
 ```
 
-Use `?required=true` to request only required definitions.
+Use `?required=true` para solicitar somente as definições obrigatórias.
 
-## Create an Investor
+## Criar um Investor
 
 ```http
 POST /api/investor HTTP/1.1
@@ -58,9 +58,9 @@ Content-Type: application/json
 }
 ```
 
-The controller can associate an existing Organization or Individual contact when the respective ID is provided.
+O controller pode associar um contato Organization ou Individual existente quando o respectivo ID é fornecido.
 
-## Create a Position
+## Criar uma Position
 
 ```json
 {
@@ -72,7 +72,7 @@ The controller can associate an existing Organization or Individual contact when
 }
 ```
 
-## Create contextual relationships
+## Criar relacionamentos contextuais
 
 Specific Investor:
 
@@ -114,7 +114,7 @@ Specific Position:
 }
 ```
 
-## Create a batch
+## Criar um batch
 
 ```json
 {
@@ -184,28 +184,28 @@ Specific Position:
 }
 ```
 
-The IDs and signs above are illustrative only. Obtain valid lookup IDs and confirm accounting behavior with the target environment.
+Os IDs e sinais acima são apenas ilustrativos. Obtenha IDs válidos pelos lookups e confirme o comportamento contábil no ambiente de destino.
 
-### Allocation behavior
+### Comportamento da alocação
 
-- For the system “No Allocation” rule, the controller creates a placeholder allocation internally.
-- For other rules, explicit `investorAllocations` can be supplied.
-- The allocation extension may calculate allocations before the batch is published.
+- Para a regra de sistema “No Allocation”, o controller cria internamente uma alocação placeholder.
+- Para as demais regras, podem ser fornecidas `investorAllocations` explícitas.
+- A extensão de alocação pode calcular as alocações antes que o batch seja publicado.
 
-### Batch workflow
+### Fluxo do batch
 
 ```text
 POST /api/batch
-  → returns created held batch and ID
+  → retorna o batch criado em Held e seu ID
 GET /api/batch/{id}
-  → verify nested journal entries and transactions
+  → verificar journal entries e transactions internas
 PUT /api/batch/status/post/{id}
-  → post only after reconciliation and approval
+  → fazer o posting somente depois de reconciliação e aprovação
 ```
 
-## Update and delete
+## Atualização e exclusão
 
-Update requests use the resource ID in the path and a full or near-full model in the body:
+As requisições de atualização usam o ID do recurso no caminho e um modelo completo ou quase completo no corpo:
 
 ```http
 PUT /api/investor/1001
@@ -213,4 +213,4 @@ Authorization: Bearer <token>
 Content-Type: application/json
 ```
 
-Deletes call the native Investran `Remove` operation. They are not guaranteed to behave like a simple database delete and may fail because of relationships, permissions, workflow or referential rules.
+As exclusões chamam a operação nativa `Remove` do Investran. Elas não necessariamente se comportam como uma simples exclusão no banco e podem falhar por causa de relacionamentos, permissões, workflow ou regras de integridade referencial.

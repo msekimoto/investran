@@ -1,82 +1,82 @@
-# Errors and troubleshooting
+# Erros e troubleshooting
 
-## HTTP behavior
+## Comportamento HTTP
 
-Successful controller operations usually return `200 OK`, including creates and status changes. The API does not consistently use `201 Created`, `204 No Content`, `404 Not Found` or a shared validation-error contract.
+As operações bem-sucedidas dos controllers normalmente retornam `200 OK`, inclusive criações e alterações de status. A API não usa de forma consistente `201 Created`, `204 No Content`, `404 Not Found` nem um contrato compartilhado para erros de validação.
 
-Unexpected exceptions are handled by `ExceptionHandlerFilterAttribute`:
+Exceções inesperadas são tratadas por `ExceptionHandlerFilterAttribute`:
 
-- the method, absolute URL and exception message are logged;
-- the client receives HTTP 500;
-- the response body contains the exception message;
-- the reason phrase directs the caller to an administrator.
+- o método, a URL absoluta e a mensagem da exceção são registrados no log;
+- o cliente recebe HTTP 500;
+- o corpo da resposta contém a mensagem da exceção;
+- a reason phrase orienta o consumidor a procurar um administrador.
 
-Native `ResultFaultDto` messages are flattened into a comma-separated exception message by integration services.
+Os serviços de integração consolidam as mensagens nativas de `ResultFaultDto` em uma única mensagem de exceção separada por vírgulas.
 
-## Diagnostic flow
+## Fluxo de diagnóstico
 
 ```mermaid
 flowchart TD
-    E[REST call failed] --> H{HTTP status}
-    H -->|401| A[Token, authority, expiry and scope]
-    H -->|404| R[Base path, attribute route and deployment version]
-    H -->|500| L[Find API log by method, URL and time]
-    L --> B{Message category}
-    B -->|vault/account| V[Credential vault and Investran identity]
-    B -->|endpoint/SPN| W[WCF URI, DNS identity, SPN and network]
-    B -->|property/result fault| D[Payload IDs, required fields, UDFs and permissions]
-    B -->|timeout| T[60-second transaction, downstream latency and blocking]
+    E[Chamada REST falhou] --> H{Status HTTP}
+    H -->|401| A[Token, authority, expiração e escopo]
+    H -->|404| R[Caminho-base, rota por atributo e versão implantada]
+    H -->|500| L[Localizar log da API por método, URL e horário]
+    L --> B{Categoria da mensagem}
+    B -->|cofre/conta| V[Cofre de credenciais e identidade do Investran]
+    B -->|endpoint/SPN| W[URI WCF, identidade DNS, SPN e rede]
+    B -->|property/result fault| D[IDs do payload, campos obrigatórios, UDFs e permissões]
+    B -->|timeout| T[Transação de 60 segundos, latência subsequente e bloqueios]
 ```
 
-## What to capture
+## Informações que devem ser coletadas
 
-- environment and base URL;
-- UTC timestamp;
-- method and route;
-- response status/body with sensitive data removed;
-- caller/client ID, never client secret or token;
-- entity, batch or queue request ID;
-- payload schema and reference IDs, sanitized;
-- corresponding API log;
-- downstream Investran/WCF fault and service availability.
+- ambiente e URL-base;
+- data e hora em UTC;
+- método e rota;
+- status e corpo da resposta, removendo dados sensíveis;
+- caller/client ID, nunca client secret ou token;
+- ID da entidade, do batch ou da solicitação na fila;
+- schema do payload e IDs de referência, sanitizados;
+- log correspondente da API;
+- falha subsequente do Investran/WCF e disponibilidade do serviço.
 
-## Common failures
+## Falhas comuns
 
 ### 401 Unauthorized
 
-- token expired or issued by another authority;
-- missing `investran-api` scope;
-- wrong BaseUrl/Authority behind proxy;
-- malformed Bearer header.
+- token expirado ou emitido por outra authority;
+- ausência do escopo `investran-api`;
+- `BaseUrl`/Authority incorreta atrás de proxy;
+- cabeçalho Bearer malformado.
 
 ### Missing WebConfig Parameters
 
-One or more required Investran connection settings was not supplied to `Authentication`.
+Uma ou mais configurações obrigatórias de conexão com o Investran não foram fornecidas à classe `Authentication`.
 
-### Vault credential failure
+### Falha nas credenciais do cofre
 
-The configured vault reference cannot be resolved or the runtime identity cannot access it.
+A referência configurada não pode ser resolvida ou a identidade do processo não tem acesso ao cofre.
 
-### User validation or permission failure
+### Falha de validação do usuário ou de permissão
 
-The service account is invalid, locked, expired or lacks Team Security access to the requested domain/entity.
+A conta de serviço é inválida, está bloqueada ou expirada, ou não possui acesso no Team Security ao domínio/entidade solicitado.
 
-### Endpoint identity / SPN failure
+### Falha de identidade do endpoint ou SPN
 
-The WCF endpoint, DNS identity, SPN or authentication method does not match the deployed Investran Web Services endpoint.
+O endpoint WCF, a identidade DNS, o SPN ou o método de autenticação não corresponde ao endpoint implantado do Investran Web Services.
 
-### Investran property fault
+### Falha de propriedade do Investran
 
-Check required fields, lookup IDs, entity version, UDF IDs/types and relationships. The current API forwards flattened native property messages as HTTP 500.
+Verifique campos obrigatórios, IDs de lookup, versão da entidade, IDs/tipos de UDF e relacionamentos. Atualmente, a API encaminha as mensagens nativas consolidadas como HTTP 500.
 
-### Batch failed or appears partial
+### Batch falhou ou parece incompleto
 
-Do not immediately retry. Search by the returned batch ID/reference and reconcile journal entries, transactions and allocations. A client timeout does not prove that `Publish` failed.
+Não repita a operação imediatamente. Pesquise pelo ID/referência retornado e reconcilie journal entries, transactions e alocações. Um timeout no cliente não comprova que o `Publish` falhou.
 
-### Queue request accepted but no batch appears
+### Solicitação aceita na fila, mas nenhum batch aparece
 
-The queue endpoint returns only a request ID and this repository exposes no request-status endpoint. Check RabbitMQ producer/consumer logs, dead-letter handling and downstream batch creation using the correlation ID.
+O endpoint da fila retorna somente um ID de solicitação, e este repositório não expõe endpoint de consulta de status. Usando o correlation ID, verifique logs do produtor/consumidor RabbitMQ, tratamento da dead-letter queue e criação subsequente do batch.
 
-## Logging limitations
+## Limitações de logging
 
-Current logging records exception messages but does not establish a consistent correlation ID across REST, queue, WCF and Investran. Avoid logging bearer tokens, credentials or full sensitive payloads. A future improvement should add structured fields for request ID, entity type/ID, batch reference and downstream operation.
+O logging atual registra mensagens de exceção, mas não estabelece um correlation ID consistente entre REST, fila, WCF e Investran. Evite registrar bearer tokens, credenciais ou payloads sensíveis completos. Uma melhoria futura deve adicionar campos estruturados para request ID, tipo/ID da entidade, referência do batch e operação subsequente.
