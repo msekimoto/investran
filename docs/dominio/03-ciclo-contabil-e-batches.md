@@ -6,13 +6,13 @@ O General Ledger Web Service documentado trata batches, journal entries, transac
 
 ```mermaid
 flowchart TB
-    B[Batch<br/>Legal Entity, tipo, status e datas]
-    JE1[Journal Entry 1]
+    B[Batch<br/>Legal Entity, tipo, status e datas<br/>CA_Batch]
+    JE1[Journal Entry 1<br/>CA_JE ou CA_JournalEntry]
     JE2[Journal Entry 2]
-    T11[Transaction 1<br/>Account, Type, valores e dimensões]
+    T11[Transaction 1<br/>Account, Type, valores e dimensões<br/>CA_Trans]
     T12[Transaction 2]
     T21[Transaction 1]
-    IA1[Investor Allocation A]
+    IA1[Investor Allocation A<br/>CA_Alloc]
     IA2[Investor Allocation B]
 
     B --> JE1 & JE2
