@@ -6,14 +6,21 @@ O General Ledger Web Service documentado trata batches, journal entries, transac
 
 ```mermaid
 flowchart TB
-    B[Batch<br/>Legal Entity, tipo, status e datas<br/>CA_Batch]
-    JE1[Journal Entry 1<br/>CA_JE ou CA_JournalEntry]
-    JE2[Journal Entry 2]
-    T11[Transaction 1<br/>Account, Type, valores e dimensões<br/>CA_Trans]
-    T12[Transaction 2]
-    T21[Transaction 1]
-    IA1[Investor Allocation A<br/>CA_Alloc]
-    IA2[Investor Allocation B]
+    B["`**Batch**
+Legal Entity, tipo, status e datas
+*CA_Batch*`"]
+    JE1["`**Journal Entry 1**
+*CA_JournalEntry*`"]
+    JE2["`**Journal Entry 2**`"]
+    T11["`**Transaction 1**
+Account, Type, Valores local e LE
+*CA_Trans*`"]
+    T12["`**Transaction 2**`"]
+    T12["`**Transaction 2**`"]
+    T21["`**Transaction 1**`"]
+    IA1["`**Investor Allocation A**
+*CA_Alloc*`"]
+    IA2["`**Investor Allocation B**`"]
 
     B --> JE1 & JE2
     JE1 --> T11 & T12
@@ -49,6 +56,18 @@ Dependendo do processo, uma transaction pode referenciar:
 - investor allocations;
 - UDFs e lookups.
 
+## Principais tabelas
+
+Normalmente as tabelas relacionadas a batches e transações terão o prefixo "CA_".
+
+**CA_Trans**: Dados de transações. Aponta para JE, LE, Batch...
+
+**CA_Alloc**: Valores das trasações já alocados por investidor. Aponta para Trans, Investor...
+
+**CA_Batch**: Dados de batch.
+
+**CA_JournalEntry**: Dados de JE. Intermediário entre Trans e Batches.
+
 ## Estados e controles
 
 Os estados exatos variam por configuração, mas o raciocínio de suporte deve distinguir:
@@ -60,6 +79,14 @@ Os estados exatos variam por configuração, mas o raciocínio de suporte deve d
 5. postado/final;
 6. exportado/consumido downstream;
 7. excluído logicamente ou removido por manutenção.
+
+### Exemplos de estados
+
+1. Held
+2. Draft
+3. Posted
+4. Exported
+5. Deleted
 
 ## Validação técnica versus funcional
 
@@ -81,6 +108,23 @@ Os estados exatos variam por configuração, mas o raciocínio de suporte deve d
 - batch gerado em staging, mas não commitado;
 - retry que cria duplicidade;
 - validação ou posting bloqueados por configuração/permissão.
+
+## Logs
+
+Dependendo da entrada do batch ele poderá ou não gerar alguns logs.
+
+Dependendo da configuração o Investran pode ou não gerar alguns desses logs.
+
+A localização desses logs também depende de configuração, podendo ser FTP, pasta, banco...
+
+| Tipos de entradas | Logs |
+|---|---|
+| Entrada manual (CRM) | BFF Cache, AR Service logs |
+| Active Template | AT Service logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
+| Business Event | BE Service logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
+| Data Import | DIU Service logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
+| Custom API | API logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
+
 
 ## Fontes
 
