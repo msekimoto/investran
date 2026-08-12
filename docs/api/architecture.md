@@ -6,11 +6,11 @@ A interface nativa do Investran é baseada nos assemblies do SDK e em contratos 
 
 ```mermaid
 flowchart LR
-    C[Cliente REST] -->|HTTPS + JSON + Bearer token| API[GS.Investran.API]
+    C[Cliente REST] -->|HTTPS + JSON + Bearer token| API[Web API REST]
     API --> AUTH[Validação do token OAuth2]
     API --> CTRL[Controller da Web API]
-    CTRL --> DOM[Domínio GS.Investran.Core]
-    DOM --> INT[Serviço GS.Investran.Integration]
+    CTRL --> DOM[Camada de domínio]
+    DOM --> INT[Camada de integração]
     INT --> SDK[SDK do Investran / InvestranApplication]
     SDK -->|WCF SOAP / net.tcp| INV[Investran Web Services]
     INV --> DB[(Banco de dados do Investran)]

@@ -75,7 +75,7 @@ flowchart LR
 
 ## Limitação
 
-O desenho combina os componentes documentados pela FIS. A topologia física pode consolidar Web Server e Web Application Server ou distribuir componentes em várias instâncias. O inventário Goldman deve mapear cada bloco para hostname, serviço, URL, conta e monitoramento reais.
+O desenho combina os componentes documentados pela FIS. A topologia física pode consolidar Web Server e Web Application Server ou distribuir componentes em várias instâncias. O inventário do ambiente deve mapear cada bloco para hostname, serviço, URL, conta e monitoramento reais.
 
 ## Fontes
 

@@ -1,6 +1,6 @@
 # Allocation Rules - pendências de Knowledge Transfer
 
-O manual padrão do ARM já documenta interface, atributos, ciclo `Draft` -> `Normal`, rules simples/complexas, VBA, simulação, object model e Import-Export Console. Esta lista concentra o conhecimento que continua específico da Goldman Sachs.
+O manual padrão do ARM já documenta interface, atributos, ciclo `Draft` -> `Normal`, rules simples/complexas, VBA, simulação, object model e Import-Export Console. Esta lista concentra o conhecimento que continua específico de cada ambiente.
 
 ## 1. Acesso e ambientes
 
@@ -111,7 +111,7 @@ O KT de ARM só está concluído quando você consegue, sem assistência:
 4. reconciliar o InvestorSet;
 5. diagnosticar regra versus contexto de entrada;
 6. promover em ambiente não produtivo;
-7. validar e reverter seguindo o processo Goldman Sachs.
+7. validar e reverter seguindo o processo interno da organização.
 
 ## Referências
 

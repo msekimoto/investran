@@ -96,7 +96,7 @@ No fluxo documentado do ATM:
 
 - Caminho e versão do Allocation Rule Manager em cada ambiente.
 - Logs e recursos de debug disponíveis na versão instalada.
-- Processo Goldman Sachs para exportação, importação, aprovação e rollback.
-- Convenções de nomes e IDs usadas no ambiente Goldman Sachs.
+- Processo interno para exportação, importação, aprovação e rollback.
+- Convenções de nomes e IDs usadas no ambiente atendido.
 
 Para os componentes confirmados pelo manual, consulte [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md) e [Object model e contratos técnicos](object-model.md).

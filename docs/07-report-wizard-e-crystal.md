@@ -73,7 +73,7 @@ Registre para cada report:
 
 ## KT prioritário
 
-- inventário dos reports críticos da Goldman Sachs e respectivos owners;
+- inventário dos reports críticos da organização e respectivos owners;
 - reports usados como drivers de Active Templates e Allocation Rules;
 - shells e drivers de Crystal Dynamic Reporting;
 - security levels, filtros WRS e contatos de teste;

@@ -39,7 +39,7 @@ Consulte os guias específicos:
 
 ## KT pendente
 
-- inventário de endpoints e consumidores Goldman Sachs;
+- inventário de endpoints e consumidores da organização;
 - protocolos e autenticação atuais;
 - política de retry/idempotência;
 - dashboards, logs, certificados e owners;

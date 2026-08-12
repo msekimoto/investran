@@ -1,6 +1,6 @@
 # Active Templates - pendências de Knowledge Transfer
 
-O manual padrão já explica a interface, os menus, o VBA Editor, Simulation, Scheduler, Preview e Commit. Esta lista concentra o que precisa ser obtido sobre o ambiente Goldman Sachs.
+O manual padrão já explica a interface, os menus, o VBA Editor, Simulation, Scheduler, Preview e Commit. Esta lista concentra o que precisa ser obtido sobre o ambiente atendido.
 
 ## 1. Onde acessar
 

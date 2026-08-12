@@ -33,6 +33,6 @@ Os arquivos originais não foram incluídos por conterem avisos de confidenciali
 - datas antigas e terminologia SunGard/FIS misturada;
 - manuais podem não corresponder à versão/MR em produção;
 - screenshots e diagramas nem sempre são extraíveis como texto;
-- nenhuma fonte confirma a configuração Goldman atual;
+- nenhuma fonte confirma a configuração atual de um ambiente específico;
 - procedimentos internos devem ser aprovados pelos owners vigentes.
 

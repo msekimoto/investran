@@ -34,7 +34,7 @@ O Investran é uma suíte para administração de investimentos e contabilidade,
 - [Arquitetura lógica](arquitetura/01-arquitetura-logica.md)
 - [Fluxos ponta a ponta](arquitetura/03-fluxos-ponta-a-ponta.md)
 
-## KT pendente - Goldman Sachs
+## KT pendente - ambiente atendido
 
 - versão e maintenance release atuais;
 - módulos licenciados e efetivamente utilizados;

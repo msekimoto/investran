@@ -27,7 +27,7 @@ As fontes descrevem `.CAB` para Active Templates/Allocation Rules e `.IED` para 
 
 ## KT pendente
 
-- processo Goldman de change/release e responsáveis;
+- processo interno de change/release e responsáveis;
 - versão atual, histórico de MRs/hotfixes e baseline;
 - lista de customizações que precisam recompilar;
 - testes de regressão e rollback já praticado;

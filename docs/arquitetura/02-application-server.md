@@ -59,7 +59,7 @@ Para rastrear uma execução, registre:
 
 ## KT pendente
 
-- instâncias e nomes de serviço Goldman;
+- instâncias e nomes de serviço do ambiente;
 - mapeamento do `Config.xml` ou equivalente atual;
 - concorrência, timeout e capacidade por worker;
 - sequência segura de restart;

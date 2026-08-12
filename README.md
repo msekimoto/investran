@@ -2,7 +2,7 @@
 
 Base operacional para sustentação do Investran 7. O conteúdo foi consolidado a partir dos manuais FIS/SunGard disponíveis, sem incluir cópias desses documentos, credenciais ou dados de produção.
 
-> **Regra de confiança:** os manuais de referência são antigos (principalmente 2014-2017). Confirme versão, configuração e procedimento no ambiente antes de executar qualquer ação. Campos `KT pendente` identificam conhecimento que precisa ser obtido com a equipe.
+> **Regra de confiança:** os manuais de referência são antigos (principalmente 2014-2017). Confirme versão, configuração e procedimento no ambiente atual antes de executar qualquer ação. Campos `KT pendente` identificam conhecimento que precisa ser obtido com a equipe.
 
 ## Comece por aqui
 
@@ -58,4 +58,4 @@ Base operacional para sustentação do Investran 7. O conteúdo foi consolidado 
 
 ## Estado da documentação
 
-Esta primeira versão documenta o **produto padrão** a partir das fontes disponíveis. Ela não confirma a topologia, nomes de servidores, credenciais, customizações, jobs, volumes, SLAs ou contatos da Goldman Sachs. Use o [plano de KT](docs/16-plano-de-kt.md) para completar essas lacunas.
+Esta primeira versão documenta o **produto padrão** a partir das fontes disponíveis. Ela não confirma a topologia, nomes de servidores, credenciais, customizações, jobs, volumes, SLAs ou contatos do ambiente atendido. Use o [plano de KT](docs/16-plano-de-kt.md) para completar essas lacunas.

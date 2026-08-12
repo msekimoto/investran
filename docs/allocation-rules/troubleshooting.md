@@ -210,5 +210,5 @@ O material recebido estabelece que `ARM Admin` permite criar, editar, executar e
 - recursos de breakpoint/debug disponíveis na versão instalada;
 - método oficial de export/import de AR;
 - mecanismo de versionamento;
-- processo Goldman Sachs de aprovação e deploy;
+- processo interno de aprovação e deploy;
 - rollback técnico suportado no ambiente.

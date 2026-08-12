@@ -1,6 +1,6 @@
 # Operação, criticidade e calendário
 
-Os manuais descrevem capacidades técnicas, mas não o calendário Goldman. Este documento deve virar o painel diário do suporte.
+Os manuais descrevem capacidades técnicas, mas não o calendário operacional de cada organização. Este documento deve virar o painel diário do suporte.
 
 ## Rotina mínima sugerida
 

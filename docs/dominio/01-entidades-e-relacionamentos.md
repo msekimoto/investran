@@ -4,7 +4,7 @@
 
 O Investran possui entidades de cadastro reutilizáveis e entidades que representam esse cadastro dentro de um contexto de portfólio. A API e o Data Import expõem, entre outras, `LegalEntity`, `Investor`, `Vehicle`, `Deal`, `Position` e suas variantes `SpecificInvestor`, `SpecificVehicle`, `SpecificDeal` e `SpecificPosition`.
 
-> O diagrama abaixo é um **modelo conceitual para suporte**, não um ERD físico do banco. Cardinalidades, nomes de chaves e variações por versão precisam ser confirmados no metadata/API e no ambiente Goldman.
+> O diagrama abaixo é um **modelo conceitual para suporte**, não um ERD físico do banco. Cardinalidades, nomes de chaves e variações por versão precisam ser confirmados no metadata/API e no ambiente atendido.
 
 ```mermaid
 erDiagram
@@ -49,7 +49,7 @@ Representa a parte investidora como cadastro reutilizável. O relacionamento efe
 
 ### Vehicle
 
-Representa um veículo usado na estrutura de participação. O significado exato e sua relação com Investor/Legal Entity devem ser confirmados para o modelo adotado pela Goldman.
+Representa um veículo usado na estrutura de participação. O significado exato e sua relação com Investor/Legal Entity devem ser confirmados para o modelo adotado pela organização.
 
 ### Specific Investor e Specific Vehicle
 

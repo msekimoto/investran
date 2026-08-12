@@ -2,7 +2,7 @@
 
 Esta área explica como localizar, compreender, alterar, salvar, testar e executar Active Templates (AT) no Investran 7.
 
-> O manual de referência é de 2014. Os nomes padrão da ferramenta estão documentados, mas caminho de instalação, bancos, permissões e processo de promoção da Goldman Sachs precisam ser confirmados no ambiente atual.
+> O manual de referência é de 2014. Os nomes padrão da ferramenta estão documentados, mas caminho de instalação, bancos, permissões e processo de promoção precisam ser confirmados no ambiente atual.
 
 ## Por onde começar
 
@@ -12,7 +12,7 @@ Esta área explica como localizar, compreender, alterar, salvar, testar e execut
 | Entender como o AT gera batches | [Estrutura e funcionamento](02-estrutura-e-funcionamento.md) |
 | Saber o que e como alterar e salvar | [Alteração, salvamento e publicação](03-alteracao-salvamento-publicacao.md) |
 | Simular, depurar, executar e verificar resultados | [Debug, execução, Preview e Commit](04-debug-execucao-preview-commit.md) |
-| Levantar informações específicas da Goldman Sachs | [Pendências de KT](KT-PENDENCIAS.md) |
+| Levantar informações específicas do ambiente | [Pendências de KT](KT-PENDENCIAS.md) |
 
 ## O que é um Active Template
 
@@ -47,7 +47,7 @@ flowchart LR
 10. Execute `Simulate`, confira o Debug Log e compare os resultados.
 11. Depois, teste pelo Scheduler usando **Show temporary results Preview**.
 12. Mude para `Normal` somente depois da aprovação.
-13. Promova com o ARM & ATM Export-Import Console seguindo o processo Goldman Sachs.
+13. Promova com o ARM & ATM Export-Import Console seguindo o processo interno da organização.
 
 ## O que normalmente deve ser alterado
 

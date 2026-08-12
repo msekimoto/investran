@@ -38,7 +38,7 @@ O guia menciona desbloqueio via exclusão de footprint em SQL. Isso é uma açã
 
 ## KT pendente
 
-- BEs usados pela Goldman e versões;
+- BEs usados pela organização e respectivas versões;
 - parâmetros, hierarquias e reports customizados;
 - reprocessamento e tratamento de footprint;
 - owners funcionais e casos de reconciliação.

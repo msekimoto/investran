@@ -80,7 +80,7 @@ Confirme a permissão antes de diagnosticar uma falha de interface como defeito 
 
 ### Dependências do ambiente que ainda exigem KT
 
-Documentar no ambiente Goldman Sachs:
+Documentar no ambiente atendido:
 
 - caminho exato para abrir o ARM;
 - filtros de pesquisa disponíveis;
@@ -300,7 +300,7 @@ Confirme:
 
 ## 10. Publicação e rollback
 
-O guia do ARM confirma que o **Import-Export Console** transfere Allocation Rules e reports relacionados entre databases. Os materiais não fornecem o procedimento completo de promoção no ambiente Goldman Sachs.
+O guia do ARM confirma que o **Import-Export Console** transfere Allocation Rules e reports relacionados entre databases. Os materiais não fornecem o procedimento completo de promoção específico de cada ambiente.
 
 ### TODO (KT)
 
@@ -363,4 +363,4 @@ Até isso ser confirmado, não trate alteração direta em produção como proce
 - [ ] Exportação/importação entre ambientes.
 - [ ] Versionamento e rollback.
 - [ ] Logs e tabelas de execução.
-- [ ] Convenções de nomenclatura Goldman Sachs.
+- [ ] Convenções internas de nomenclatura.

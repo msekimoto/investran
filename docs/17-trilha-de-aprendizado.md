@@ -46,7 +46,7 @@ Ao concluir este nível, você deve conseguir localizar uma falha em uma das cam
 
 ## Exercício de validação
 
-Escolha um processo real da Goldman e desenhe o caminho completo:
+Escolha um processo real da organização e desenhe o caminho completo:
 
 ```text
 Entrada/usuário

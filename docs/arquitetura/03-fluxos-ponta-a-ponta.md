@@ -64,4 +64,4 @@ sequenceDiagram
 
 ## Uso no suporte
 
-Para cada processo Goldman, copie o fluxo mais próximo e acrescente nomes reais, IDs, validações, logs e owners. O objetivo é conseguir apontar exatamente em qual seta a execução parou ou produziu dado incorreto.
+Para cada processo da organização, copie o fluxo mais próximo e acrescente nomes reais, IDs, validações, logs e owners. O objetivo é conseguir apontar exatamente em qual seta a execução parou ou produziu dado incorreto.

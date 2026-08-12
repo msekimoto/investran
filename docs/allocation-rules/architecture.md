@@ -91,7 +91,7 @@ Uma divergência de alocação não prova que a regra está defeituosa. A causa 
 
 ## Limitações da fonte
 
-O manual documenta a interface, o engine em nível funcional e o object model usado pelo VBA, mas não descreve tabelas físicas, stored procedures, processos internos do engine, formato do pacote de exportação nem a implantação específica da Goldman Sachs. Esses pontos permanecem dependentes de KT e validação no ambiente.
+O manual documenta a interface, o engine em nível funcional e o object model usado pelo VBA, mas não descreve tabelas físicas, stored procedures, processos internos do engine, formato do pacote de exportação nem a implantação específica de cada ambiente. Esses pontos permanecem dependentes de KT e validação local.
 
 ## Referências detalhadas
 

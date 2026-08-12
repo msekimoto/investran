@@ -141,7 +141,7 @@ Não feche, troque de database ou promova assumindo que o editor salvou automati
 
 ## Publicação entre ambientes
 
-O manual confirma o **ARM & ATM Export-Import Console** para transferir Active Templates e reports relacionados entre databases. O processo Goldman Sachs ainda precisa definir:
+O manual confirma o **ARM & ATM Export-Import Console** para transferir Active Templates e reports relacionados entre databases. O processo interno de cada organização ainda precisa definir:
 
 - origem/destino e permissões;
 - objetos incluídos no pacote;

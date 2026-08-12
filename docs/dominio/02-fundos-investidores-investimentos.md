@@ -67,7 +67,7 @@ Uma Legal Entity possui dois Specific Investors. Uma capital call gera um batch.
 
 ## Relações que precisam ser confirmadas no KT
 
-- estrutura Legal Entity → Vehicle → Specific Investor usada pela Goldman;
+- estrutura Legal Entity → Vehicle → Specific Investor usada pela organização;
 - tipos de Deal/Position adotados;
 - onde commitment e unfunded são considerados fonte oficial;
 - regras de vigência, closing e transferências;

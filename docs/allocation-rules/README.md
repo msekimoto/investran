@@ -1,6 +1,6 @@
 # Allocation Rules (AR) — Guia de Sustentação
 
-> Base inicial construída a partir dos materiais de Investran enviados para este repositório. Procedimentos específicos do ambiente Goldman Sachs devem ser confirmados durante o KT antes de qualquer alteração em produção.
+> Base inicial construída a partir dos materiais de Investran enviados para este repositório. Procedimentos específicos de cada ambiente devem ser confirmados durante o KT antes de qualquer alteração em produção.
 
 ## Objetivo
 
@@ -108,4 +108,4 @@ Ao receber um incidente, não comece alterando a regra. Primeiro confirme:
 
 O guia de ARM documenta a interface, atributos, properties, parameters, reports, estados, simulação, regras simples e complexas, VBA, objetos `RWReport`/`InvestorSet`/`AllocationRule` e o uso do Import-Export Console.
 
-Ele não confirma o processo específico da Goldman Sachs para aprovação, promoção, rollback, regras customizadas, owners, baselines ou validação funcional. Esses pontos permanecem como KT obrigatório.
+Ele não confirma o processo específico de cada organização para aprovação, promoção, rollback, regras customizadas, owners, baselines ou validação funcional. Esses pontos permanecem como KT obrigatório.
