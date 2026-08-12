@@ -101,7 +101,7 @@ Os estados exatos variam por configuração, mas o raciocínio de suporte deve d
 ## Pontos comuns de falha
 
 - entidade contextual incorreta;
-- Transaction Type ou GL Account incompatível;
+- Transaction Type ou GL Account ou LE incompatível;
 - moeda/Deal ausente em journal entry multicurrency;
 - erro de vigência/data;
 - allocation que não fecha ou arredonda incorretamente;
@@ -153,6 +153,11 @@ A localização desses logs também depende de configuração, podendo ser FTP, 
 | Data Import | DIU Service logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
 | Custom API | API logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
 
+## Batch Types
+
+Configurável para cada instalação do Investran.
+
+Por padrão o Investran possui aproximadamente 15 Batch Types.
 
 ## Fontes
 
