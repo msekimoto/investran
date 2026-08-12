@@ -109,6 +109,34 @@ Os estados exatos variam por configuração, mas o raciocínio de suporte deve d
 - retry que cria duplicidade;
 - validação ou posting bloqueados por configuração/permissão.
 
+## Monitoramento
+
+### Manipulação de 1 único batch
+
+Basicamente podemos verificar a modificação no banco ou diretamente no CRM.
+
+### Manipulação de múltiplos batches
+
+Não importa a mudança de status
+
+- Post
+- Unpost
+- Criação
+- Edição
+
+Não importa a fonte da alteração
+
+- DIU
+- AT
+- BE
+- CRM
+
+Existe um serviço responsável por consumir a fila de alterações múltiplas em batches chamado BatchSaveService.
+
+Este serviço windows possui seus próprios logs e processos de stagin/main. Possíveis erros podem ser encontrados tanto nos logs quanto nas tabelas stagin.
+
+Ao final do processo a confirmação de que todas as alterações/manipulação dos batches foram executadas pode ser realizada tanto diretamente no banco como no CRM ou logs do BatchSaveService.
+
 ## Logs
 
 Dependendo da entrada do batch ele poderá ou não gerar alguns logs.
