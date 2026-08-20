@@ -35,6 +35,7 @@ A própria árvore de arquivos é o catálogo da wiki. Novos documentos adiciona
 | Report Wizard e Crystal | [Reporting](docs/07-report-wizard-e-crystal.md) | Componentes, integração, parâmetros e diagnóstico |
 | APIs, SDK e WRS | [Integrações programáticas](docs/08-apis-sdk-wrs.md) | WCF/SOAP, DTOs, operações e Web Reporting Services |
 | Database | [Banco de dados](docs/09-database.md) | Master/Staging, manutenção, backup, performance e cautelas |
+| Application Services | [Application Server e Services](docs/application-services/README.md) | Catálogo de Windows services, finalidade, operação, monitoramento e restart seguro |
 | Interfaces | [Data Import e interfaces](docs/10-data-import-e-interfaces.md) | XLSX, jobs, reconciliação e integrações |
 | Data Import - guia completo | [Data Import](docs/data-import/README.md) | Serviço, templates, mappings, jobs, entidades, reconciliação e troubleshooting |
 | Configurações e acessos | [Administração e segurança](docs/11-configuracoes-seguranca-sso.md) | Team Security, contas de serviço, IIS e SSO |

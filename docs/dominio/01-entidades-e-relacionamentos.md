@@ -7,23 +7,23 @@ O Investran possui entidades de cadastro reutilizáveis e entidades que represen
 > O diagrama abaixo é um **modelo conceitual para suporte**, não um ERD físico do banco. Cardinalidades, nomes de chaves e variações por versão precisam ser confirmados no metadata/API e no ambiente atendido.
 
 ```mermaid
-erDiagram
-    LEGAL_ENTITY ||--o{ SPECIFIC_VEHICLE : "possui no contexto"
-    VEHICLE ||--o{ SPECIFIC_VEHICLE : "é contextualizado como"
-    INVESTOR ||--o{ SPECIFIC_INVESTOR : "participa como"
-    SPECIFIC_VEHICLE ||--o{ SPECIFIC_INVESTOR : "agrupa participação"
-    LEGAL_ENTITY ||--o{ SPECIFIC_DEAL : "mantém investimento"
-    DEAL ||--o{ SPECIFIC_DEAL : "é contextualizado como"
-    SPECIFIC_DEAL ||--o{ SPECIFIC_POSITION : "possui posições"
-    POSITION ||--o{ SPECIFIC_POSITION : "é contextualizada como"
-    SPECIFIC_INVESTOR ||--o{ COMMITMENT : "assume compromisso"
-    LEGAL_ENTITY ||--o{ BATCH : "recebe lançamentos"
-    BATCH ||--|{ JOURNAL_ENTRY : "contém"
-    JOURNAL_ENTRY ||--|{ TRANSACTION : "contém"
-    TRANSACTION ||--o{ INVESTOR_ALLOCATION : "é distribuída em"
-    SPECIFIC_INVESTOR ||--o{ INVESTOR_ALLOCATION : "recebe"
-    TRANSACTION }o--o| SPECIFIC_DEAL : "pode referenciar"
-    TRANSACTION }o--o| SPECIFIC_POSITION : "pode referenciar"
+flowchart TB
+    LE[Legal Entity] -->|contextualiza| SV[Specific Vehicle]
+    V[Vehicle] -->|origina| SV
+    I[Investor] -->|participa como| SI[Specific Investor]
+    SV -->|agrupa| SI
+    LE -->|mantém| SD[Specific Deal]
+    D[Deal] -->|origina| SD
+    SD -->|possui| SP[Specific Position]
+    P[Position] -->|origina| SP
+    SI --> C[Commitment]
+    LE --> B[Batch]
+    B --> JE[Journal Entry]
+    JE --> T[Transaction]
+    T --> IA[Investor Allocation]
+    SI -->|recebe| IA
+    T -.->|pode referenciar| SD
+    T -.->|pode referenciar| SP
 ```
 
 ## Entidade mestre versus entidade específica

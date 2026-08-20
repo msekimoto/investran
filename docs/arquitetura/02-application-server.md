@@ -1,5 +1,7 @@
 # Application Server, workers e scheduler
 
+> Para o catálogo completo dos Windows services, finalidade, configuração, contas, monitoramento e restart seguro, consulte a nova seção [Application Server e Services](../application-services/README.md), o [catálogo de services](../application-services/catalogo-services.md), o guia de [operação e monitoramento](../application-services/operacao-monitoramento.md) e o guia de [troubleshooting e restart](../application-services/troubleshooting-restart.md).
+
 ## Papel do Application Server
 
 O Application Server concentra processamentos que não devem depender da sessão interativa do usuário. O diagrama FIS mostra Scheduling Service e Dispatcher acionando workers para Active Templates, Allocation Rules, Report Engine/OLE DB, Reporting Services, Data Exchange e Data Import. Business Events também dependem de componentes de aplicação, embora tenham arquitetura própria.
