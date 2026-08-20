@@ -7,6 +7,8 @@ Esta área descreve a cadeia completa de reporting do Investran: definição e e
 ## Guias desta área
 
 - [Guia prático do Report Wizard](reporting/guia-pratico-report-wizard.md): criação, parâmetros, integração Crystal, validação, performance e troubleshooting com telas das ferramentas.
+- [Guia prático do Web Reporting Services](reporting/guia-pratico-reporting-services.md): instalação, segurança, publicação, API SOAP, formatos e suporte com telas das ferramentas.
+- [Microsoft SQL Server Reporting Services](reporting/04-microsoft-ssrs.md): diferenças em relação ao WRS, possíveis padrões com Investran, administração, segurança e troubleshooting.
 
 | Guia | Use quando precisar |
 |---|---|

@@ -39,6 +39,10 @@ flowchart LR
 
 O procedimento documentado inclui:
 
+![WRS Configuration Editor](../assets/reporting-services/12-wrs-configuration-editor.png)
+
+*Editor histórico usado para configurar domínio, path, porta, protocolo e Company ID do WRS. Fonte: WRS Installation and Administration Guide, p. 12.*
+
 1. instalar e configurar o IIS;
 2. habilitar ASP e extensões ISAPI exigidas pela versão;
 3. habilitar WRS no banco do Investran pelo parâmetro `UseERW`;
@@ -80,6 +84,10 @@ Contact habilitado
 
 ### Preparação de um usuário
 
+![Contact habilitado para Web Services](../assets/reporting-services/14-contact-web-services-enabled.png)
+
+*Contact com Web Services Enabled. A habilitação precisa ser combinada com relationships e security levels. Fonte: guia WRS, p. 16.*
+
 1. Criar os security levels necessários.
 2. Garantir que o Contact possua e-mail principal.
 3. Marcar `WebServicesEnabled` no Contact.
@@ -101,6 +109,10 @@ Um usuário pode ter security levels diferentes em relacionamentos diferentes. P
 
 ## Publicação de um report no WRS
 
+![Configurações WRS do report](../assets/reporting-services/18-rw-wrs-publishing-settings.png)
+
+*Aba WRS do Report Wizard com filtros, security levels e Publish Report. Fonte: guia WRS, p. 23.*
+
 Pré-requisitos:
 
 - report RW validado;
@@ -120,6 +132,10 @@ Procedimento documentado:
 6. marcar `Publish Report`;
 7. salvar o report;
 8. validar que aparece como publicado e executar com um Contact representativo.
+
+![Report identificado como Published](../assets/reporting-services/19-rw-published-report.png)
+
+*Report publicado no Report Wizard. Fonte: guia WRS, p. 24.*
 
 Para Crystal Dynamic Reporting, configure filtros e security levels de forma idêntica no shell e nos drivers. Marque `Publish Report` somente no shell.
 
