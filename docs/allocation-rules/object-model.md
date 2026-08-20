@@ -4,6 +4,10 @@
 
 Regras dinâmicas complexas usam VBA para combinar dados de Report Wizard, properties e parameters e preencher o `InvestorSet` devolvido ao consumidor.
 
+![VBA Editor integrado ao Allocation Rule Manager](../assets/allocation-rules/10-vba-editor.png)
+
+*VBA Editor do ARM aberto abaixo dos atributos da regra. O módulo implementa a lógica adicional das Complex Dynamic Allocation Rules. Fonte: guia de ARM, p. 11.*
+
 ```mermaid
 flowchart LR
     P[AllocationRule.Properties] --> MAIN[Sub Main]

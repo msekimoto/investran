@@ -74,11 +74,19 @@ Dynamic Allocation Rules calculam os percentuais no momento da execução com ba
 
 Usa um único report RW e não utiliza VBA. O report deve ter quatro colunas visíveis, nesta ordem: Investor Account ID, base/valor para Amount, base/valor para LEAmount e base/valor para Quantity. Colunas adicionais usadas apenas para filtro devem ficar ocultas.
 
+![Report Wizard usado por uma Simple Dynamic Allocation Rule](../assets/allocation-rules/11-simple-rule-report.png)
+
+*Exemplo de report utilizado como base de uma regra Top Down por Book Value. As quatro colunas visíveis formam o contrato consumido pelo ARM. Fonte: guia de ARM, p. 13.*
+
 No Top Down, as três colunas numéricas funcionam como bases proporcionais. No Bottom Up, elas representam os valores efetivos por Investor.
 
 ### Complex Dynamic Allocation Rule
 
 Combina um ou mais reports RW com código VBA. O módulo deve expor `Sub Main`, ler `AllocationRule.Properties` e `AllocationRule.Parameters`, executar reports por `AllocationRule.Reports`, calcular com objetos `InvestorSet` e copiar o resultado final para `AllocationRule.Results`.
+
+![Criação de uma Complex Dynamic Allocation Rule](../assets/allocation-rules/18-complex-rule-use-vba.png)
+
+*Regra dinâmica complexa com Use VBA habilitado. Fonte: guia de ARM, p. 25.*
 
 Consulte [Object model e contratos técnicos](object-model.md) para os membros suportados e obsoletos.
 

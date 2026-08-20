@@ -6,6 +6,8 @@ Esta área explica como localizar, compreender, alterar, salvar, testar e execut
 
 ## Por onde começar
 
+- [Guia prático de uso do ATM](guia-pratico-atm.md): interface, componentes, criação, alteração, Simulation, Scheduler, Preview, Commit e publicação com telas da ferramenta.
+
 | Necessidade | Documento |
 |---|---|
 | Encontrar o ATM e localizar um template | [Interface, acesso e navegação](01-interface-acesso-navegacao.md) |
