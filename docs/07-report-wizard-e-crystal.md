@@ -6,6 +6,8 @@ Esta área descreve a cadeia completa de reporting do Investran: definição e e
 
 ## Guias desta área
 
+- [Guia prático do Report Wizard](reporting/guia-pratico-report-wizard.md): criação, parâmetros, integração Crystal, validação, performance e troubleshooting com telas das ferramentas.
+
 | Guia | Use quando precisar |
 |---|---|
 | [Report Wizard: desenvolvimento e operação](reporting/02-report-wizard-desenvolvimento-operacao.md) | criar, alterar, parametrizar, executar, versionar ou diagnosticar um relatório RW |

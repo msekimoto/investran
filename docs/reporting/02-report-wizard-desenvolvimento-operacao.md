@@ -64,6 +64,10 @@ Comece pelas chaves que determinam a linha do resultado. Depois adicione descri�
 
 Parâmetros tornam um report reutilizável. Documente nome, ID, tipo, descrição, valor padrão, obrigatoriedade e formato. A descrição deve orientar claramente o usuário. No WRS, parâmetros também são combinados com os relacionamentos e security levels do contato.
 
+![Parameters configurados no Report Wizard](../assets/reporting/02-rw-parameters.png)
+
+*Parameters definidos no Report Wizard. Nome e tipo precisam permanecer compatíveis com todos os consumidores. Fonte: Crystal Reports Guidebook, p. 30.*
+
 ### 5. Configurar agregação, ordenação e período
 
 Defina explicitamente:
@@ -117,6 +121,10 @@ Os componentes do Report Wizard são COM/VB6, não são thread-safe e devem ser 
 Falhas intermitentes sob carga, travamentos e resultados cruzados podem indicar violação dessas regras, não necessariamente problema no SQL.
 
 ## OLE DB Provider e Crystal Reports
+
+![Integração entre Report Wizard e Crystal Reports](../assets/reporting/01-rw-crystal-integracao.jpg)
+
+*Report Wizard fornece o conjunto de dados; Crystal aplica layout, grupos, fórmulas e formatos de saída. Fonte: Crystal Reports Guidebook, p. 4.*
 
 Existem referências ao provider mais novo do Investran e ao provider legado do Report Wizard. Confirme qual está instalado e suportado no ambiente.
 
