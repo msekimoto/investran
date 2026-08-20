@@ -112,4 +112,3 @@ Envie no escalonamento a linha do tempo, GUID, parâmetros, versões, logs relev
 - [ ] Evidências anexadas ao incidente.
 - [ ] Runbook e inventário atualizados.
 - [ ] Ação preventiva e owner definidos.
-

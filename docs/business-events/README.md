@@ -36,4 +36,3 @@ Um BE deve ser tratado como uma cadeia de dependências, não apenas como um tem
 - batches, lançamentos e arquivos produzidos;
 - procedimento aprovado de reprocessamento e rollback;
 - incidentes recorrentes e critérios de escalonamento.
-

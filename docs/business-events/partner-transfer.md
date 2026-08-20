@@ -138,4 +138,3 @@ O total líquido deve respeitar a lógica aprovada: o que sai do transferor prec
 - como funcionam arredondamento, moedas e múltiplos transferees;
 - como reconciliar stub period;
 - procedimento aprovado quando existe batch parcial ou footprint.
-

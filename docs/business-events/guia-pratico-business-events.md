@@ -237,4 +237,3 @@ Peça uma demonstração real, gravada ou acompanhada, para cada BE crítico:
 - *Internal_Inv7_INV_Maint_Process.pdf*, System Packages, Business Event Deployment Checklists e Importing a Business Event Template.
 - *Internal_Inv7_Partner.Transfer.Instructions.pdf*, fluxo funcional legado de Partner Transfer.
 - Resumos existentes de *GFT Business Events Troubleshooting Guide.docx* e *PT BE Guidebook_2018.06.29.docx*. Os arquivos Word não estavam disponíveis no diretório atual para nova conferência.
-
