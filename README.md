@@ -36,6 +36,7 @@ A própria árvore de arquivos é o catálogo da wiki. Novos documentos adiciona
 | APIs, SDK e WRS | [Integrações programáticas](docs/08-apis-sdk-wrs.md) | WCF/SOAP, DTOs, operações e Web Reporting Services |
 | Database | [Banco de dados](docs/09-database.md) | Master/Staging, manutenção, backup, performance e cautelas |
 | Interfaces | [Data Import e interfaces](docs/10-data-import-e-interfaces.md) | XLSX, jobs, reconciliação e integrações |
+| Data Import - guia completo | [Data Import](docs/data-import/README.md) | Serviço, templates, mappings, jobs, entidades, reconciliação e troubleshooting |
 | Configurações e acessos | [Administração e segurança](docs/11-configuracoes-seguranca-sso.md) | Team Security, contas de serviço, IIS e SSO |
 | Deploy e upgrade | [Mudanças e releases](docs/12-deploy-upgrade.md) | Sequência, pré-checks, backup, validação e rollback decisório |
 | Business Events | [Business Events e Partner Transfer](docs/14-business-events.md) | Configuração, logs e fluxo funcional de Partner Transfer |

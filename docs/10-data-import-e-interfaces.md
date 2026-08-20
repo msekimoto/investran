@@ -1,5 +1,7 @@
 # Data Import e interfaces
 
+> Para configuração, criação de jobs, mappings, entidades, execução, monitoramento e diagnóstico passo a passo, consulte a nova seção [Data Import](data-import/README.md), o [guia prático](data-import/guia-pratico-data-import.md), o guia de [templates, entidades e mappings](data-import/templates-entidades-mappings.md) e o guia de [troubleshooting](data-import/troubleshooting.md).
+
 ## Capacidade
 
 O Data Import documentado aceita XLSX (Excel 2007+) e pode ser automatizado pelo SDK. Ele suporta dados web, transacionais e de mercado, condicionado a licença e entitlement. UDFs suportam valores para UDFs já existentes; Team Security domains/entitlements não são importados pelo recurso descrito.
