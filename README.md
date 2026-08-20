@@ -2,6 +2,16 @@
 
 Base operacional para sustentação do Investran 7. O conteúdo foi consolidado a partir dos manuais FIS/SunGard disponíveis, sem incluir cópias desses documentos, credenciais ou dados de produção.
 
+## Wiki navegável
+
+A documentação também pode ser consultada em uma aplicação Vue, com navegação por assunto, busca em todo o conteúdo, índice da página e renderização dos diagramas Mermaid.
+
+- Em desenvolvimento: execute `npm install` e `npm run dev`.
+- Build local: execute `npm run build` e `npm run preview`.
+- Publicação: o workflow `Publicar wiki` reconstrói o GitHub Pages a cada alteração de Markdown enviada à branch `main`.
+
+A própria árvore de arquivos é o catálogo da wiki. Novos documentos adicionados a `docs/`, `runbooks/` ou `templates/` são incluídos automaticamente no próximo build, sem manter uma segunda lista manual.
+
 > **Regra de confiança:** os manuais de referência são antigos (principalmente 2014-2017). Confirme versão, configuração e procedimento no ambiente atual antes de executar qualquer ação. Campos `KT pendente` identificam conhecimento que precisa ser obtido com a equipe.
 
 ## Comece por aqui
