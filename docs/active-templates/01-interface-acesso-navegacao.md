@@ -4,6 +4,10 @@
 
 O produto padrão fornece uma aplicação desktop chamada **Active Template Manager (ATM)**. Ao abri-la, aparece uma tela de login semelhante às telas do Investran e do Report Wizard. Informe os dados do database e clique em `OK`.
 
+![Tela de conexão do Active Template Manager](../assets/active-templates/01-login-database.png)
+
+*Tela de conexão do ATM. Confirme servidor, database e método de autenticação antes de prosseguir. Fonte: Investran 7 Developer's Guide to Active Template Manager, p. 3.*
+
 O manual não define o caminho do executável ou atalho em cada cliente. Registre durante o KT:
 
 - servidor ou workstation onde o ATM está instalado;
@@ -16,6 +20,10 @@ O manual não define o caminho do executável ou atalho em cada cliente. Registr
 
 Após a conexão, o ATM carrega os templates disponíveis no database. Use a lista suspensa de Active Templates no painel principal e selecione o nome desejado.
 
+![Tela principal do Active Template Manager](../assets/active-templates/02-tela-principal.png)
+
+*Tela principal após a conexão, com árvore de templates à esquerda, ações centrais e informações do database à direita. Fonte: guia de ATM, p. 10.*
+
 Ao selecionar um AT, confira no painel direito:
 
 - creator e created date/time;
@@ -23,6 +31,10 @@ Ao selecionar um AT, confira no painel direito:
 - notes;
 - Batch Type;
 - status: `Draft`, `Normal` ou `System`.
+
+![Detalhes do Active Template selecionado](../assets/active-templates/03-detalhes-template.png)
+
+*Detalhes do template selecionado, incluindo Batch Type, datas, Notes, Description e aviso de estado. Fonte: guia de ATM, p. 11.*
 
 O manual não documenta busca por ID. Se houver templates de nomes semelhantes, confirme atributos, dependências, Batch Type e consumidor antes de editar.
 
@@ -42,6 +54,10 @@ Active Template
 ```
 
 Selecione um nó à esquerda para visualizar detalhes no painel direito. Expanda reports para conferir columns e parameters.
+
+![Árvore e lista de parâmetros do Active Template](../assets/active-templates/04-lista-parametros.png)
+
+*Nó Parameters selecionado na árvore. A grade permite conferir tipo, obrigatoriedade, default e property mapping. Fonte: guia de ATM, p. 12.*
 
 ## Menus principais
 
@@ -76,6 +92,14 @@ Selecione um nó à esquerda para visualizar detalhes no painel direito. Expanda
 
 Os dois menus permitem `Add`, `Edit`, `Delete`, `Copy`, `Paste`, `Top`, `Up`, `Down` e `Bottom`. A ordem é funcional porque define `JEIndex` e `TXIndex` recebidos pelos eventos VBA.
 
+![Journal Entries do Active Template](../assets/active-templates/07-journal-entries.png)
+
+*Journal Entries definidos no template. A ordem da lista determina o `JEIndex`. Fonte: guia de ATM, p. 14.*
+
+![Transaction Templates do Journal Entry](../assets/active-templates/08-transaction-templates.png)
+
+*Transaction Templates dentro de um Journal Entry. A ordem determina o `TXIndex`. Fonte: guia de ATM, p. 15.*
+
 ### Parameters
 
 - `Define`: cria um parâmetro Investran reutilizável por AT, AR e RW;
@@ -90,9 +114,17 @@ Os dois menus permitem `Add`, `Edit`, `Delete`, `Copy`, `Paste`, `Top`, `Up`, `D
 
 Um AT suporta no máximo três Driver Reports. A ordem pode afetar a hierarquia e a geração.
 
+![Driver Reports associados ao Active Template](../assets/active-templates/05-driver-reports.png)
+
+*Driver Reports associados ao template. Expanda o report para revisar Columns e Parameters. Fonte: guia de ATM, p. 13.*
+
 ### Auxiliary Reports
 
 Permite adicionar/remover e ordenar. Não há limite documentado. Auxiliary Reports são executados explicitamente pelo VBA; o engine executa Driver Reports automaticamente.
+
+![Auxiliary Reports associados ao Active Template](../assets/active-templates/06-auxiliary-reports.png)
+
+*Lista de Auxiliary Reports disponíveis para consumo pelo VBA. Fonte: guia de ATM, p. 13.*
 
 ### VBA Code
 
@@ -106,6 +138,10 @@ Não confunda `Save VBA Module` com mudança de status, exportação ou promoç�
 ## Atributos do Active Template
 
 Abra `Active Template > Edit` para consultar ou alterar:
+
+![Janela de atributos do Active Template](../assets/active-templates/09-atributos-template.png)
+
+*Janela Add/Edit do Active Template, com Batch Type, Use VBA, Locked, Ignore Errors, compatibilidade multi-currency, Notes, Description e Status. Fonte: guia de ATM, p. 17.*
 
 | Atributo | Efeito |
 |---|---|

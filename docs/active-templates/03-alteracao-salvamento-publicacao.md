@@ -48,6 +48,10 @@ Salvar o diálogo persiste os atributos, mas não substitui `Save VBA Module` pa
 
 Selecione `Parameters` ou o nível correspondente e use `Add`/`Edit`/`Delete`.
 
+![Configuração de um parâmetro do Active Template](../assets/active-templates/11-configuracao-parametro.png)
+
+*Janela de configuração de Parameter. O tipo, lookup, obrigatoriedade e `Map to a Property` controlam como o valor chega ao Context. Fonte: guia de ATM, p. 42.*
+
 Ao renomear ou alterar um parâmetro, procure referências em:
 
 - Description placeholders;
@@ -96,6 +100,10 @@ Depois de reordenar, revise todos os testes por `JEIndex` e `TXIndex` no VBA. Um
 6. Inicie Simulation para validar sintaxe e lógica.
 
 Não feche, troque de database ou promova assumindo que o editor salvou automaticamente.
+
+![VBA Editor integrado ao Active Template Manager](../assets/active-templates/10-vba-editor.png)
+
+*VBA Editor aberto na parte inferior da tela do ATM. O menu VBA Code contém as ações para exibir e salvar o módulo. Fonte: guia de ATM, p. 18.*
 
 ## O que significa “salvar” no ATM
 

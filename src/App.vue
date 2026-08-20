@@ -109,6 +109,20 @@ async function renderEnhancements(requestedHeading = '') {
   await nextTick()
   if (!contentElement.value) return
 
+  contentElement.value.querySelectorAll('img').forEach((image) => {
+    const source = image.getAttribute('src') ?? ''
+    if (/^(https?:|data:|\/)/i.test(source)) return
+
+    const baseParts = currentDocument.value.path.split('/')
+    baseParts.pop()
+    for (const part of source.replace(/^\.\//, '').split('/')) {
+      if (part === '..') baseParts.pop()
+      else if (part !== '.') baseParts.push(part)
+    }
+    image.src = `${import.meta.env.BASE_URL}${baseParts.join('/')}`
+    image.loading = 'lazy'
+  })
+
   const usedSlugs = new Map()
   outline.value = [...contentElement.value.querySelectorAll('h2, h3')].map((heading) => {
     const baseSlug = slugify(heading.textContent) || 'secao'

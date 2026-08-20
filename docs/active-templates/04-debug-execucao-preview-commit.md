@@ -39,6 +39,10 @@ Simulation bem-sucedida não substitui teste pelo Scheduler.
 
 Se a janela **Immediate** aparecer atrás do diálogo, o manual indica que o código passou pela validação sintática inicial.
 
+![Validação de sintaxe com parâmetros e VBA Editor](../assets/active-templates/12-debug-validacao-sintaxe.png)
+
+*Execução em Simulation com o diálogo de parâmetros sobre o VBA Editor. Fonte: guia de ATM, p. 62.*
+
 Mensagens podem ser pouco precisas. `Expecting an existing scalar var`, por exemplo, pode significar variável/constante não declarada ou tipo incorreto.
 
 ### Depurar lógica
@@ -51,9 +55,17 @@ Mensagens podem ser pouco precisas. `Expecting an existing scalar var`, por exem
 6. Use Stack para entender a cadeia de chamadas.
 7. Compare `JEIndex`, `TXIndex`, driver current row e properties do Context.
 
+![Breakpoint no VBA Editor do ATM](../assets/active-templates/13-debug-breakpoint.png)
+
+*Breakpoint no gutter e linha atual destacada no VBA Editor. Fonte: guia de ATM, p. 62.*
+
 ## Debug Log
 
 Depois da simulação, o ATM mostra um log com as etapas executadas e os dados que seriam gravados nas tabelas de Staging, incluindo transactions e Investor allocations.
+
+![Debug Log da simulação do Active Template](../assets/active-templates/14-debug-log.png)
+
+*Debug Log exibido depois da Simulation, com o conteúdo que seria enviado ao Staging. Fonte: guia de ATM, p. 64.*
 
 O VBA pode registrar mensagens:
 
@@ -102,11 +114,23 @@ Não altere diretamente essas configurações sem autorização de administraç�
 1. Mude para `Normal` somente após Simulation aprovada.
 2. Selecione o AT na árvore.
 3. Clique no ícone **Batch Generation**.
+
+![Active Template selecionado para execução](../assets/active-templates/15-executar-template.png)
+
+*Template selecionado e ícone Batch Generation destacado antes da execução. Fonte: guia de ATM, p. 66.*
 4. Preencha os runtime parameters.
 5. Use `Show values in controlled context` para restringir lookups conforme valores já escolhidos.
+
+![Parâmetros de runtime do Active Template](../assets/active-templates/16-parametros-execucao.png)
+
+*Janela de parâmetros apresentada antes do agendamento. Fonte: guia de ATM, p. 67.*
 6. Abra `Run AT Schedule` pelo ícone de exclamação vermelho.
 7. Escolha data/hora ou `Run AT Immediately`.
 8. Durante desenvolvimento, selecione **Show temporary results Preview**.
+
+![Janela Run AT Schedule](../assets/active-templates/17-agendamento.png)
+
+*Agendamento da geração e definição de Preview ou Commit. Em testes, use Show temporary results Preview. Fonte: guia de ATM, p. 68.*
 
 Evite **Commit process without showing results** em teste: essa opção envia automaticamente os resultados ao Investran sem revisão.
 
@@ -125,12 +149,24 @@ Um `Succeeded` vazio nem sempre é erro: o AT pode legitimamente não gerar batc
 
 Use Refresh para atualizar o estado.
 
+![Processo pendente no Batch Maintenance](../assets/active-templates/18-monitoramento-pendente.png)
+
+*Processo na aba Pending do Batch Maintenance. Fonte: guia de ATM, p. 69.*
+
+![Processo finalizado na aba Generated](../assets/active-templates/19-monitoramento-gerado.png)
+
+*Processo transferido para Generated após o término da geração. Fonte: guia de ATM, p. 71.*
+
 ## View Log e Preview
 
 Depois da geração:
 
 - `View Log` ou `Ctrl+L`: abre o log do Process ID;
 - `Preview` ou `Ctrl+P`: mostra os batches gerados quando o processo permite.
+
+![Exemplo de log de erro da geração](../assets/active-templates/20-log-erro.png)
+
+*Exemplo de View Log indicando falha de configuração da conexão com Staging. Fonte: guia de ATM, p. 71.*
 
 No Preview, reconcilie:
 
