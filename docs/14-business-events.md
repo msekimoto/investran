@@ -1,5 +1,7 @@
 # Business Events e Partner Transfer
 
+> Para arquitetura, importação, configuração, operação e diagnóstico passo a passo, consulte a nova seção [Business Events](business-events/README.md), o [guia prático](business-events/guia-pratico-business-events.md), o guia de [Partner Transfer](business-events/partner-transfer.md) e o guia de [troubleshooting](business-events/troubleshooting.md).
+
 ## Business Events
 
 Templates são publicados pelo Investran Web. Para template recém-adicionado que nunca executou corretamente, confirmar versão compatível com a maintenance release e status `Active`. O material interno orienta reiniciar o serviço de deployment web após ativação; confirme impacto e procedimento atual antes de fazê-lo.

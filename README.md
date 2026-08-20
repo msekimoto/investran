@@ -39,6 +39,7 @@ A própria árvore de arquivos é o catálogo da wiki. Novos documentos adiciona
 | Configurações e acessos | [Administração e segurança](docs/11-configuracoes-seguranca-sso.md) | Team Security, contas de serviço, IIS e SSO |
 | Deploy e upgrade | [Mudanças e releases](docs/12-deploy-upgrade.md) | Sequência, pré-checks, backup, validação e rollback decisório |
 | Business Events | [Business Events e Partner Transfer](docs/14-business-events.md) | Configuração, logs e fluxo funcional de Partner Transfer |
+| Business Events - guia completo | [Business Events](docs/business-events/README.md) | Arquitetura, deployment, configuração, operação, Partner Transfer e troubleshooting |
 
 ## Mapas de entendimento
 
