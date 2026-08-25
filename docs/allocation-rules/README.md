@@ -23,6 +23,8 @@ A regra pode produzir:
 
 Usam percentuais fixos definidos em tabela para os investidores. O material conceitual informa que são mantidas pela ferramenta **Static Allocation Rules**, no Portfolio & Investor Manager.
 
+Em um cenário normal de utilização do Investran esse tipo de Allocation Rule quase nunca dá problema.
+
 ### Dynamic Allocation Rules
 
 Calculam os percentuais de acordo com os dados disponíveis no momento da execução. Exemplos documentados:
@@ -56,29 +58,29 @@ flowchart LR
     RW[Report Wizard / Metadata] -->|Lookup e validação| AR
 ```
 
-## Regras de sistema citadas no manual de Active Templates
+## Uma transação pode ter sua alocação efetuada das seguintes maneiras
 
-| ID | Regra |
-|---:|---|
-| 0 | Non-Dominant |
-| 1 | No Allocation |
-| 2 | User Provided |
+| ID | Regra | Descrição |
+|---:|---|---|
+| 0 | Non-Dominant | Usa como base a alocação da transação dominante |
+| 1 | No Allocation | Não é alocado valores para os investidores |
+| 2 | User Provided | Usuário informa a alocação manualmente |
+| 3 | AR | Usuário seleciona a alocação que será utilizada para calcular automaticamente as alocações |
 
 Esses IDs aparecem no guia do ATM como constantes de exemplo. Antes de usá-los em qualquer ambiente, valide se o comportamento e os identificadores permanecem iguais na versão instalada.
 
-## Permissões
+## Permissões para utilização do ARM
 
 O material conceitual distingue:
 
 - **ARM Admin:** criar, editar, executar e excluir Allocation Rules no Allocation Rule Manager;
 - **ARM User:** executar Allocation Rules no Allocation Rule Manager.
 
-Sem as permissões adequadas, uma falha de acesso pode ser confundida com defeito da regra.
+Sem as permissões adequadas, uma falha de acesso pode ser confundida com defeito na regra.
 
 ## Documentos deste módulo
 
 - [Guia prático de uso do ARM](guia-pratico-arm.md): navegação, componentes, criação, execução, validação e publicação com telas da ferramenta.
-
 - [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md)
 - [Object model e contratos técnicos](object-model.md)
 - [Arquitetura e fluxo](architecture.md)
