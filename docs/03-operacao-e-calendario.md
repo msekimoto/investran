@@ -1,6 +1,6 @@
 # Operação, criticidade e calendário
 
-Os manuais descrevem capacidades técnicas, mas não o calendário operacional de cada organização. Este documento deve virar o painel diário do suporte.
+Os manuais descrevem capacidades técnicas, mas não o calendário operacional de cada organização. Este documento pretende virar o painel diário do suporte para um cliente. Essa é a nossa sugestão inicial. O KT mencionado aqui considera um analista que já saiba o básico das ferramentas do Investran e está focado apenas nos aspectos específicos de cada cliente.
 
 ## Rotina mínima sugerida
 
@@ -34,6 +34,9 @@ Os manuais descrevem capacidades técnicas, mas não o calendário operacional d
 | Data Import/interfaces | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
 | Business Events | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
 | Maintenance Job/backup | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
+| Servidores e Infra | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
+| Interfaces com outras apps | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
+| Conheça seu cliente (Networking) | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
 
 ## Criticidade
 
