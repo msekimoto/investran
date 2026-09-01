@@ -1,35 +1,36 @@
 # Data Import e interfaces
 
-> Para configuração, criação de jobs, mappings, entidades, execução, monitoramento e diagnóstico passo a passo, consulte a nova seção [Data Import](data-import/README.md), o [guia prático](data-import/guia-pratico-data-import.md), o guia de [templates, entidades e mappings](data-import/templates-entidades-mappings.md) e o guia de [troubleshooting](data-import/troubleshooting.md).
+Esta página orienta a entrada no módulo de importação. O material detalhado está nos guias específicos de Data Import e no troubleshooting do processo.
 
-## Capacidade
+## Material detalhado
 
-O Data Import documentado aceita XLSX (Excel 2007+) e pode ser automatizado pelo SDK. Ele suporta dados web, transacionais e de mercado, condicionado a licença e entitlement. UDFs suportam valores para UDFs já existentes; Team Security domains/entitlements não são importados pelo recurso descrito.
+- [Data Import](data-import/README.md): visão geral, limites e fluxos de suporte.
+- [Guia prático de Data Import](data-import/guia-pratico-data-import.md): execução, mapeamento e rotina operacional.
+- [Templates, entidades e mappings](data-import/templates-entidades-mappings.md): mapeamentos e regras por entidade.
+- [Troubleshooting de Data Import](data-import/troubleshooting.md): diagnóstico de rejeições e carga parcial.
 
-## Fluxo controlado
+## Fluxo de suporte recomendado
 
-1. Identificar tipo de entidade e licença/entitlement.
-2. Usar template versionado e confirmar mappings.
-3. Validar mandatory/required fields, IDs, referências, datas, grouping indexes e UDFs.
-4. Fazer dry run/amostra em ambiente seguro.
-5. Submeter job e registrar ID, arquivo, checksum, usuário e horário.
-6. Monitorar status e capturar erros por linha.
-7. Reconciliar contagem, valores e entidades criadas/atualizadas.
-8. Arquivar evidência sanitizada e tratar rejeições.
+1. confirmar entidade, template e entitlement;
+2. validar mapping, chaves e UDFs;
+3. testar uma amostra em ambiente controlado;
+4. registrar job, arquivo, usuário e checksum;
+5. monitorar status e linhas rejeitadas;
+6. reconciliar conta/quantidade/entidade após a carga;
+7. arquivar evidência e repetir somente quando a idempotência for garantida.
 
-## Retry
+## Decisão rápida
 
-Antes de repetir, verificar se houve carga parcial e se as linhas usam InvestranID/chaves capazes de atualizar em vez de duplicar. Cancelamento ou status de falha não garante ausência de escrita. Definir estratégia por interface.
+| Questão | Guia melhor |
+|---|---|
+| O job rejeita linhas ou falha no mapeamento | [Troubleshooting de Data Import](data-import/troubleshooting.md) |
+| Preciso preparar o arquivo e os templates | [Templates, entidades e mappings](data-import/templates-entidades-mappings.md) |
+| Quero entender o processo geral | [Data Import](data-import/README.md) |
 
-## Catálogo de interface a preencher
+## KT pendente
 
-| Interface | Direção/formato | Agenda | Chave/idempotência | Reconciliação | Owner |
-|---|---|---|---|---|---|
-| KT pendente | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-
-## Fontes
-
-- *INV_Data_Import_7.pdf*, páginas 3-6 e capítulos de job/reconciliation/guidelines.
-- *Internal_Inv7_Data Import Utility User Guide.pdf*, páginas 1-56 (ferramenta anterior e templates).
-- *Internal_Inv7_INV_Implementation.pdf*, configuração do Data Import Service.
+- templates oficiais e customizados;
+- entidades por frequência e volume;
+- owner da interface e rotina de reconciliação;
+- regras de retry, cancelamento e carga parcial.
 
