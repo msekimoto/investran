@@ -82,11 +82,11 @@ São as ocorrências contextuais do Deal/Position dentro do portfólio ou Legal 
 
 Quando um dado parece errado, determine primeiro:
 
-1. O ID é de entidade mestre ou contextual?
-2. A relação existe na Legal Entity/Vehicle corretos?
-3. A vigência/data usada seleciona a participação correta?
-4. O erro está no cadastro, na relação ou na transação que o referencia?
-5. Team Security permite ao usuário enxergar a entidade?
+1. O ID é de entidade mestre ou contextual? Ou seja, é um Vehicle ou SpecificVehicle, Investor ou SpecificInvestor, BatchID, TransID... De qual domínio o cliente está se referindo.
+2. A relação existe na Legal Entity/Vehicle corretos? Verifique com o cliente se o Deal vs Legal Entity vs Investor vs Vehicle está correto.
+3. A vigência/data usada seleciona a participação correta? Dependendo da data utilizada pelo usuário o sistema pode estar puxando uma configuração antiga da Legal Entity/Compromisso de Investidores/Deals...
+4. O erro está no cadastro, na relação ou na transação que o referencia? Será que a transação está mesmo com problema, será que não é um problema de cadastro da Legal Entity?
+5. Team Security permite ao usuário enxergar a entidade? Permissionamento, o que o usuário pode ver/fazer?
 
 ## Fontes
 
