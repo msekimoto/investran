@@ -1,94 +1,41 @@
 # Report Wizard, Crystal Reports e Web Reporting Services
 
-Esta área descreve a cadeia completa de reporting do Investran: definição e execução de relatórios no Report Wizard (RW), formatação no Crystal Reports e exposição externa pelo Web Reporting Services (WRS).
+Esta área reúne os materiais de reporting do Investran. Para suporte operacional, vale começar pelo guia de arquitetura e seguir para o caso específico: report, WRS, Crystal ou falha de incidente.
 
-> Os manuais disponíveis são do Investran 7 e foram publicados principalmente em 2014. Confirme componentes, versões, URLs e procedimentos no ambiente atual antes de qualquer intervenção.
+## Onde está a resposta rápida
 
-## Guias desta área
+- [Arquitetura de reporting](reporting/01-arquitetura-reporting.md): fundamentos e onde a falha está na cadeia.
+- [Report Wizard - desenvolvimento e operação](reporting/02-report-wizard-desenvolvimento-operacao.md): criação, parâmetros, manutenção e diagnóstico.
+- [Web Reporting Services](reporting/03-web-reporting-services.md): publicação, segurança, serviços, integradores e formatos.
+- [Guia prático do Report Wizard](reporting/guia-pratico-report-wizard.md): fluxos de trabalho e validação do dia a dia.
+- [Guia prático do WRS](reporting/guia-pratico-reporting-services.md): operação e suporte ao serviço web.
+- [Runbook de falha de reporting](../runbooks/falha-reporting.md): ação em incidentes reais.
 
-- [Guia prático do Report Wizard](reporting/guia-pratico-report-wizard.md): criação, parâmetros, integração Crystal, validação, performance e troubleshooting com telas das ferramentas.
-- [Guia prático do Web Reporting Services](reporting/guia-pratico-reporting-services.md): instalação, segurança, publicação, API SOAP, formatos e suporte com telas das ferramentas.
-- [Microsoft SQL Server Reporting Services](reporting/04-microsoft-ssrs.md): diferenças em relação ao WRS, possíveis padrões com Investran, administração, segurança e troubleshooting.
+## Decisão rápida
 
-| Guia | Use quando precisar |
+| Situação | Guia indicado |
 |---|---|
-| [Report Wizard: desenvolvimento e operação](reporting/02-report-wizard-desenvolvimento-operacao.md) | criar, alterar, parametrizar, executar, versionar ou diagnosticar um relatório RW |
-| [Web Reporting Services](reporting/03-web-reporting-services.md) | entender instalação, publicação, segurança, usuários, API SOAP e formatos de saída do WRS |
-| [Arquitetura de reporting](reporting/01-arquitetura-reporting.md) | localizar a camada responsável por uma falha ou avaliar o impacto de uma mudança |
-| [Runbook - Falha de reporting](../runbooks/falha-reporting.md) | atuar durante um incidente de Report Wizard, Crystal ou WRS |
+| Relatório não retorna dados ou o resultado é incorreto | [Report Wizard - desenvolvimento e operação](reporting/02-report-wizard-desenvolvimento-operacao.md) |
+| Falha de autenticação, publicação ou saída WRS | [Web Reporting Services](reporting/03-web-reporting-services.md) |
+| Problema de layout, seção e apresentação no Crystal | [Guia prático do Report Wizard](reporting/guia-pratico-report-wizard.md) |
+| Incidente ativo com impacto de negócio | [Runbook de falha de reporting](../runbooks/falha-reporting.md) |
 
-## Visão resumida
+## Regra de ouro
 
-```mermaid
-flowchart LR
-    DB[(Banco Investran)] --> ENG[Engine do Report Wizard]
-    DEF[Book + definição RW] --> ENG
-    SEC[Team Security + filtros WRS] --> ENG
-    PAR[Parâmetros] --> ENG
-    ENG --> UI[Execução no Investran]
-    ENG --> CR[Crystal Reports]
-    ENG --> WRS[Web Reporting Services]
-    ENG --> APP[Aplicação customizada / OLE DB]
-    WRS --> DX[Data Exchange]
-    WRS --> SOAP[Consumidor SOAP]
-    CR --> PDF[PDF / impressão]
-    WRS --> OUT[XML / HTML / PDF]
-```
+Mudança em forma, parâmetro, filtro, versão ou cardinalidade de um report pode afetar ATM, ARM, WRS, Business Events e integrações. Sempre valide a alteração em ambiente seguro e teste cada consumidor antes de publicar.
 
-## Diferença entre os componentes
+## Checklist mínimo antes de alterar um report
 
-| Componente | Responsabilidade | Não confundir com |
-|---|---|---|
-| Report Wizard | selecionar dados, aplicar filtros/parâmetros, agregar, ordenar e executar | layout avançado de impressão |
-| Crystal Reports | apresentação, seções, fórmulas, grupos, subreports e layout final | fonte primária ou regra de segurança |
-| RW/Investran OLE DB Provider | permitir que Crystal ou código execute um report RW como fonte de dados | acesso SQL genérico sem regras do RW |
-| WRS | publicar e executar reports RW remotamente por Web Service | a Web API REST construída pela equipe |
-| Data Exchange | portal/consumidor que chama o WRS | engine de execução do relatório |
+1. identificar o book, report e owner;
+2. verificar quem o consome;
+3. salvar a última versão válida;
+4. validar parâmetros, filtros e volume;
+5. testar em ambiente controlado;
+6. confirmar rollback e reconciliação.
 
-## Regra de ouro para mudanças
+## KT pendente
 
-Um report RW deve ser tratado como um contrato compartilhado. Uma alteração em coluna, nome, tipo, filtro, parâmetro, agregação ou cardinalidade pode quebrar Crystal Reports, Active Templates, Allocation Rules, Business Events, WRS e aplicações customizadas.
-
-Antes de alterar:
-
-1. identifique o book, report, owner e todos os consumidores;
-2. exporte ou salve uma cópia da última versão válida;
-3. registre schema, parâmetros, totais e tempo de execução atuais;
-4. faça a alteração em ambiente não produtivo;
-5. valide o RW isoladamente com dados conhecidos;
-6. teste cada consumidor e formato de saída;
-7. publique com plano de rollback e evidência de reconciliação.
-
-## Catálogo mínimo por relatório crítico
-
-Registre para cada report:
-
-- nome e book/pasta;
-- objetivo de negócio e owner;
-- tipo: RW puro, driver, shell Crystal ou dependência técnica;
-- consumidores humanos e automáticos;
-- parâmetros, tipos, defaults e exemplos válidos;
-- colunas, tipos, ordenação, agrupamentos e totais esperados;
-- filtros e security levels;
-- formatos permitidos e frequência;
-- volume e duração de referência;
-- dependências e versão publicada;
-- procedimento de validação e rollback.
-
-## KT prioritário
-
-- inventário dos reports críticos da organização e respectivos owners;
-- reports usados como drivers de Active Templates e Allocation Rules;
-- shells e drivers de Crystal Dynamic Reporting;
-- security levels, filtros WRS e contatos de teste;
-- URL, CompanyID, app pool, certificado e logs do WRS por ambiente;
-- baselines de volume e performance;
-- processo real de promoção entre DEV, UAT e PROD;
-- incidentes conhecidos, consultas de diagnóstico e critérios de escalonamento.
-
-## Fontes
-
-- *Internal_Inv7_INV_RW_Dev_Guide_7.pdf*.
-- *Internal_Inv7_INV_WRS_Install-Admin_7.pdf*.
-- *Internal_Inv7_InWRS_API_Guide.pdf*.
-- *Crystal Reports Guidebook.pdf*.
+- lista de reports críticos e owners;
+- security levels e filtros no WRS;
+- endpoints e certificados por ambiente;
+- volume, SLA e performance de referência.
