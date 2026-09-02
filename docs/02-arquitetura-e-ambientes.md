@@ -1,46 +1,48 @@
 # Arquitetura e ambientes
 
-## Componentes descritos pela FIS
+Este documento serve como mapa dos componentes principais do Investran e do que precisa ser validado em cada ambiente antes de qualquer mudança.
 
-A topologia documentada pode conter SQL Server com bases Master e Staging, Web Server, Web Application Server, Application Server, workstations/clientes, Reporting/Report Wizard Engine, Business Events, MSMQ, IIS, certificados X.509 e serviços scheduler. Nem todos precisam existir como servidores separados no ambiente real.
+## Visão de alto nível
 
-## Dependências críticas
+A arquitetura típica combina:
 
-- **SQL Server:** dados, segurança, maintenance jobs, backup/restore e, quando configurado, replicação.
-- **Application Server:** Process Scheduler/Dispatcher e serviços ATM, Data Import, OLE DB, RS, RS Word e RW.
-- **Web/IIS:** Investran Web, autenticação, logs, SSO e deployment de Business Events.
-- **MSMQ/MSDTC:** mensageria e transações distribuídas em fluxos que atravessam componentes.
-- **Certificados:** comunicação e autenticação; validade, store, permissões e identidade devem ser controladas.
-- **Contas de serviço:** executam IIS, Business Events e schedulers; mudança/expiração de senha é causa recorrente de falha.
+- Web/IIS para autenticação e acesso;
+- Application Server para schedulers, workers e serviços assíncronos;
+- SQL Server com Master e Staging;
+- Reporting, ATM, ARM, Data Import e Business Events como módulos de processamento;
+- certificados, contas de serviço e MSMQ/RabitMQ/MSDTC como dependências críticas.
 
-## Inventário a preencher por ambiente
+Para o desenho lógico completo, veja [Arquitetura lógica e componentes](arquitetura/01-arquitetura-logica.md).
 
-| Item | DEV | UAT | PROD |
-|---|---|---|---|
-| Versão/MR | KT pendente | KT pendente | KT pendente |
-| SQL Server / Master / Staging | KT pendente | KT pendente | KT pendente |
-| Web Server / URL | KT pendente | KT pendente | KT pendente |
-| Web Application Server | KT pendente | KT pendente | KT pendente |
-| Application Server | KT pendente | KT pendente | KT pendente |
-| Serviços instalados | KT pendente | KT pendente | KT pendente |
-| Scheduler/service account | KT pendente | KT pendente | KT pendente |
-| Local dos logs | KT pendente | KT pendente | KT pendente |
-| Certificados e validade | KT pendente | KT pendente | KT pendente |
-| Monitoramento/alertas | KT pendente | KT pendente | KT pendente |
+## Checklist por ambiente
 
-## Diagrama mínimo esperado
+| Item | O que confirmar |
+|---|---|
+| Versão e MR | release instalada, hotfix e compatibilidade |
+| Web e URLs | endpoints, IIS, app pools, certificados |
+| SQL Server | Master, Staging, jobs, backups e restauração |
+| Application Server | serviços, contas, logs e fila de execução |
+| Schedulers | jobs ativos, dependências e agendamentos |
+| Segurança | Team Security, SSO, contas e permissões |
+| Integrações | endpoints, tokens/certificados e regras de retry |
 
-Documentar clientes/integrações → load balancer/IIS → web/app services → SQL/MSMQ, além dos schedulers e destinos de arquivos. Para cada seta, registrar protocolo, porta, autenticação, owner e efeito da indisponibilidade.
+## Riscos comuns
 
-## Cuidados
+- assumir que a arquitetura antiga representa o ambiente atual;
+- reiniciar serviços sem confirmar jobs em execução;
+- ignorar alterações de conta, URL, banco ou certificados após clone/restore;
+- tratar falha de plataforma como falha funcional.
 
-- não assumir que o diagrama de 2014 representa produção atual;
-- não reiniciar um servidor para corrigir apenas um serviço sem avaliar jobs em execução;
-- após restore/clone, revisar nomes de banco, contas, URLs, serviços e integrações para evitar conexão acidental com produção.
+## Onde aprofundar
 
-## Fontes
+- [Arquitetura lógica](arquitetura/01-arquitetura-logica.md)
+- [Application Server e Services](application-services/README.md)
+- [Batches, jobs e scheduler](06-batches-jobs-scheduler.md)
+- [Business Events](14-business-events.md)
+- [Database](09-database.md)
+- [Troubleshooting](13-troubleshooting.md)
 
-- *Internal_Inv7_INV_Architecture_7.pdf*, páginas 3-14.
-- *Internal_Inv7_INV_Implementation.pdf*, páginas 3-5 e seções de setup.
-- *Internal_Inv7_INV_Administrators_7.pdf*, seções SQL, Web e Application Server.
+## Próximo passo
+
+Use o [plano de KT](16-plano-de-kt.md) para registrar os valores reais de cada ambiente e completar o inventário antes de operar em produção.
 

@@ -38,7 +38,7 @@ Business Events possui arquitetura e conta de serviço próprias e não aparece 
 - **Dispatcher:** encaminha o trabalho para o worker adequado.
 - **Worker/Executor:** processo que executa a atividade concreta.
 - **Job/process:** unidade funcional solicitada por usuário ou integração.
-- **IIS/SQL/MSMQ/MSDTC:** dependências de plataforma; não são todos services próprios do Investran.
+- **IIS/SQL/MSMQ/RabitMQ/MSDTC:** dependências de plataforma; não são todos services próprios do Investran.
 
 ## KT prioritário
 

@@ -197,7 +197,7 @@ Estes services não são necessariamente “services do Investran”, mas podem 
 |---|---|
 | SQL Server | Master, Staging, jobs e persistência |
 | IIS / WAS | Investran Web e aplicações web |
-| MSMQ / service bus | mensageria de fluxos distribuídos, especialmente BE |
+| MSMQ / RabitMQ / service bus | mensageria de fluxos distribuídos, especialmente BE |
 | MSDTC | transações distribuídas quando usadas pela topologia |
 | Windows Event Log | Application/System events de scheduler e dispatcher |
 | Microsoft Office/Word | composição Word em Reporting Services legado |

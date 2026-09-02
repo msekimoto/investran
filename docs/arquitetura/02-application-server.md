@@ -25,7 +25,8 @@ sequenceDiagram
 
 ## Serviços documentados
 
-- ATM;
+- Active Template;
+- Allocation Rule;
 - Data Import;
 - DX Synchronization;
 - DX Workflow;
@@ -34,7 +35,9 @@ sequenceDiagram
 - RS Word;
 - Report Wizard.
 
-O ambiente pode usar apenas um subconjunto ou serviços com nomes diferentes.
+O ambiente pode usar apenas um subconjunto desses serviços. Esses serviços podem estar espalhados em vários servidores.
+
+Existem outros serviços Windows que são responsáveis por outros fluxos específicos no Investran.
 
 ## Correlação mínima
 
@@ -51,19 +54,25 @@ Para rastrear uma execução, registre:
 
 ## Falhas típicas
 
-- serviço parado ou conta/senha inválida;
-- mapping de scheduler incorreto;
-- worker incompatível com a versão do artefato;
-- fila/dispatcher sem consumir trabalho;
-- conectividade/permissão com Master ou Staging;
-- execução concluída tecnicamente, mas output não commitado;
-- restart durante trabalho ativo.
+- serviço parado ou conta/senha inválida
+- mapping de scheduler incorreto
+- worker incompatível com a versão do artefato
+- fila/dispatcher sem consumir trabalho
+- conectividade/permissão com Master ou Staging
+- execução concluída tecnicamente, mas output não commitado
+- restart durante trabalho ativo
+- certificados inválidos e ou expirados
+- banco fora do ar
+- mudança de senha de conta do sistema
+- servidor reiniciado e serviços não iniciados no automático
 
 ## KT pendente
 
 - instâncias e nomes de serviço do ambiente;
-- mapeamento do `Config.xml` ou equivalente atual;
+- mapeamento do `Web.config`, `Config.xml`, `app.config`, `app-nlog.config` ou equivalente atual;
 - concorrência, timeout e capacidade por worker;
 - sequência segura de restart;
 - dashboards e alertas;
 - procedimentos de recuperação de fila/trabalho órfão.
+- procedimentos de instalação de certificados.
+- procedimentos de mudança de senha de contas do sistema.
