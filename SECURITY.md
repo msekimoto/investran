@@ -2,6 +2,10 @@
 
 Este repositório deve permanecer privado e sujeito às políticas corporativas aplicáveis.
 
+## Controle antes de publicar
+
+Antes de aprovar uma alteração ou publicar a wiki, confirme que a visibilidade do repositório continua **Private** no GitHub. Esta regra não é aplicada pelo Markdown nem pelo workflow; se a visibilidade estiver incorreta, interrompa a publicação e acione o owner do repositório para corrigir a classificação antes de prosseguir.
+
 ## Não versionar
 
 - senhas, tokens, chaves privadas, connection strings ou certificados com chave privada;

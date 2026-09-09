@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "check:docs": "node scripts/validate-docs.mjs",
+    "check": "npm run check:docs && npm run build",
     "build": "vite build",
     "preview": "vite preview"
   },

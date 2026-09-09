@@ -1,5 +1,17 @@
 # Runbook - Falha de Business Event
 
+## Controle documental
+
+| Campo | Valor |
+|---|---|
+| Status | KT pendente |
+| Owner técnico | A definir com a equipe de sustentação |
+| Owner funcional | A definir com a área de negócio |
+| Escopo e ambiente | Produto padrão; validar Business Event, template e ambiente afetado |
+| Última validação | Não validado em ambiente atendido |
+| Próxima revisão | Após incidente real revisado ou alteração no fluxo do evento |
+| Evidência | Ticket, execution/GUID, logs sanitizados e reconciliação aprovada |
+
 1. Registrar BE, template/version, parâmetros, usuário, entidade, horário e execution/GUID.
 2. Confirmar compatibilidade com a MR e status ativo.
 3. Preservar logs do Web Server e Application Server.

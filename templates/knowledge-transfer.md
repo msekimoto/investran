@@ -1,5 +1,17 @@
 # Sessão de KT - Tópico
 
+## Controle documental
+
+| Campo | Valor |
+|---|---|
+| Status | Planejada / Em andamento / Concluída / KT pendente |
+| Owner técnico | Especialista ou papel responsável |
+| Owner funcional | Responsável pelo processo |
+| Escopo e ambiente | Processo, versão e ambiente discutidos |
+| Última validação | Data e resultado da prática controlada |
+| Próxima revisão | Data ou pendência que exige retorno |
+| Evidência | Ata, ticket, gravação autorizada ou execução sanitizada |
+
 - **Especialista:**
 - **Participantes:**
 - **Data:**

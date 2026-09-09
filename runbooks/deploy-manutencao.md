@@ -1,5 +1,17 @@
 # Runbook - Deploy/manutenção
 
+## Controle documental
+
+| Campo | Valor |
+|---|---|
+| Status | KT pendente |
+| Owner técnico | A definir com a equipe de sustentação |
+| Owner funcional | A definir com a área de negócio |
+| Escopo e ambiente | Produto padrão; validar versão, janela e ambiente antes da execução |
+| Última validação | Não validado em ambiente atendido |
+| Próxima revisão | Após a primeira execução controlada ou mudança de versão |
+| Evidência | Ticket aprovado, plano de retorno, resultados de smoke test e encerramento sanitizado |
+
 ## Antes
 
 - ticket/aprovações/janela/comunicação;

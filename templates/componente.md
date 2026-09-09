@@ -1,10 +1,19 @@
 # Nome do componente
 
+## Controle documental
+
+| Campo | Valor |
+|---|---|
+| Status | Rascunho / Em validação / Aprovado / KT pendente |
+| Owner técnico | Nome ou papel responsável |
+| Owner funcional | Nome ou papel responsável |
+| Escopo e ambiente | Produto/versão; ambiente validado |
+| Última validação | Data, ambiente e resultado da verificação |
+| Próxima revisão | Data ou gatilho de revisão |
+| Evidência | Fonte, ticket, teste ou artefato sanitizado |
+
 - **Objetivo funcional:**
 - **Criticidade/SLA:**
-- **Owner técnico/funcional:**
-- **Ambientes/versão:**
-- **Última validação:**
 
 ## Arquitetura e dependências
 

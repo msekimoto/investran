@@ -1,5 +1,17 @@
 # Runbook - Falha de reporting
 
+## Controle documental
+
+| Campo | Valor |
+|---|---|
+| Status | KT pendente |
+| Owner técnico | A definir com a equipe de sustentação |
+| Owner funcional | A definir com a área de negócio |
+| Escopo e ambiente | Produto padrão; validar consumidor, versão e ambiente afetados |
+| Última validação | Não validado em ambiente atendido |
+| Próxima revisão | Após incidente real revisado ou mudança de reporting |
+| Evidência | Ticket, parâmetros sanitizados, IDs de processo e validação funcional |
+
 Use este runbook para Report Wizard, Crystal Reports, Web Reporting Services, Data Exchange ou automações que consomem reports RW.
 
 ## 1. Registrar o incidente

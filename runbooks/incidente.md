@@ -1,5 +1,17 @@
 # Runbook - Triagem de incidente
 
+## Controle documental
+
+| Campo | Valor |
+|---|---|
+| Status | KT pendente |
+| Owner técnico | A definir com a equipe de sustentação |
+| Owner funcional | A definir com a área de negócio |
+| Escopo e ambiente | Produto padrão; validar severidade, calendário e ambiente afetado |
+| Última validação | Não validado em ambiente atendido |
+| Próxima revisão | Após o primeiro incidente revisado ou mudança no processo de escalonamento |
+| Evidência | Ticket, linha do tempo, logs sanitizados, decisão e follow-up |
+
 ## Entrada
 
 Ticket, ambiente, início, impacto, usuários/entidades, mensagem, IDs e cutoff.

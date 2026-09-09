@@ -1,5 +1,17 @@
 # Runbook - Falha de batch ou job
 
+## Controle documental
+
+| Campo | Valor |
+|---|---|
+| Status | KT pendente |
+| Owner técnico | A definir com a equipe de sustentação |
+| Owner funcional | A definir com a área de negócio |
+| Escopo e ambiente | Produto padrão; validar job, scheduler e ambiente afetado |
+| Última validação | Não validado em ambiente atendido |
+| Próxima revisão | Após incidente real revisado ou mudança de scheduler |
+| Evidência | Ticket, BatchID/job ID, logs sanitizados e reconciliação aprovada |
+
 1. Registrar BatchID/job/execution ID, status, horário e processo originador.
 2. Confirmar se há escrita parcial ou batch já criado.
 3. Verificar scheduler/service/account, fila e dependências.

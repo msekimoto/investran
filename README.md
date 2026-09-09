@@ -20,6 +20,8 @@ A wiki é organizada por assunto e por ciclo de suporte, com busca e links cruza
 6. [Operação, criticidade e calendário](docs/03-operacao-e-calendario.md)
 7. [Troubleshooting](docs/13-troubleshooting.md)
 8. [Plano de KT e lacunas](docs/16-plano-de-kt.md)
+9. [Operação rápida e plantão](docs/18-operacao-rapida.md)
+10. [Glossário operacional](docs/19-glossario.md)
 
 ## Navegação por área
 
@@ -43,6 +45,8 @@ A wiki é organizada por assunto e por ciclo de suporte, com busca e links cruza
 - [Troubleshooting](docs/13-troubleshooting.md)
 - [Runbooks](runbooks/incidente.md)
 - [Catálogo de fontes](docs/15-catalogo-de-fontes.md)
+- [Operação rápida e plantão](docs/18-operacao-rapida.md)
+- [Glossário operacional](docs/19-glossario.md)
 - [Regras de contribuição](CONTRIBUTING.md)
 - [Tratamento de informação sensível](SECURITY.md)
 

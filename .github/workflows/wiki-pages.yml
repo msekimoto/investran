@@ -35,6 +35,8 @@ jobs:
           cache: npm
       - name: Instalar dependências
         run: npm ci
+      - name: Validar documentação
+        run: npm run check:docs
       - name: Gerar wiki
         run: npm run build
       - name: Configurar GitHub Pages

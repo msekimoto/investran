@@ -1,0 +1,42 @@
+name: Validar documentação
+
+on:
+  pull_request:
+    paths:
+      - '**.md'
+      - 'src/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.js'
+      - '.github/workflows/**'
+  push:
+    branches: [main]
+    paths:
+      - '**.md'
+      - 'src/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.js'
+      - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Links, controle documental e build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Instalar dependências
+        run: npm ci
+      - name: Validar documentação
+        run: npm run check
