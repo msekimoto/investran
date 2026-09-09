@@ -1,67 +1,64 @@
-# Fluxos ponta a ponta
+# End-to-end flows
 
-## Active Template até o batch
+## Active Template to batch
 
 ```mermaid
 sequenceDiagram
-    participant U as Usuário/Agenda
+    participant U as User/Schedule
     participant S as Scheduler
     participant E as ATM Engine
     participant RW as Driver/Aux Reports
     participant ST as Staging
     participant DB as Investran Master
-
-    U->>S: solicita Active Template + parâmetros
-    S->>E: inicia execução
-    E->>RW: executa reports
-    RW-->>E: linhas e valores
-    E->>E: aplica mappings/VBA/templates
-    E->>ST: gera batches temporários
-    ST-->>U: preview e log
-    U->>ST: aprova commit
-    ST->>DB: transfere batches
+    U->>S: request Active Template + parameters
+    S->>E: start execution
+    E->>RW: run reports
+    RW-->>E: rows and values
+    E->>E: apply mappings/VBA/templates
+    E->>ST: create temporary batches
+    ST-->>U: preview and log
+    U->>ST: approve commit
+    ST->>DB: transfer batches
 ```
 
-## Report interativo ou agendado
+## Interactive or scheduled report
 
 ```mermaid
 sequenceDiagram
-    participant C as Cliente/Web/Scheduler
+    participant C as Client/Web/Scheduler
     participant RW as Report Wizard Engine
     participant DB as Investran/Reporting DB
     participant CR as Crystal/OLE DB
-    participant O as Saída
-
-    C->>RW: report + parâmetros + contexto de segurança
-    RW->>DB: metadata e dados
+    participant O as Output
+    C->>RW: report + parameters + security context
+    RW->>DB: metadata and data
     DB-->>RW: dataset
-    alt saída nativa RW
-        RW-->>O: tabela/arquivo
-    else Crystal associado
-        RW->>CR: dataset ou referência RW
-        CR-->>O: layout renderizado
+    alt native RW output
+        RW-->>O: table/file
+    else associated Crystal
+        RW->>CR: dataset or RW reference
+        CR-->>O: rendered layout
     end
 ```
 
-## API de leitura/escrita
+## Read/write API
 
 ```mermaid
 sequenceDiagram
-    participant A as Aplicação cliente
+    participant A as Client application
     participant API as Investran API/WCF
-    participant SEC as Autenticação/Team Security
+    participant SEC as Authentication/Team Security
     participant SVC as Service Contract
     participant DB as Investran
-
-    A->>API: request DTO
-    API->>SEC: autentica e autoriza
-    SEC-->>API: principal/contexto
+    A->>API: DTO request
+    API->>SEC: authenticate and authorize
+    SEC-->>API: principal/context
     API->>SVC: Load/Query/Publish/Remove
-    SVC->>DB: operação
-    DB-->>SVC: entidade/resultado/versão
-    SVC-->>A: DTO ou fault
+    SVC->>DB: operation
+    DB-->>SVC: entity/result/version
+    SVC-->>A: DTO or fault
 ```
 
-## Uso no suporte
+## Support use
 
-Para cada processo da organização, copie o fluxo mais próximo e acrescente nomes reais, IDs, validações, logs e owners. O objetivo é conseguir apontar exatamente em qual seta a execução parou ou produziu dado incorreto.
+For every organizational process, copy the closest flow and add real names, IDs, validations, logs, and owners. The goal is to identify the exact arrow where execution stopped or produced incorrect data.

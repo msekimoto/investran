@@ -1,95 +1,85 @@
-# Entidades e relacionamentos
+# Entities and relationships
 
-## Como ler o modelo
+## How to read the model
 
-O Investran possui entidades de cadastro reutilizáveis e entidades que representam esse cadastro dentro de um contexto de portfólio. A API e o Data Import expõem, entre outras, `LegalEntity`, `Investor`, `Vehicle`, `Deal`, `Position` e suas variantes `SpecificInvestor`, `SpecificVehicle`, `SpecificDeal` e `SpecificPosition`.
+Investran has reusable master entities and entities that represent those records within a portfolio context. The API and Data Import expose `LegalEntity`, `Investor`, `Vehicle`, `Deal`, `Position`, and contextual variants: `SpecificInvestor`, `SpecificVehicle`, `SpecificDeal`, and `SpecificPosition`.
 
-> O diagrama abaixo é um **modelo conceitual para suporte**, não um ERD físico do banco. Cardinalidades, nomes de chaves e variações por versão precisam ser confirmados no metadata/API e no ambiente atendido.
+> The diagram is a **support conceptual model**, not a physical database ERD. Confirm cardinality, key names, and version-specific variations in metadata/API and the supported environment.
 
 ```mermaid
 flowchart TB
-    LE[Legal Entity] -->|contextualiza| SV[Specific Vehicle]
-    V[Vehicle] -->|origina| SV
-    I[Investor] -->|participa como| SI[Specific Investor]
-    SV -->|agrupa| SI
-    LE -->|mantém| SD[Specific Deal]
-    D[Deal] -->|origina| SD
-    SD -->|possui| SP[Specific Position]
-    P[Position] -->|origina| SP
+    LE[Legal Entity] -->|provides context for| SV[Specific Vehicle]
+    V[Vehicle] -->|originates| SV
+    I[Investor] -->|participates as| SI[Specific Investor]
+    SV -->|groups| SI
+    LE -->|maintains| SD[Specific Deal]
+    D[Deal] -->|originates| SD
+    SD -->|has| SP[Specific Position]
+    P[Position] -->|originates| SP
     SI --> C[Commitment]
     LE --> B[Batch]
     B --> JE[Journal Entry]
     JE --> T[Transaction]
     T --> IA[Investor Allocation]
-    SI -->|recebe| IA
-    T -.->|pode referenciar| SD
-    T -.->|pode referenciar| SP
+    SI -->|receives| IA
+    T -.->|may reference| SD
+    T -.->|may reference| SP
 ```
 
-## Entidade mestre versus entidade específica
+## Master versus contextual entity
 
-| Entidade mestre | Entidade contextual | Pergunta respondida |
+| Master entity | Contextual entity | Question answered |
 |---|---|---|
-| Investor | Specific Investor | Quem é a parte e como ela participa neste fundo/estrutura? |
-| Vehicle | Specific Vehicle | O que é o veículo e como ele aparece nesta estrutura? |
-| Deal | Specific Deal | O que é o investimento e como ele aparece neste portfólio? |
-| Position | Specific Position | O que é a posição e como ela é mantida no contexto do investimento? |
+| Investor | Specific Investor | Who is the party and how does it participate in this fund/structure? |
+| Vehicle | Specific Vehicle | What is the vehicle and how does it appear in this structure? |
+| Deal | Specific Deal | What is the investment and how does it appear in this portfolio? |
+| Position | Specific Position | What is the position and how is it held in the investment context? |
 
-Essa distinção é importante em integrações. O ID do cadastro mestre não deve ser usado como se fosse automaticamente o ID da participação contextual.
+This distinction matters in integrations. A master-record ID must not be treated as the contextual-participation ID.
 
-## Entidades organizacionais e de relacionamento
+## Organizational and relationship entities
 
 ### Legal Entity
 
-Representa a entidade legal/fundo no contexto de administração e contabilidade. Batches e configurações contábeis normalmente possuem uma Legal Entity como contexto.
+The legal entity/fund in the administration and accounting context. Batches and accounting configuration usually have a Legal Entity context.
 
-### Investor
+### Investor and Vehicle
 
-Representa a parte investidora como cadastro reutilizável. O relacionamento efetivo com a estrutura é representado pela entidade contextual apropriada, como Specific Investor.
+An Investor is a reusable investor-party record. A Vehicle represents a vehicle used in the participation structure. Confirm their exact meaning and relationship with Investor/Legal Entity for the organization model.
 
-### Vehicle
+### Specific Investor and Specific Vehicle
 
-Representa um veículo usado na estrutura de participação. O significado exato e sua relação com Investor/Legal Entity devem ser confirmados para o modelo adotado pela organização.
+These express participation in a concrete context. For example, the Partner Transfer guide calls transferor and transferee `Specific Investors` and associates each participation with a Legal Entity/Vehicle.
 
-### Specific Investor e Specific Vehicle
+## Investment entities
 
-Expressam participação em um contexto concreto. O guia de Partner Transfer, por exemplo, chama transferor e transferee de Specific Investors e associa cada participação a Legal Entity/Vehicle.
+### Deal and Position
 
-## Entidades de investimento
+A Deal is a reusable investment/business record. Transactions can carry a Deal and elements such as Position, Lot, Pool, and Income Security. A Position represents a holding in that investment; its exact composition depends on investment type and customer configuration.
 
-### Deal
+### Specific Deal and Specific Position
 
-Representa o investimento/negócio de forma reutilizável. Transações podem carregar Deal e outros elementos como Position, Lot, Pool e Income Security.
+These are the Deal/Position occurrences within a portfolio or Legal Entity. Data Import treats Deal as a reference for Specific Deals/Positions, so the two levels are not interchangeable.
 
-### Position
+## Accounting entities
 
-Representa uma posição mantida no investimento. A composição exata depende do tipo de investimento e da configuração do cliente.
+- **Batch:** Accounting-processing container.
+- **Journal Entry:** Balanced accounting entry or grouping within a batch.
+- **Transaction:** Debit/credit line with Transaction Type, Account, values, dates, and dimensions.
+- **Investor Allocation:** Distribution of a transaction across investors.
+- **GL Account:** Affected general-ledger account.
+- **Transaction Type:** Transaction meaning and accounting behavior.
 
-### Specific Deal e Specific Position
+## Diagnostic questions
 
-São as ocorrências contextuais do Deal/Position dentro do portfólio ou Legal Entity. O Data Import trata Deal como referência para Specific Deals/Positions, reforçando que os dois níveis não são intercambiáveis.
+1. Is the ID master or contextual: Vehicle/SpecificVehicle, Investor/SpecificInvestor, BatchID, TransID? Which customer domain is it from?
+2. Does the relationship exist in the correct Legal Entity/Vehicle? Confirm Deal, Legal Entity, Investor, and Vehicle with the customer.
+3. Does the effective date select the correct participation? A user date can select an older Legal Entity, investor commitment, or Deal configuration.
+4. Is the error in the master record, relationship, or referring transaction?
+5. Does Team Security allow the user to see the entity and perform the operation?
 
-## Entidades contábeis
+## Sources
 
-- **Batch:** envelope de processamento contábil.
-- **Journal Entry:** lançamento balanceado ou agrupamento contábil dentro do batch.
-- **Transaction:** linha/débito/crédito com Transaction Type, Account, valores, datas e dimensões.
-- **Investor Allocation:** distribuição de uma transaction entre investidores.
-- **GL Account:** conta contábil afetada.
-- **Transaction Type:** semântica da transaction e comportamento contábil.
-
-## Perguntas de diagnóstico
-
-Quando um dado parece errado, determine primeiro:
-
-1. O ID é de entidade mestre ou contextual? Ou seja, é um Vehicle ou SpecificVehicle, Investor ou SpecificInvestor, BatchID, TransID... De qual domínio o cliente está se referindo.
-2. A relação existe na Legal Entity/Vehicle corretos? Verifique com o cliente se o Deal vs Legal Entity vs Investor vs Vehicle está correto.
-3. A vigência/data usada seleciona a participação correta? Dependendo da data utilizada pelo usuário o sistema pode estar puxando uma configuração antiga da Legal Entity/Compromisso de Investidores/Deals...
-4. O erro está no cadastro, na relação ou na transação que o referencia? Será que a transação está mesmo com problema, será que não é um problema de cadastro da Legal Entity?
-5. Team Security permite ao usuário enxergar a entidade? Permissionamento, o que o usuário pode ver/fazer?
-
-## Fontes
-
-- *INV_API_Training_Guide_7.pdf*, Object Model, DTOs e lista de service contracts.
-- *INV_Data_Import_7.pdf*, Supported Entities e Reference Entities.
-- *PT BE Guidebook_2018.06.29.docx*, definições de transferor/transferee e estrutura de Partner Transfer.
+- *INV_API_Training_Guide_7.pdf*, Object Model, DTOs, and service-contract list.
+- *INV_Data_Import_7.pdf*, Supported Entities and Reference Entities.
+- *PT BE Guidebook_2018.06.29.docx*, transferor/transferee definitions and Partner Transfer structure.

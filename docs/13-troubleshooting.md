@@ -1,41 +1,40 @@
 # Troubleshooting
 
-Este documento reúne o método de diagnóstico recomendado para eventos no Investran. Ele foi mantido curto para servir como guia de triagem e apontar o caminho correto em cada módulo.
+This document summarizes the recommended diagnostic method for Investran events. It is intentionally short: use it for triage and then follow the correct module guide.
 
-## Método padrão
+## Standard method
 
-1. definir impacto e severidade;
-2. registrar linha do tempo;
-3. capturar IDs de batch, job, report, AT/AR/BE e usuário;
-4. preservar logs, status e evidência sanitizada;
-5. dividir por camadas: usuário/web → IIS/API → scheduler/service → banco → integração;
-6. comparar com um ambiente ou caso conhecido;
-7. testar uma hipótese por vez;
-8. validar o resultado funcional antes de encerrar o caso;
-9. registrar causa, correção, prevenção e monitoramento.
+1. Define impact and severity.
+2. Record the timeline.
+3. Capture batch, job, report, AT/AR/BE, and user IDs.
+4. Preserve logs, status, and sanitized evidence.
+5. Split by layer: user/web → IIS/API → scheduler/service → database → integration.
+6. Compare with a known environment or case.
+7. Test one hypothesis at a time.
+8. Validate the business result before closing the case.
+9. Record the cause, fix, prevention, and monitoring.
 
-## Sintoma → guia rápido
+## Symptom → quick guide
 
-| Sintoma | Onde verificar primeiro |
+| Symptom | Check first |
 |---|---|
-| Login/SSO falha | [Arquitetura e ambientes](02-arquitetura-e-ambientes.md) |
-| Job parado ou em fila | [Application Server e Services](application-services/README.md) |
-| AT não gera batch | [ATM](active-templates/README.md) |
-| AR gera valores incorretos | [Allocation Rules](allocation-rules/README.md) |
-| Report falha ou fica lento | [Report Wizard e Crystal](07-report-wizard-e-crystal.md) |
-| Import rejeitado | [Data Import e interfaces](10-data-import-e-interfaces.md) |
-| API fault ou contrato inválido | [API, SDK e WRS](08-apis-sdk-wrs.md) |
-| Business Event falha | [Business Events](14-business-events.md) |
+| Login/SSO failure | [Architecture and environments](02-arquitetura-e-ambientes.md) |
+| Job stopped or queued | [Application Server and Services](application-services/README.md) |
+| AT does not create a batch | [ATM](active-templates/README.md) |
+| AR produces incorrect values | [Allocation Rules](allocation-rules/README.md) |
+| Report fails or is slow | [Report Wizard and Crystal](07-report-wizard-e-crystal.md) |
+| Import rejected | [Data Import and interfaces](10-data-import-e-interfaces.md) |
+| API fault or invalid contract | [API, SDK, and WRS](08-apis-sdk-wrs.md) |
+| Business Event fails | [Business Events](14-business-events.md) |
 
-## Pare e escale quando
+## Stop and escalate when
 
-- houver risco de duplicação, corrupção ou impacto financeiro;
-- a ação exigir SQL mutável, alteração de segurança ou restore;
-- não for possível confirmar se houve escrita parcial;
-- o workaround ampliar acesso ou desativar controle;
-- o resultado não puder ser reconciliado.
+- there is duplication, corruption, or financial-impact risk;
+- the action needs state-changing SQL, a security change, or restore;
+- you cannot confirm whether a partial write occurred;
+- the workaround expands access or disables a control;
+- the result cannot be reconciled.
 
-## Próximo passo
+## Next step
 
-Use os [runbooks](../runbooks/incidente.md) para seguir o fluxo operacional por incidente, falha de batch, falha de reporting ou falha de Business Event.
-
+Use the [runbooks](../runbooks/incidente.md) for the operational flow by incident, batch failure, reporting failure, or Business Event failure.

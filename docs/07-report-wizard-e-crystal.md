@@ -1,41 +1,41 @@
-# Report Wizard, Crystal Reports e Web Reporting Services
+# Report Wizard, Crystal Reports, and Web Reporting Services
 
-Esta área reúne os materiais de reporting do Investran. Para suporte operacional, vale começar pelo guia de arquitetura e seguir para o caso específico: report, WRS, Crystal ou falha de incidente.
+This area brings together Investran reporting material. For operational support, start with the architecture guide and then use the specific report, WRS, Crystal, or incident guide.
 
-## Onde está a resposta rápida
+## Where to find a quick answer
 
-- [Arquitetura de reporting](reporting/01-arquitetura-reporting.md): fundamentos e onde a falha está na cadeia.
-- [Report Wizard - desenvolvimento e operação](reporting/02-report-wizard-desenvolvimento-operacao.md): criação, parâmetros, manutenção e diagnóstico.
-- [Web Reporting Services](reporting/03-web-reporting-services.md): publicação, segurança, serviços, integradores e formatos.
-- [Guia prático do Report Wizard](reporting/guia-pratico-report-wizard.md): fluxos de trabalho e validação do dia a dia.
-- [Guia prático do WRS](reporting/guia-pratico-reporting-services.md): operação e suporte ao serviço web.
-- [Runbook de falha de reporting](../runbooks/falha-reporting.md): ação em incidentes reais.
+- [Reporting architecture](reporting/01-arquitetura-reporting.md): foundations and where a failure sits in the chain.
+- [Report Wizard - development and operations](reporting/02-report-wizard-desenvolvimento-operacao.md): creation, parameters, maintenance, and diagnosis.
+- [Web Reporting Services](reporting/03-web-reporting-services.md): publication, security, services, integrators, and formats.
+- [Report Wizard practical guide](reporting/guia-pratico-report-wizard.md): daily workflows and validation.
+- [WRS practical guide](reporting/guia-pratico-reporting-services.md): web-service operations and support.
+- [Reporting failure runbook](../runbooks/falha-reporting.md): actions for real incidents.
 
-## Decisão rápida
+## Quick decision
 
-| Situação | Guia indicado |
+| Situation | Recommended guide |
 |---|---|
-| Relatório não retorna dados ou o resultado é incorreto | [Report Wizard - desenvolvimento e operação](reporting/02-report-wizard-desenvolvimento-operacao.md) |
-| Falha de autenticação, publicação ou saída WRS | [Web Reporting Services](reporting/03-web-reporting-services.md) |
-| Problema de layout, seção e apresentação no Crystal | [Guia prático do Report Wizard](reporting/guia-pratico-report-wizard.md) |
-| Incidente ativo com impacto de negócio | [Runbook de falha de reporting](../runbooks/falha-reporting.md) |
+| Report returns no data or an incorrect result | [Report Wizard - development and operations](reporting/02-report-wizard-desenvolvimento-operacao.md) |
+| WRS authentication, publication, or output failure | [Web Reporting Services](reporting/03-web-reporting-services.md) |
+| Crystal layout, section, or presentation problem | [Report Wizard practical guide](reporting/guia-pratico-report-wizard.md) |
+| Active incident with business impact | [Reporting failure runbook](../runbooks/falha-reporting.md) |
 
-## Regra de ouro
+## Golden rule
 
-Mudança em forma, parâmetro, filtro, versão ou cardinalidade de um report pode afetar ATM, ARM, WRS, Business Events e integrações. Sempre valide a alteração em ambiente seguro e teste cada consumidor antes de publicar.
+A change to a report's form, parameter, filter, version, or cardinality can affect ATM, ARM, WRS, Business Events, and integrations. Always validate the change in a safe environment and test every consumer before publishing.
 
-## Checklist mínimo antes de alterar um report
+## Minimum checklist before changing a report
 
-1. identificar o book, report e owner;
-2. verificar quem o consome;
-3. salvar a última versão válida;
-4. validar parâmetros, filtros e volume;
-5. testar em ambiente controlado;
-6. confirmar rollback e reconciliação.
+1. Identify the book, report, and owner.
+2. Check who consumes it.
+3. Save the last valid version.
+4. Validate parameters, filters, and volume.
+5. Test in a controlled environment.
+6. Confirm rollback and reconciliation.
 
-## KT pendente
+## KT pending
 
-- lista de reports críticos e owners;
-- security levels e filtros no WRS;
-- endpoints e certificados por ambiente;
-- volume, SLA e performance de referência.
+- List of critical reports and owners.
+- Security levels and WRS filters.
+- Endpoints and certificates by environment.
+- Volume, SLA, and performance baseline.

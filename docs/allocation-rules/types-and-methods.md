@@ -1,118 +1,118 @@
-# Allocation Rules — Tipos e Métodos
+# Allocation Rules — Types and methods
 
-> Baseado nos materiais enviados. Procedimentos e nomes específicos do ambiente devem ser confirmados no KT.
+> Based on the supplied materials. Confirm environment-specific procedures and names during KT.
 
-## 1. Classificação principal
+## 1. Main classification
 
-As Allocation Rules documentadas podem ser analisadas por dois eixos independentes:
+Documented Allocation Rules can be analyzed by three independent axes:
 
-1. **Static vs. Dynamic** — define como os percentuais são obtidos.
-2. **Simple vs. Complex** — define se uma Dynamic Rule usa somente um report ou também VBA.
-3. **Top Down vs. Bottom Up** — define em qual nível o valor nasce e como ele é distribuído ou agregado.
+1. **Static vs. Dynamic** — defines how percentages are obtained.
+2. **Simple vs. Complex** — defines whether a Dynamic Rule uses only a report or also VBA.
+3. **Top Down vs. Bottom Up** — defines where a value starts and how it is distributed or aggregated.
 
 ```mermaid
 flowchart TD
-    AR[Allocation Rule] --> SD{Percentual fixo?}
-    SD -->|Sim| STATIC[Static Allocation Rule]
-    SD -->|Não| DYNAMIC[Dynamic Allocation Rule]
-    AR --> TB{Origem do valor}
+    AR[Allocation Rule] --> SD{Fixed percentage?}
+    SD -->|Yes| STATIC[Static Allocation Rule]
+    SD -->|No| DYNAMIC[Dynamic Allocation Rule]
+    AR --> TB{Value origin}
     TB -->|Legal Entity| TOP[Top Down]
     TB -->|Investor| BOTTOM[Bottom Up]
 ```
 
 ## 2. Static Allocation Rules
 
-Static Allocation Rules usam uma tabela de percentuais fixos por investidor.
+Static Allocation Rules use a table of fixed percentages by investor.
 
-### Características
+### Characteristics
 
-- percentuais previamente definidos;
-- manutenção pela ferramenta **Static Allocation Rules**;
-- adequadas quando a divisão não deve variar conforme data, saldo ou compromisso;
-- exigem validação de totalização e vigência antes do uso.
+- Previously defined percentages.
+- Maintained through **Static Allocation Rules**.
+- Suitable when the split should not vary by date, balance, or commitment.
+- Require total and effective-date validation before use.
 
-### Riscos de sustentação
+### Support risks
 
-- percentuais não totalizam 100%;
-- investidor ausente da tabela;
-- investidor incorreto ou inativo;
-- regra aplicada à Legal Entity errada;
-- manutenção realizada sem considerar vigência ou dependências.
+- Percentages do not total 100%.
+- Investor is missing from the table.
+- Incorrect or inactive Investor.
+- Rule applied to the wrong Legal Entity.
+- Maintenance performed without considering effective dates or dependencies.
 
 ## 3. Dynamic Allocation Rules
 
-Dynamic Allocation Rules calculam os percentuais no momento da execução com base nos dados disponíveis.
+Dynamic Allocation Rules calculate percentages at execution time from available data.
 
-### Regras padrão citadas no material
+### Standard rules cited in the material
 
-| Regra | Base conceitual documentada |
+| Rule | Documented conceptual basis |
 |---|---|
-| By Average Cash Balance | saldo médio de caixa |
-| By Commitment & Closing Date | compromisso e data de fechamento |
-| By Commitment (No Date) | compromisso sem considerar data |
-| By Specific Closing Date Commitment | compromisso associado a data específica de fechamento |
-| By Unfunded Commitment | compromisso ainda não integralizado |
-| Investment Cost (As of GL Date) | custo do investimento na GL Date |
-| Management Fees — inside investment period | compromisso do investidor durante o período de investimento |
-| Management Fees — outside investment period | capital investido, conforme definição do material |
+| By Average Cash Balance | Average cash balance |
+| By Commitment & Closing Date | Commitment and closing date |
+| By Commitment (No Date) | Commitment without considering date |
+| By Specific Closing Date Commitment | Commitment associated with a specific closing date |
+| By Unfunded Commitment | Commitment not yet funded |
+| Investment Cost (As of GL Date) | Investment cost on GL Date |
+| Management Fees — inside investment period | Investor commitment during investment period |
+| Management Fees — outside investment period | Invested capital, as defined by the material |
 
-### Pontos que alteram o resultado
+### Inputs that change the result
 
 - GL Date;
 - Effective Date;
 - Closing Date;
-- compromisso do investidor;
-- compromisso não integralizado;
-- saldos e custos usados como base;
-- overrides específicos de investidor;
-- escopo da Legal Entity;
-- investidores elegíveis na data de execução.
+- Investor commitment.
+- Unfunded commitment.
+- Balances and costs used as bases.
+- Investor-specific overrides.
+- Legal Entity scope.
+- Investors eligible on execution date.
 
-## 4. Simple e Complex Dynamic Allocation Rules
+## 4. Simple and Complex Dynamic Allocation Rules
 
 ### Simple Dynamic Allocation Rule
 
-Usa um único report RW e não utiliza VBA. O report deve ter quatro colunas visíveis, nesta ordem: Investor Account ID, base/valor para Amount, base/valor para LEAmount e base/valor para Quantity. Colunas adicionais usadas apenas para filtro devem ficar ocultas.
+Uses one RW report and no VBA. The report must have four visible columns in this order: Investor Account ID, base/value for Amount, base/value for LEAmount, and base/value for Quantity. Additional columns used only for filtering must remain hidden.
 
-![Report Wizard usado por uma Simple Dynamic Allocation Rule](../assets/allocation-rules/11-simple-rule-report.png)
+![Report Wizard used by a Simple Dynamic Allocation Rule](../assets/allocation-rules/11-simple-rule-report.png)
 
-*Exemplo de report utilizado como base de uma regra Top Down por Book Value. As quatro colunas visíveis formam o contrato consumido pelo ARM. Fonte: guia de ARM, p. 13.*
+*Example of a report used as the basis for a Book Value Top Down rule. The four visible columns form the contract consumed by ARM. Source: ARM guide, p. 13.*
 
-No Top Down, as três colunas numéricas funcionam como bases proporcionais. No Bottom Up, elas representam os valores efetivos por Investor.
+In Top Down rules, the three numeric columns work as proportional bases. In Bottom Up rules, they represent the actual values for each Investor.
 
 ### Complex Dynamic Allocation Rule
 
-Combina um ou mais reports RW com código VBA. O módulo deve expor `Sub Main`, ler `AllocationRule.Properties` e `AllocationRule.Parameters`, executar reports por `AllocationRule.Reports`, calcular com objetos `InvestorSet` e copiar o resultado final para `AllocationRule.Results`.
+Combines one or more RW reports with VBA code. The module must expose `Sub Main`, read `AllocationRule.Properties` and `AllocationRule.Parameters`, run reports through `AllocationRule.Reports`, calculate with `InvestorSet` objects, and copy the final result to `AllocationRule.Results`.
 
-![Criação de uma Complex Dynamic Allocation Rule](../assets/allocation-rules/18-complex-rule-use-vba.png)
+![Creating a Complex Dynamic Allocation Rule](../assets/allocation-rules/18-complex-rule-use-vba.png)
 
-*Regra dinâmica complexa com Use VBA habilitado. Fonte: guia de ARM, p. 25.*
+*Complex dynamic rule with Use VBA enabled. Source: ARM guide, p. 25.*
 
-Consulte [Object model e contratos técnicos](object-model.md) para os membros suportados e obsoletos.
+See [Object model and technical contracts](object-model.md) for supported and obsolete members.
 
 ## 5. Top Down Allocation
 
-No modelo Top Down, o valor é informado no nível da **Legal Entity** e depois distribuído entre os investidores.
+In the Top Down model, the value is entered at the **Legal Entity** level and then distributed among investors.
 
 ```mermaid
 flowchart LR
-    LE[Valor na Legal Entity] --> AR[Allocation Rule]
+    LE[Legal Entity value] --> AR[Allocation Rule]
     AR --> P1[Investor A]
     AR --> P2[Investor B]
     AR --> P3[Investor C]
 ```
 
-### Validações essenciais
+### Essential validations
 
-- soma dos valores alocados igual ao valor de origem;
-- soma dos percentuais igual a 100%, salvo comportamento explicitamente previsto;
-- investidores corretos e elegíveis;
-- arredondamento sem diferença material;
-- regra correta para a data e contexto da transação.
+- allocated values add up to the source value;
+- percentages add up to 100%, unless a different behavior is explicitly expected;
+- investors are correct and eligible;
+- rounding has no material difference;
+- the rule is correct for the transaction date and context.
 
 ## 6. Bottom Up Allocation
 
-No modelo Bottom Up, valores ou percentuais são definidos ou calculados no nível do investidor e depois agregados para Vehicle e Legal Entity.
+In the Bottom Up model, values or percentages are defined or calculated at the investor level and then aggregated to the Vehicle and Legal Entity.
 
 ```mermaid
 flowchart LR
@@ -122,50 +122,50 @@ flowchart LR
     VEH --> LE[Legal Entity]
 ```
 
-### Validações essenciais
+### Essential validations
 
-- todos os investidores esperados estão presentes;
-- valores individuais estão corretos;
-- agregação por Vehicle está correta;
-- total da Legal Entity fecha com a soma dos níveis inferiores;
-- não existem duplicidades ou investidores fora do escopo.
+- all expected investors are present;
+- individual values are correct;
+- aggregation by Vehicle is correct;
+- the Legal Entity total equals the sum of lower levels;
+- there are no duplicates or out-of-scope investors.
 
-## 7. Regras de sistema usadas por Active Templates
+## 7. System rules used by Active Templates
 
-O guia de Active Template Manager apresenta os seguintes IDs de sistema:
+The Active Template Manager guide lists the following system IDs:
 
-| ID | Regra | Uso técnico |
+| ID | Rule | Technical use |
 |---:|---|---|
-| 0 | Non-Dominant | transação de contrapartida ou balanceamento |
-| 1 | No Allocation | transação sem alocação para investidores |
-| 2 | User Provided | alocação preenchida pelo código ou processo consumidor |
+| 0 | Non-Dominant | offsetting or balancing transaction |
+| 1 | No Allocation | transaction without investor allocation |
+| 2 | User Provided | allocation populated by the consuming code or process |
 
-### Atenção
+### Important
 
-Esses IDs aparecem como constantes no manual do ATM. Antes de utilizá-los diretamente:
+These IDs appear as constants in the ATM manual. Before using them directly:
 
-1. confirme a versão do Investran;
-2. confirme o ID no ambiente;
-3. prefira lookup por metadata quando disponível;
-4. evite espalhar números mágicos em código;
-5. documente a dependência no Active Template.
+1. confirm the Investran version;
+2. confirm the ID in the environment;
+3. prefer a metadata lookup when available;
+4. avoid spreading magic numbers through code;
+5. document the dependency in the Active Template.
 
-## 8. Escolha do método para análise de incidente
+## 8. Choosing a method for incident analysis
 
-| Sintoma | Método a investigar primeiro |
+| Symptom | Method to investigate first |
 |---|---|
 | Percentual sempre igual, mas incorreto | Static Allocation Rule |
-| Resultado muda conforme data | Dynamic Allocation Rule e datas de referência |
-| Total da Legal Entity correto, investidores errados | Top Down e elegibilidade dos investidores |
-| Valores individuais corretos, total consolidado errado | Bottom Up e agregação |
-| Transação não deveria ser alocada | No Allocation |
-| Contrapartida não fecha | Non-Dominant e arredondamento |
-| Active Template calcula investidores manualmente | User Provided e evento `AfterTransaction` |
+| Result changes by date | Dynamic Allocation Rule and reference dates |
+| Legal Entity total is correct, investors are wrong | Top Down and investor eligibility |
+| Individual values are correct, consolidated total is wrong | Bottom Up and aggregation |
+| Transaction should not be allocated | No Allocation |
+| Offset does not balance | Non-Dominant and rounding |
+| Active Template calculates investors manually | User Provided and the `AfterTransaction` event |
 
-## 9. Regras de segurança
+## 9. Safety rules
 
-- Não altere uma regra antes de identificar todos os consumidores.
-- Não conclua que o defeito está na Allocation Rule sem validar os dados de entrada.
-- Não reutilize uma regra por nome apenas; valide ID, tipo, vigência e comportamento.
-- Não promova alterações sem evidência de teste com cenários positivos, negativos e de arredondamento.
-- Quando o comportamento não estiver suportado pelos materiais, registre como **TODO (KT)** em vez de assumir.
+- Do not change a rule before identifying every consumer.
+- Do not conclude that the defect is in the Allocation Rule before validating input data.
+- Do not reuse a rule by name alone; validate its ID, type, effective period, and behavior.
+- Do not promote changes without test evidence for positive, negative, and rounding scenarios.
+- When the behavior is not supported by the available materials, record it as **TODO (KT)** instead of making assumptions.

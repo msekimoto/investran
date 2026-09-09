@@ -1,12 +1,12 @@
-# Allocation Rule Manager - object model e contratos técnicos
+# Allocation Rule Manager - object model and technical contracts
 
-## Visão geral
+## Overview
 
-Regras dinâmicas complexas usam VBA para combinar dados de Report Wizard, properties e parameters e preencher o `InvestorSet` devolvido ao consumidor.
+Complex dynamic rules use VBA to combine Report Wizard data, properties, and parameters and fill the `InvestorSet` returned to the consumer.
 
-![VBA Editor integrado ao Allocation Rule Manager](../assets/allocation-rules/10-vba-editor.png)
+![VBA Editor integrated with Allocation Rule Manager](../assets/allocation-rules/10-vba-editor.png)
 
-*VBA Editor do ARM aberto abaixo dos atributos da regra. O módulo implementa a lógica adicional das Complex Dynamic Allocation Rules. Fonte: guia de ARM, p. 11.*
+*ARM VBA Editor opened below rule attributes. The module implements additional Complex Dynamic Allocation Rule logic. Source: ARM guide, p. 11.*
 
 ```mermaid
 flowchart LR
@@ -19,61 +19,61 @@ flowchart LR
     CALC --> RES[AllocationRule.Results]
 ```
 
-O entry point obrigatório do módulo é:
+The required module entry point is:
 
 ```vb
 Sub Main
-    ' lógica da Allocation Rule
+    ' Allocation Rule logic
 End Sub
 ```
 
-Use `Option Explicit`, tratamento de erro e liberação dos objetos. Ao relançar uma falha, inclua contexto da regra sem ocultar a descrição original.
+Use `Option Explicit`, error handling, and object cleanup. When rethrowing a failure, include rule context without hiding the original description.
 
 ## `RWReport`
 
-Encapsula um report do Report Wizard associado à regra.
+Encapsulates a Report Wizard report associated with the rule.
 
-### Propriedades principais
+### Main properties
 
-| Membro | Uso |
+| Member | Use |
 |---|---|
-| `Rows` / `Cols` | quantidade de linhas e colunas |
-| `Cell(row, col)` | valor de uma célula |
-| `ColIndex(name)` | localizar coluna pelo nome |
-| `ColName(index)` | obter nome pelo índice |
-| `ColType(index)` | obter tipo da coluna |
-| `ColTotal(index)` | obter total da coluna |
-| `ParameterCount` | quantidade de parâmetros |
-| `ParameterName(index)` | nome do parâmetro |
-| `ParameterType(index)` | tipo do parâmetro |
-| `ParameterDefaultValue(index)` | valor default |
-| `ParameterDefaultLookUpText(index)` | texto de lookup default |
-| `Parameter(name) = value` | atribuir valor por nome |
+| `Rows` / `Cols` | Number of rows and columns |
+| `Cell(row, col)` | Cell value |
+| `ColIndex(name)` | Find a column by name |
+| `ColName(index)` | Get name by index |
+| `ColType(index)` | Get column type |
+| `ColTotal(index)` | Get column total |
+| `ParameterCount` | Number of parameters |
+| `ParameterName(index)` | Parameter name |
+| `ParameterType(index)` | Parameter type |
+| `ParameterDefaultValue(index)` | Default value |
+| `ParameterDefaultLookUpText(index)` | Default lookup text |
+| `Parameter(name) = value` | Set value by name |
 
-### Método
+### Method
 
-`Run(Optional ForceRefresh As Boolean = False)` executa o report e mantém internamente o resultado. `ForceRefresh=True` força nova execução mesmo quando há resultado em cache.
+`Run(Optional ForceRefresh As Boolean = False)` runs the report and keeps its result internally. `ForceRefresh=True` forces a new run even when a cached result exists.
 
-Use `ForceRefresh` deliberadamente: ele pode ser necessário para validar uma alteração, mas também aumenta custo e não substitui uma estratégia de cache correta.
+Use `ForceRefresh` deliberately: it may be needed to validate a change, but it also increases cost and does not replace a correct cache strategy.
 
 ## `InvestorSet`
 
-Representa os Investors válidos de uma Legal Entity e seus valores de alocação local, em moeda da Legal Entity e em quantidade.
+Represents valid Investors in a Legal Entity and their local-allocation, Legal Entity-currency, and quantity values.
 
-### Identificação e contexto
+### Identity and context
 
 | Membro | Uso |
 |---|---|
-| `Count` | quantidade de Investors válidos |
+| `Count` | Number of valid Investors |
 | `GPCount` | quantidade classificada como General Partner |
-| `Index(investorID)` | localizar o índice pelo Investor Account ID |
+| `Index(investorID)` | Find the index by Investor Account ID |
 | `InvestorID(index)` | obter o Investor Account ID |
 | `InvestorName(index)` | obter o nome |
 | `IsGP(index)` | identificar GP |
 | `IsParticipant(index)` | identificar participant vehicle |
 | `VehicleName(index)` | obter o Vehicle relacionado |
 
-### Valores
+### Values
 
 | Membro | Uso |
 |---|---|
@@ -84,17 +84,17 @@ Representa os Investors válidos de uma Legal Entity e seus valores de alocaçã
 | `TotalLEAmount(scale)` | total da Legal Entity arredondado |
 | `TotalQuantity(scale)` | quantidade total arredondada |
 
-### Métodos suportados relevantes
+### Relevant supported methods
 
-| Método | Comportamento |
+| Method | Behavior |
 |---|---|
-| `AllocateSets(amount, leAmount, quantity)` | distribui os totais proporcionalmente às bases existentes no set |
+| `AllocateSets(amount, leAmount, quantity)` | Distributes totals proportionally to bases in the set |
 | `RoundSets(...)` | arredonda valores e totais usando escalas separadas |
 | `CopySet(source)` | copia Amount, LEAmount e Quantity de outro set |
 | `Add(source)` | soma outro set por Investor |
 | `Subtract(source)` | subtrai outro set por Investor |
 
-### Membros obsoletos
+### Obsolete members
 
 O manual marca como obsoletos e mantidos apenas por compatibilidade:
 
@@ -107,23 +107,23 @@ O manual marca como obsoletos e mantidos apenas por compatibilidade:
 - `ApplyPercentage`;
 - `ToPercentage`.
 
-Não introduza novos usos desses membros. Ao encontrar código legado, registre dependência e planeje migração antes de upgrades.
+Do not introduce new uses of these members. When finding legacy code, record the dependency and plan migration before upgrades.
 
-## Objeto `AllocationRule`
+## `AllocationRule` object
 
-Disponível diretamente no VBA da regra.
+Available directly in the rule VBA.
 
 | Membro | Uso |
 |---|---|
 | `Properties(name)` | ler property recebida do Accounting/consumidor |
-| `Parameters(name)` | ler parâmetro de runtime |
-| `Reports.Item(...)` | obter report associado por índice ou por book/nome |
+| `Parameters(name)` | Read runtime parameter |
+| `Reports.Item(...)` | Get associated report by index or book/name |
 | `Results` | `InvestorSet` especial devolvido ao chamador |
-| `NewInvestorSet()` | criar set auxiliar vazio para cálculo |
+| `NewInvestorSet()` | Create an empty auxiliary set for calculation |
 
-> O texto do manual apresenta uma inversão nas descrições de `Parameters()` e `Properties()`, mas os exemplos e o uso no código deixam claro: properties são lidas por `AllocationRule.Properties(...)` e parâmetros por `AllocationRule.Parameters(...)`.
+> The manual text reverses the descriptions of `Parameters()` and `Properties()`, but examples and code use make this clear: properties are read through `AllocationRule.Properties(...)` and parameters through `AllocationRule.Parameters(...)`.
 
-## Padrão de implementação
+## Implementation pattern
 
 ```vb
 Option Explicit
@@ -176,53 +176,53 @@ ErrorHandler:
 End Sub
 ```
 
-O exemplo é estrutural. Ajuste nomes de book/report, colunas, escalas e propriedades ao contrato real.
+The example is structural. Adjust book/report names, columns, scales, and properties to the real contract.
 
-## Contrato de uma Simple Dynamic Allocation Rule
+## Simple Dynamic Allocation Rule contract
 
-Uma regra simples usa exatamente um report RW e não precisa de VBA. O report deve possuir quatro colunas **visíveis**, nesta ordem:
+A simple rule uses exactly one RW report and does not need VBA. The report must have four **visible** columns in this order:
 
-| Posição | Conteúdo | Finalidade |
+| Position | Content | Purpose |
 |---:|---|---|
-| 1 | `Investor Account ID` | correlacionar cada linha ao Investor correto |
-| 2 | valor numérico/base | proporção ou valor de `Amount` |
-| 3 | valor numérico/base | proporção ou valor de `LEAmount` |
-| 4 | valor numérico/base | proporção ou valor de `Quantity` |
+| 1 | `Investor Account ID` | Match each row to the correct Investor |
+| 2 | Numeric value/base | Proportion or value for `Amount` |
+| 3 | Numeric value/base | Proportion or value for `LEAmount` |
+| 4 | Numeric value/base | Proportion or value for `Quantity` |
 
-Outras colunas podem ser usadas para filtros, mas devem permanecer ocultas.
+Other columns can be used for filters, but must remain hidden.
 
 ### Top Down
 
-As colunas 2, 3 e 4 representam bases proporcionais. O engine distribui as properties `Amount`, `LEAmount` e `Quantity` segundo essas proporções.
+Columns 2, 3, and 4 represent proportional bases. The engine distributes `Amount`, `LEAmount`, and `Quantity` properties according to those proportions.
 
 ### Bottom Up
 
-As colunas 2, 3 e 4 já representam os valores efetivos de cada Investor. O engine usa esses valores e soma para obter os totais.
+Columns 2, 3, and 4 already represent actual values for each Investor. The engine uses them and sums them to obtain totals.
 
-## Invariantes técnicas
+## Technical invariants
 
-Antes de copiar para `AllocationRule.Results`, valide:
+Before copying to `AllocationRule.Results`, validate:
 
-- todo ID do report existe no `InvestorSet`;
-- nenhuma quantidade é negativa;
-- não há mistura de débitos e créditos entre Investors;
-- não há mistura de Investors reais com null Investor;
-- totais locais, LE e quantity fecham nas escalas esperadas;
-- zero e `Null` possuem tratamento explícito;
-- reports possuem ao menos as colunas esperadas;
-- erro parcial não deixa `Results` inconsistente.
+- Every report ID exists in `InvestorSet`.
+- No quantity is negative.
+- Debits and credits are not mixed between Investors.
+- Real Investors and null Investor are not mixed.
+- Local, LE, and quantity totals close at expected scales.
+- Zero and `Null` have explicit handling.
+- Reports have at least expected columns.
+- A partial error does not leave `Results` inconsistent.
 
-## Debugging prático
+## Practical debugging
 
-1. Mantenha a regra em `Draft`.
-2. Execute o driver report isoladamente com as mesmas properties/parameters.
-3. No ARM, use `Run` e informe o mesmo contexto.
-4. Inspecione row count, IDs e bases do report.
-5. Compare o set antes e depois de `AllocateSets`.
-6. Valide totals antes e depois de `RoundSets`.
-7. Confirme que `Results.CopySet` foi executado.
-8. Se o ATM divergir do ARM, investigue cache e contexto fornecido pelo template.
+1. Keep the rule in `Draft`.
+2. Run the driver report separately with the same properties/parameters.
+3. In ARM, use `Run` with the same context.
+4. Inspect report row count, IDs, and bases.
+5. Compare the set before and after `AllocateSets`.
+6. Validate totals before and after `RoundSets`.
+7. Confirm `Results.CopySet` ran.
+8. If ATM differs from ARM, investigate cache and the context supplied by the template.
 
-## Fonte
+## Source
 
-- *Internal_INV7_ARM_Dev_Guide.pdf*, capítulos Commonly Used VBA Classes, Complex Dynamic Allocation Rules e Allocation Rule Development.
+- *Internal_INV7_ARM_Dev_Guide.pdf*, Commonly Used VBA Classes, Complex Dynamic Allocation Rules, and Allocation Rule Development chapters.

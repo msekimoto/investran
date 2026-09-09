@@ -1,26 +1,25 @@
-# Runbook - Falha de batch ou job
+# Runbook - Batch or job failure
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | KT pendente |
-| Owner técnico | A definir com a equipe de sustentação |
-| Owner funcional | A definir com a área de negócio |
-| Escopo e ambiente | Produto padrão; validar job, scheduler e ambiente afetado |
-| Última validação | Não validado em ambiente atendido |
-| Próxima revisão | Após incidente real revisado ou mudança de scheduler |
-| Evidência | Ticket, BatchID/job ID, logs sanitizados e reconciliação aprovada |
+| Status | KT pending |
+| Technical owner | To be confirmed with the support team |
+| Functional owner | To be confirmed with the business team |
+| Scope and environment | Standard product; validate the job, scheduler, and affected environment |
+| Last validation | Not validated in a supported environment |
+| Next review | After a reviewed production incident or scheduler change |
+| Evidence | Ticket, BatchID/job ID, sanitized logs, and approved reconciliation |
 
-1. Registrar BatchID/job/execution ID, status, horário e processo originador.
-2. Confirmar se há escrita parcial ou batch já criado.
-3. Verificar scheduler/service/account, fila e dependências.
-4. Coletar logs correlatos de aplicação e banco.
-5. Consultar validação/log aprovado; não executar DML ou SP sem autorização.
-6. Avaliar idempotência e risco de duplicação.
-7. Obter aprovação funcional antes de retry/reprocessamento.
-8. Reprocessar uma vez pelo mecanismo suportado.
-9. Reconciliar contagem, valores, status e processo downstream.
+1. Record the BatchID, job/execution ID, status, time, and originating process.
+2. Confirm whether a partial write exists or a batch was already created.
+3. Check the scheduler, service, account, queue, and dependencies.
+4. Collect related application and database logs.
+5. Review approved validation or logs. Do not run DML or stored procedures without authorization.
+6. Assess idempotency and duplicate-processing risk.
+7. Obtain functional approval before retrying or reprocessing.
+8. Reprocess once through the supported mechanism.
+9. Reconcile counts, values, statuses, and the downstream process.
 
-**Parar:** estado parcial desconhecido, impacto financeiro, lock/bloqueio ou repetição da falha.
-
+**Stop:** unknown partial state, financial impact, lock or blocking, or a repeated failure.

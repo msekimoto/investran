@@ -1,113 +1,113 @@
-# Runbook - Falha de reporting
+# Runbook - Reporting failure
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | KT pendente |
-| Owner técnico | A definir com a equipe de sustentação |
-| Owner funcional | A definir com a área de negócio |
-| Escopo e ambiente | Produto padrão; validar consumidor, versão e ambiente afetados |
-| Última validação | Não validado em ambiente atendido |
-| Próxima revisão | Após incidente real revisado ou mudança de reporting |
-| Evidência | Ticket, parâmetros sanitizados, IDs de processo e validação funcional |
+| Status | KT pending |
+| Technical owner | To be confirmed with the support team |
+| Functional owner | To be confirmed with the business team |
+| Scope and environment | Standard product; validate the affected consumer, version, and environment |
+| Last validation | Not validated in a supported environment |
+| Next review | After a reviewed production incident or reporting change |
+| Evidence | Ticket, sanitized parameters, process IDs, and business validation |
 
-Use este runbook para Report Wizard, Crystal Reports, Web Reporting Services, Data Exchange ou automações que consomem reports RW.
+Use this runbook for Report Wizard, Crystal Reports, Web Reporting Services, Data Exchange, or automations that consume RW reports.
 
-## 1. Registrar o incidente
+## 1. Record the incident
 
-Colete:
+Collect:
 
-- ambiente, horário UTC, impacto e quantidade de usuários;
-- book, report e versão/data da última alteração;
-- consumidor: RW, Crystal, WRS, Data Exchange, AT, AR, BE ou aplicação;
-- usuário/Contact e entidade relacionada, sem credenciais;
-- parâmetros e formato de saída sanitizados;
-- mensagem, status/fault e screenshot;
-- duração, linhas esperadas/obtidas e correlation/process ID;
-- última execução bem-sucedida.
+- environment, UTC time, impact, and number of users;
+- book, report, and version or date of the last change;
+- consumer: RW, Crystal, WRS, Data Exchange, AT, AR, BE, or application;
+- user/Contact and related entity, without credentials;
+- sanitized parameters and output format;
+- message, status/fault, and screenshot;
+- duration, expected and returned rows, and correlation/process ID;
+- last successful execution.
 
-## 2. Classificar antes de agir
+## 2. Classify before acting
 
-| Sintoma | Categoria inicial |
+| Symptom | Initial category |
 |---|---|
-| report não aparece | publicação ou segurança |
-| aparece, mas parâmetro não tem opções | relacionamento, security level ou filtro WRS |
-| retorna vazio | dado, parâmetro, filtro ou segurança |
-| totais/linhas incorretos | definição RW, cardinalidade, período ou mudança de dados |
-| lento/timeout | volume, RW engine, serialização, concorrência ou SQL |
-| RW funciona, Crystal falha | provider, datasource, schema, parâmetros ou subreport |
-| RW funciona, WRS falha | IIS/TLS, configuração WRS, identidade ou formato |
-| funciona com admin, não com usuário | autorização; não encerrar como resolvido |
-| execução pode ter terminado após timeout | estado incerto; reconciliar antes de retry |
+| report does not appear | publication or security |
+| report appears but a parameter has no options | relationship, security level, or WRS filter |
+| empty result | data, parameter, filter, or security |
+| incorrect totals/rows | RW definition, cardinality, period, or data change |
+| slow/timeout | volume, RW engine, serialization, concurrency, or SQL |
+| RW works but Crystal fails | provider, datasource, schema, parameters, or subreport |
+| RW works but WRS fails | IIS/TLS, WRS configuration, identity, or format |
+| works for an admin but not for a user | authorization; do not close as resolved |
+| execution may have completed after timeout | unknown state; reconcile before retrying |
 
-## 3. Isolar por camada
+## 3. Isolate by layer
 
-1. Execute o RW base, com o mesmo usuário e parâmetros.
-2. Reduza o conjunto de dados sem mudar a lógica.
-3. Compare com a última versão boa e um conjunto conhecido.
-4. Se o RW estiver correto, teste a próxima camada isoladamente.
-5. Não faça retry automático de processamento caro sem saber se a execução anterior terminou.
+1. Run the base RW with the same user and parameters.
+2. Reduce the data set without changing the logic.
+3. Compare with the last known-good version and a known data set.
+4. If RW is correct, test the next layer separately.
+5. Do not automatically retry expensive processing until you know whether the earlier execution completed.
 
 ### Report Wizard
 
-- confirmar book/report e versão;
-- validar nomes, IDs, tipos e formatos dos parâmetros;
-- conferir columns, filters, aggregation, hierarchy, moeda e time period;
-- comparar linhas e totais;
-- verificar logs e SQL blocking.
+- confirm the book/report and version;
+- validate parameter names, IDs, types, and formats;
+- check columns, filters, aggregation, hierarchy, currency, and time period;
+- compare rows and totals;
+- check logs and SQL blocking.
 
 ### Crystal Reports
 
-- confirmar provider e datasource;
-- validar Add Command e parâmetros associados;
-- executar **Verify Database** depois de mudança de schema;
-- revisar campos remapeados, joins, command flags e subreports;
-- testar shell e drivers separadamente.
+- confirm the provider and datasource;
+- validate Add Command and associated parameters;
+- run **Verify Database** after a schema change;
+- review remapped fields, joins, command flags, and subreports;
+- test the shell and drivers separately.
 
 ### Web Reporting Services
 
-- validar DNS, porta, TLS, certificado, site e app pool;
-- testar `ServiceVersion`;
-- confirmar `CompanyID` e conexão configurada;
-- usar `GetBooksAndReports` para verificar a publicação;
-- usar `GetReportParameters` antes da execução;
-- conferir Contact, e-mail principal, `WebServicesEnabled`, relacionamento, security level e WRS filter;
-- diferenciar execução por usuário SQL de execução por Contact;
-- em HTML paginado, validar `reportProcessId`, `totalPages` e `pageNumber`;
-- em PDF, confirmar conteúdo binário e `Content-Type`.
+- validate DNS, port, TLS, certificate, site, and app pool;
+- test `ServiceVersion`;
+- confirm `CompanyID` and the configured connection;
+- use `GetBooksAndReports` to verify publication;
+- use `GetReportParameters` before execution;
+- check Contact, primary email, `WebServicesEnabled`, relationship, security level, and WRS filter;
+- distinguish execution by SQL user from execution by Contact;
+- for paged HTML, validate `reportProcessId`, `totalPages`, and `pageNumber`;
+- for PDF, confirm binary content and `Content-Type`.
 
-## 4. Decisões seguras
+## 4. Safe decisions
 
-- **Report ausente para todos:** verificar publicação e disponibilidade antes de alterar segurança individual.
-- **Ausente para um usuário:** comparar relacionamento/security level com um usuário equivalente.
-- **Dados excessivos:** interromper a distribuição e tratar como possível incidente de segurança.
-- **Timeout:** verificar se a execução concluiu e medir onde o tempo foi gasto; não apenas aumentar o limite.
-- **Divergência financeira:** suspender publicação/consumo, preservar evidências e reconciliar com a fonte.
-- **Mudança recente:** preferir rollback da definição aprovada quando o impacto for alto e a causa não estiver clara.
+- **Report missing for everyone:** check publication and availability before changing individual security.
+- **Missing for one user:** compare relationship and security level with an equivalent user.
+- **Too much data:** stop distribution and treat it as a potential security incident.
+- **Timeout:** check whether execution completed and measure where time was spent; do not only raise the limit.
+- **Financial discrepancy:** stop publication or consumption, preserve evidence, and reconcile with the source.
+- **Recent change:** prefer rollback of the approved definition when impact is high and the cause is unclear.
 
-## 5. Validação da correção
+## 5. Validate the fix
 
-1. Repetir o cenário original.
-2. Validar totais, cardinalidade, sinais, moeda e data.
-3. Testar pelo menos um caso positivo e um negativo de segurança.
-4. Testar todos os formatos e consumidores afetados.
-5. Comparar duração e volume com o baseline.
-6. Registrar causa raiz, ação, evidência e prevenção.
+1. Repeat the original scenario.
+2. Validate totals, cardinality, signs, currency, and date.
+3. Test at least one positive and one negative security case.
+4. Test all affected formats and consumers.
+5. Compare duration and volume with the baseline.
+6. Record root cause, action, evidence, and prevention.
 
-## 6. Escalonamento
+## 6. Escalation
 
-Encaminhe com o pacote de evidências:
+Send the evidence package to:
 
-- para infraestrutura: DNS, TLS, IIS, app pool, rede ou certificado;
-- para DBA: blocking, plano, indisponibilidade ou degradação do banco;
-- para desenvolvimento: threading STA, provider, serialização ou contrato da integração;
-- para funcional/reporting: filtros, parâmetros, totals, shell/driver e regra de negócio;
-- para segurança: exposição indevida ou divergência de entitlement/relacionamento;
-- para FIS: defeito reproduzível no produto padrão, com versão e passos mínimos.
+- infrastructure for DNS, TLS, IIS, app pool, network, or certificate issues;
+- the DBA for blocking, execution plan, database unavailability, or degradation;
+- development for STA threading, provider, serialization, or integration contract issues;
+- functional/reporting support for filters, parameters, totals, shell/driver, and business rules;
+- security for inappropriate exposure or entitlement/relationship differences;
+- FIS for a reproducible standard-product defect, with version and minimum steps.
 
-## Referências
+## References
 
-- [Arquitetura de reporting](../docs/reporting/01-arquitetura-reporting.md)
-- [Report Wizard - desenvolvimento e operação](../docs/reporting/02-report-wizard-desenvolvimento-operacao.md)
+- [Reporting architecture](../docs/reporting/01-arquitetura-reporting.md)
+- [Report Wizard - development and operations](../docs/reporting/02-report-wizard-desenvolvimento-operacao.md)
 - [Web Reporting Services](../docs/reporting/03-web-reporting-services.md)

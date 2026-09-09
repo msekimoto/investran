@@ -1,30 +1,29 @@
-# Runbook - Nome
+# Runbook - Name
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | Rascunho / Em validação / Aprovado / KT pendente |
-| Owner técnico | Nome ou papel responsável |
-| Owner funcional | Nome ou papel responsável |
-| Escopo e ambiente | Produto/versão; ambiente validado |
-| Última validação | Data, ambiente e resultado da execução controlada |
-| Próxima revisão | Data ou gatilho de revisão |
-| Evidência | Ticket, mudança, saída sanitizada ou teste que sustenta este procedimento |
+| Status | Draft / Under validation / Approved / KT pending |
+| Technical owner | Responsible person or role |
+| Functional owner | Responsible person or role |
+| Scope and environment | Product/version; validated environment |
+| Last validation | Date, environment, and controlled execution result |
+| Next review | Date or review trigger |
+| Evidence | Ticket, change, sanitized output, or test that supports this procedure |
 
-- **Objetivo:**
-- **Impacto/risco:**
-- **Pré-condições e aprovações:**
+- **Purpose:**
+- **Impact/risk:**
+- **Prerequisites and approvals:**
 
-## Diagnóstico
+## Diagnosis
 
-## Procedimento
+## Procedure
 
-## Critérios para parar/escalar
+## Stop and escalation criteria
 
-## Validação funcional
+## Business validation
 
-## Rollback/recuperação
+## Rollback and recovery
 
-## Evidências e encerramento
-
+## Evidence and closure

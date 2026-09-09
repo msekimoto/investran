@@ -1,12 +1,12 @@
-# Allocation Rule Manager - interface e ciclo de vida
+# Allocation Rule Manager - interface and lifecycle
 
-## Objetivo do ARM
+## ARM purpose
 
-O Allocation Rule Manager (ARM) é a ferramenta do Investran usada para criar, organizar, testar e manter **Dynamic Allocation Rules**. Regras estáticas continuam sendo tabelas de percentuais mantidas pela funcionalidade de Static Allocation Rules; o ARM fornece o framework para regras dinâmicas simples ou complexas.
+Allocation Rule Manager (ARM) is the Investran tool used to create, organize, test, and maintain **Dynamic Allocation Rules**. Static rules remain percentage tables maintained through Static Allocation Rules; ARM provides the framework for simple or complex dynamic rules.
 
-![Tela de conexão do Allocation Rule Manager](../assets/allocation-rules/01-login-database.png)
+![Allocation Rule Manager connection screen](../assets/allocation-rules/01-login-database.png)
 
-*Tela de conexão do ARM. Confirme autenticação, servidor e database antes de carregar as regras. Fonte: Investran 7 Developer's Guide to Allocation Rule Manager, p. 2.*
+*ARM connection screen. Confirm authentication, server, and database before loading rules. Source: Investran 7 Developer's Guide to Allocation Rule Manager, p. 2.*
 
 ```mermaid
 flowchart LR
@@ -23,166 +23,166 @@ flowchart LR
     RESULT --> ACC[Accounting / consumidor]
 ```
 
-## Permissões
+## Permissions
 
-O usuário precisa dos entitlements apropriados no Team Security. A documentação da base distingue:
+The user needs the appropriate Team Security entitlements. This knowledge base distinguishes:
 
-- `ARM Admin`: criar, editar, executar e excluir regras;
-- `ARM User`: executar regras.
+- `ARM Admin`: create, edit, run, and delete rules;
+- `ARM User`: run rules.
 
-Ao investigar uma opção desabilitada ou ausente, confirme primeiro usuário, database e entitlement.
+When investigating a disabled or missing option, first confirm the user, database, and entitlement.
 
-## Árvore de navegação
+## Navigation tree
 
-Após o login, o ARM carrega as Dynamic Allocation Rules do banco e as apresenta em uma árvore. Ao expandir uma regra, ficam disponíveis:
+After login, ARM loads Dynamic Allocation Rules from the database and displays them in a tree. Expanding a rule makes the following available:
 
-![Tela principal do Allocation Rule Manager](../assets/allocation-rules/02-tela-principal.png)
+![Allocation Rule Manager main screen](../assets/allocation-rules/02-tela-principal.png)
 
-*Tela principal do ARM, com árvore de regras à esquerda, ações centrais e detalhes da conexão à direita. Fonte: guia de ARM, p. 6.*
+*ARM main screen, with the rule tree on the left, central actions, and connection details on the right. Source: ARM guide, p. 6.*
 
-- **Properties:** contexto recebido da transação;
-- **Parameters:** valores adicionais definidos para execução;
-- **Reports:** reports RW associados à regra;
-- detalhes de columns e parameters de cada report;
-- módulo VBA, quando `Use VBA` estiver habilitado.
+- **Properties:** context received from the transaction;
+- **Parameters:** additional values defined for execution;
+- **Reports:** RW reports associated with the rule;
+- columns and parameters for each report;
+- VBA module, when `Use VBA` is enabled.
 
-O painel da regra mostra creator, created date, last modified by/date, notes, type e status. Essas informações devem ser capturadas antes de qualquer alteração.
+The rule panel shows creator, created date, last modified by/date, notes, type, and status. Capture this information before any change.
 
-![Allocation Rule selecionada na árvore](../assets/allocation-rules/03-regra-selecionada.png)
+![Allocation Rule selected in the tree](../assets/allocation-rules/03-regra-selecionada.png)
 
-*Regra selecionada com seus atributos e dependências expandidas. Fonte: guia de ARM, p. 7.*
+*Selected rule with expanded attributes and dependencies. Source: ARM guide, p. 7.*
 
-## Menus e operações
+## Menus and operations
 
 ### System
 
-| Operação | Finalidade |
+| Operation | Purpose |
 |---|---|
-| `Change Database` | abrir o login e trocar a conexão |
-| `Refresh Allocation Rules Tree` | recarregar regras e mudanças do banco |
-| `Exit ARM` | encerrar a aplicação |
+| `Change Database` | Open login and change the connection |
+| `Refresh Allocation Rules Tree` | Reload rules and database changes |
+| `Exit ARM` | Close the application |
 
 ### Allocation Rule
 
-| Operação | Finalidade | Restrição importante |
+| Operation | Purpose | Important restriction |
 |---|---|---|
-| `Find` | pesquisar texto na árvore | confirme ID/atributos, não somente o nome |
-| `Add` | criar regra | inicia normalmente em `Draft` |
-| `Edit` | alterar atributos | regra em uso não pode ser editada |
-| `Delete` | excluir regra | regra em uso não pode ser excluída |
-| `Duplicate` | copiar uma regra | prefira como ponto de partida/backup controlado |
-| `Run` | executar em ambiente simulado | não modifica o banco segundo o manual |
+| `Find` | Search text in the tree | Confirm ID/attributes, not only name |
+| `Add` | Create a rule | Normally starts as `Draft` |
+| `Edit` | Change attributes | A rule in use cannot be edited |
+| `Delete` | Delete a rule | A rule in use cannot be deleted |
+| `Duplicate` | Copy a rule | Prefer as a controlled starting point/backup |
+| `Run` | Run in a simulated environment | Does not change the database according to the manual |
 
-Uma regra é considerada **em uso** quando pelo menos uma transação do Accounting a referencia. Nesse estado, o ARM impede edição e exclusão. Não tente contornar a restrição diretamente no banco.
+A rule is **in use** when at least one Accounting transaction references it. In this state, ARM prevents editing and deletion. Do not bypass this restriction directly in the database.
 
 ### Parameters
 
-| Operação | Finalidade |
+| Operation | Purpose |
 |---|---|
-| `Define` | criar um parâmetro Investran reutilizável por AR, RW ou AT |
-| `Add` | associar parâmetro à regra, obrigatório ou opcional, com default opcional |
-| `Edit` / `Delete` | manter associação/configuração |
-| ordenação | ordenar por nome, tipo ou obrigatoriedade |
+| `Define` | Create an Investran parameter reusable by AR, RW, or AT |
+| `Add` | Associate a required/optional parameter with the rule, with optional default |
+| `Edit` / `Delete` | Maintain association/configuration |
+| Sorting | Sort by name, type, or required state |
 
 ### Reports
 
-Permite adicionar e remover reports RW e ordenar por book, nome, creator ou datas. Somente reports em pasta **Public Read-only** devem ser usados por Allocation Rules.
+Allows adding/removing RW reports and sorting by book, name, creator, or dates. Only reports in a **Public Read-only** folder should be used by Allocation Rules.
 
 ### VBA Code
 
-- `Show VBA Editor`: abre o módulo associado;
-- `Save VBA Module`: salva as mudanças;
-- `References...`: adiciona referências a componentes registrados.
+- `Show VBA Editor`: opens the associated module;
+- `Save VBA Module`: saves changes;
+- `References...`: adds references to registered components.
 
-## Atributos de uma regra
+## Rule attributes
 
-![Janela para adicionar uma Allocation Rule](../assets/allocation-rules/04-adicionar-regra.png)
+![Add Allocation Rule window](../assets/allocation-rules/04-adicionar-regra.png)
 
-*Janela Add/Edit da regra, com nome, Notes, Status, Type, Use VBA, Locked e otimização. Fonte: guia de ARM, p. 5.*
+*Rule Add/Edit window, with name, Notes, Status, Type, Use VBA, Locked, and optimization. Source: ARM guide, p. 5.*
 
-| Atributo | Significado operacional |
+| Attribute | Operational meaning |
 |---|---|
-| `Allocation Rule Name` | nome estável da regra |
-| `Notes` | descrição e informações de manutenção |
-| `Status` | `Draft`, `Normal` ou `System` |
-| `Type` | `Top Down` ou `Bottom Up` |
-| `Use VBA` | habilita lógica VBA complexa |
-| `Locked` | somente o desenvolvedor que bloqueou pode alterar |
-| `Allow performance optimization` | permite ao ATM reutilizar valores em cache obtidos pelo driver report |
+| `Allocation Rule Name` | Stable rule name |
+| `Notes` | Description and maintenance information |
+| `Status` | `Draft`, `Normal`, or `System` |
+| `Type` | `Top Down` or `Bottom Up` |
+| `Use VBA` | Enables complex VBA logic |
+| `Locked` | Only the developer who locked it can change it |
+| `Allow performance optimization` | Lets ATM reuse cached values obtained by the driver report |
 
 ### Estados
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Draft: criação
-    Draft --> Draft: desenvolvimento e simulação
-    Draft --> Normal: testada e aprovada
-    Normal --> [*]: disponível no Accounting
+    [*] --> Draft: creation
+    Draft --> Draft: development and simulation
+    Draft --> Normal: tested and approved
+    Normal --> [*]: available in Accounting
     state System
 ```
 
-- `Draft`: indisponível para o Accounting; estado correto durante desenvolvimento.
-- `Normal`: disponível para uso depois de testes concluídos.
-- `System`: reservado às regras desenvolvidas pelo fornecedor.
+- `Draft`: unavailable to Accounting; correct state during development.
+- `Normal`: available after tests are complete.
+- `System`: reserved for supplier-developed rules.
 
 ![Allocation Rule alterada para Normal](../assets/allocation-rules/17-rule-normal-status.png)
 
-*Regra Top Down alterada de Draft para Normal depois dos testes, tornando-a disponível para uso. Fonte: guia de ARM, p. 17.*
+*Top Down rule changed from Draft to Normal after testing, making it available for use. Source: ARM guide, p. 17.*
 
-`Allow performance optimization` afeta o uso de cache pelo ATM. O manual observa que o módulo Accounting não usa esses valores em cache. Teste os dois caminhos separadamente antes de atribuir uma diferença à regra.
+`Allow performance optimization` affects ATM cache use. The manual notes that the Accounting module does not use these cached values. Test both paths separately before attributing a difference to the rule.
 
-## Properties e Parameters
+## Properties and Parameters
 
 ### Properties
 
-Representam campos do contexto de uma transação. `Legal Entity` e `GL Date` são sempre obrigatórios e sempre enviados quando a regra é chamada pelo Accounting. Outros, como Account, Deal, `Amount`, `LEAmount` e `Quantity`, são opcionais e devem ser marcados se a regra precisar deles.
+These represent fields from a transaction context. `Legal Entity` and `GL Date` are always required and sent whenever Accounting calls the rule. Others, such as Account, Deal, `Amount`, `LEAmount`, and `Quantity`, are optional and must be selected when the rule needs them.
 
 ![Properties configuradas na Allocation Rule](../assets/allocation-rules/05-properties.png)
 
-*Lista de Properties da regra. Legal Entity e GL Date são obrigatórias; as demais devem ser selecionadas conforme o cálculo. Fonte: guia de ARM, p. 8.*
+*Rule Properties list. Legal Entity and GL Date are required; select the others according to the calculation. Source: ARM guide, p. 8.*
 
 ### Parameters
 
-Representam valores de runtime que não pertencem às properties predefinidas, como `StartDate` ou `EndDate`. Um parâmetro pode ser obrigatório, opcional e possuir default.
+These represent runtime values that do not belong to predefined properties, such as `StartDate` or `EndDate`. A parameter can be required, optional, and have a default.
 
 ![Parameters configurados na Allocation Rule](../assets/allocation-rules/06-parameters.png)
 
-*Parameters associados à regra, incluindo tipo, obrigatoriedade, default e descrição. Fonte: guia de ARM, p. 8.*
+*Parameters associated with the rule, including type, required state, default, and description. Source: ARM guide, p. 8.*
 
-### Propagação para Report Wizard
+### Propagation to Report Wizard
 
 O ARM Engine envia properties e parameters para os reports associados quando os nomes coincidem. Portanto:
 
-![Reports associados à Allocation Rule](../assets/allocation-rules/07-reports.png)
+![Reports associated with the Allocation Rule](../assets/allocation-rules/07-reports.png)
 
-*Reports do Report Wizard associados à regra. Fonte: guia de ARM, p. 9.*
+*Report Wizard reports associated with the rule. Source: ARM guide, p. 9.*
 
 ![Columns do report associado](../assets/allocation-rules/08-report-columns.png)
 
-*Columns expandidas a partir do nó do report. Use esta visão para conferir nomes, ordem e tipos. Fonte: guia de ARM, p. 9.*
+*Columns expanded from the report node. Use this view to check names, order, and types. Source: ARM guide, p. 9.*
 
 ![Parameters do report associado](../assets/allocation-rules/09-report-parameters.png)
 
-*Parameters do report associado, usados na propagação automática por nome. Fonte: guia de ARM, p. 10.*
+*Parameters of the associated report, used for automatic propagation by name. Source: ARM guide, p. 10.*
 
-- o nome é parte do contrato;
-- alterações de nome quebram a propagação automática;
-- tipo e formato precisam ser compatíveis;
-- valores passados na simulação devem reproduzir o contexto real.
+- The name is part of the contract.
+- Name changes break automatic propagation.
+- Type and format must be compatible.
+- Values supplied in simulation must reproduce the real context.
 
-## Ciclo de vida seguro
+## Safe lifecycle
 
-### Criar
+### Create
 
-1. Definir finalidade, Top Down/Bottom Up e regra simples/complexa.
-2. Criar e validar os reports RW em pasta Public Read-only.
-3. Criar a regra em `Draft`.
+1. Define purpose, Top Down/Bottom Up, and simple/complex rule.
+2. Create and validate RW reports in a Public Read-only folder.
+3. Create the rule as `Draft`.
 
 ![Criação de uma Simple Dynamic Allocation Rule](../assets/allocation-rules/12-simple-rule-create.png)
 
 *Exemplo de criação de regra Top Down em Draft e sem VBA. Fonte: guia de ARM, p. 14.*
 
-4. Associar properties, parameters e reports.
+4. Associate properties, parameters, and reports.
 
 ![Associação do report à Allocation Rule](../assets/allocation-rules/13-simple-rule-associate-report.png)
 
@@ -191,64 +191,64 @@ O ARM Engine envia properties e parameters para os reports associados quando os 
 ![Properties obrigatórias da regra simples](../assets/allocation-rules/14-simple-rule-properties.png)
 
 *Properties exigidas pelo report e pelo cálculo da regra. Fonte: guia de ARM, p. 15.*
-5. Habilitar `Use VBA` apenas se o cálculo não puder ser representado por um único driver report.
-6. Implementar `Sub Main` quando houver VBA.
-7. Executar simulações com casos normais e de borda.
-8. Reconciliar `Amount`, `LEAmount` e `Quantity` por Investor.
-9. Após aprovação, mudar para `Normal`.
+5. Enable `Use VBA` only when a single driver report cannot represent the calculation.
+6. Implement `Sub Main` when VBA is used.
+7. Run simulations with normal and edge cases.
+8. Reconcile `Amount`, `LEAmount`, and `Quantity` by Investor.
+9. After approval, change to `Normal`.
 
-### Alterar
+### Change
 
-1. Confirmar se a regra está em uso e se pode ser editada.
-2. Registrar atributos, dependências e resultados atuais.
-3. Duplicar/preservar a definição aprovada.
-4. Voltar o desenvolvimento para `Draft` quando o processo permitir.
-5. Aplicar a menor mudança possível.
-6. Executar `Refresh` no ARM após alterar reports associados.
-7. Testar no ARM e no consumidor real.
+1. Confirm the rule is not in use and can be edited.
+2. Record current attributes, dependencies, and results.
+3. Duplicate/preserve the approved definition.
+4. Return development to `Draft` when the process allows it.
+5. Apply the smallest possible change.
+6. Run `Refresh` in ARM after changing associated reports.
+7. Test in ARM and in the real consumer.
 
-### Simular
+### Simulate
 
-`Run` abre a tela de Properties and Parameters. Preencha os valores obrigatórios e use `Accept Values`. Segundo o manual, a execução é simulada e não modifica o banco. O resultado por Investor é exibido após a execução.
+`Run` opens the Properties and Parameters screen. Fill required values and use `Accept Values`. According to the manual, execution is simulated and does not change the database. Results by Investor are shown after execution.
 
-![Properties and Parameters usados na execução](../assets/allocation-rules/15-run-properties-parameters.png)
+![Properties and Parameters used during execution](../assets/allocation-rules/15-run-properties-parameters.png)
 
-*Tela de valores de entrada apresentada por Run. Fonte: guia de ARM, p. 16.*
+*Input-values screen shown by Run. Source: ARM guide, p. 16.*
 
-![Resultado da Allocation Rule por Investor](../assets/allocation-rules/16-allocation-results.png)
+![Allocation Rule result by Investor](../assets/allocation-rules/16-allocation-results.png)
 
-*Resultado da simulação com Amount, LE Amount e Quantity por Investor, além dos totais. Fonte: guia de ARM, p. 16.*
+*Simulation result with Amount, LE Amount, Quantity by Investor, and totals. Source: ARM guide, p. 16.*
 
-Mesmo sendo não mutável, execute somente em ambientes aprovados e com valores representativos.
+Even though it is non-mutating, run it only in approved environments with representative values.
 
-### Promover
+### Promote
 
-O manual confirma que o **Import-Export Console** transfere Allocation Rules e reports relacionados entre bancos. O procedimento específico, a ordem das dependências, as aprovações e o rollback continuam sendo particulares do ambiente e precisam de KT.
+The manual confirms that **Import-Export Console** transfers Allocation Rules and related reports between databases. The specific procedure, dependency order, approvals, and rollback remain environment-specific and require KT.
 
-## Regras operacionais confirmadas
+## Confirmed operating rules
 
-- não misturar débitos e créditos entre Investors dentro da mesma alocação;
-- não misturar Investors reais e null Investor no mesmo resultado;
-- o null Investor recebe valores não alocados e ocupa o índice 1 do `InvestorSet`;
-- quantidades não podem ser negativas;
-- armazenar valores configuráveis, como Carry Percentage, em UDFs e recuperá-los via RW em vez de hard-code no VBA;
-- executar Refresh no ARM depois de alterar um report dependente;
-- manter a regra em `Draft` até concluir os testes;
-- não editar nem excluir regra em uso.
+- Do not mix debits and credits between Investors in the same allocation.
+- Do not mix real Investors and null Investor in the same result.
+- null Investor receives unallocated values and uses index 1 in `InvestorSet`.
+- Quantities cannot be negative.
+- Store configurable values, such as Carry Percentage, in UDFs and retrieve them through RW instead of hard-coding in VBA.
+- Run Refresh in ARM after changing a dependent report.
+- Keep the rule in `Draft` until tests are complete.
+- Do not edit or delete a rule in use.
 
-## Checklist de sustentação
+## Support checklist
 
-- [ ] database e usuário confirmados;
-- [ ] entitlement confirmado;
-- [ ] nome, status, type, owner e last modified registrados;
-- [ ] lock e uso por transações verificados;
-- [ ] properties, parameters e reports inventariados;
-- [ ] cache/ATM considerado;
-- [ ] simulação reproduz o contexto real;
-- [ ] resultado por Investor reconciliado;
-- [ ] dependências incluídas no pacote de promoção;
-- [ ] rollback e validação pós-deploy definidos.
+- [ ] Database and user confirmed.
+- [ ] Entitlement confirmed.
+- [ ] Name, status, type, owner, and last modified recorded.
+- [ ] Lock and transaction usage checked.
+- [ ] Properties, parameters, and reports inventoried.
+- [ ] Cache/ATM considered.
+- [ ] Simulation reproduces the real context.
+- [ ] Result by Investor reconciled.
+- [ ] Dependencies included in the promotion package.
+- [ ] Rollback and post-deployment validation defined.
 
-## Fonte
+## Source
 
 - *Internal_INV7_ARM_Dev_Guide.pdf*, capítulos Getting Started with ARM, Navigation, Simple/Complex Dynamic Allocation Rules e Allocation Rule Development.

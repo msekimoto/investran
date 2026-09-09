@@ -1,48 +1,47 @@
-# Arquitetura e ambientes
+# Architecture and environments
 
-Este documento serve como mapa dos componentes principais do Investran e do que precisa ser validado em cada ambiente antes de qualquer mudança.
+This document is a map of the main Investran components and what must be validated in every environment before a change.
 
-## Visão de alto nível
+## High-level view
 
-A arquitetura típica combina:
+A typical architecture combines:
 
-- Web/IIS para autenticação e acesso;
-- Application Server para schedulers, workers e serviços assíncronos;
-- SQL Server com Master e Staging;
-- Reporting, ATM, ARM, Data Import e Business Events como módulos de processamento;
-- certificados, contas de serviço e MSMQ/RabitMQ/MSDTC como dependências críticas.
+- Web/IIS for authentication and access.
+- Application Server for schedulers, workers, and asynchronous services.
+- SQL Server with Master and Staging databases.
+- Reporting, ATM, ARM, Data Import, and Business Events as processing modules.
+- Certificates, service accounts, and MSMQ/RabbitMQ/MSDTC as critical dependencies.
 
-Para o desenho lógico completo, veja [Arquitetura lógica e componentes](arquitetura/01-arquitetura-logica.md).
+For the complete logical diagram, see [Logical architecture and components](arquitetura/01-arquitetura-logica.md).
 
-## Checklist por ambiente
+## Checklist by environment
 
-| Item | O que confirmar |
+| Item | Confirm |
 |---|---|
-| Versão e MR | release instalada, hotfix e compatibilidade |
-| Web e URLs | endpoints, IIS, app pools, certificados |
-| SQL Server | Master, Staging, jobs, backups e restauração |
-| Application Server | serviços, contas, logs e fila de execução |
-| Schedulers | jobs ativos, dependências e agendamentos |
-| Segurança | Team Security, SSO, contas e permissões |
-| Integrações | endpoints, tokens/certificados e regras de retry |
+| Version and MR | Installed release, hotfix, and compatibility |
+| Web and URLs | Endpoints, IIS, app pools, and certificates |
+| SQL Server | Master, Staging, jobs, backups, and restore |
+| Application Server | Services, accounts, logs, and execution queue |
+| Schedulers | Active jobs, dependencies, and schedules |
+| Security | Team Security, SSO, accounts, and permissions |
+| Integrations | Endpoints, tokens/certificates, and retry rules |
 
-## Riscos comuns
+## Common risks
 
-- assumir que a arquitetura antiga representa o ambiente atual;
-- reiniciar serviços sem confirmar jobs em execução;
-- ignorar alterações de conta, URL, banco ou certificados após clone/restore;
-- tratar falha de plataforma como falha funcional.
+- Assuming the old architecture represents the current environment.
+- Restarting services without checking running jobs.
+- Ignoring account, URL, database, or certificate changes after clone/restore.
+- Treating a platform failure as a business-function failure.
 
-## Onde aprofundar
+## Learn more
 
-- [Arquitetura lógica](arquitetura/01-arquitetura-logica.md)
-- [Application Server e Services](application-services/README.md)
-- [Batches, jobs e scheduler](06-batches-jobs-scheduler.md)
+- [Logical architecture](arquitetura/01-arquitetura-logica.md)
+- [Application Server and Services](application-services/README.md)
+- [Batches, jobs, and scheduler](06-batches-jobs-scheduler.md)
 - [Business Events](14-business-events.md)
 - [Database](09-database.md)
 - [Troubleshooting](13-troubleshooting.md)
 
-## Próximo passo
+## Next step
 
-Use o [plano de KT](16-plano-de-kt.md) para registrar os valores reais de cada ambiente e completar o inventário antes de operar em produção.
-
+Use the [KT plan](16-plano-de-kt.md) to record the real values for every environment and complete the inventory before operating in production.

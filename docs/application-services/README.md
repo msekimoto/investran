@@ -1,54 +1,54 @@
-# Application Server e Services
+# Application Server and Services
 
-O Investran Application Server hospeda processamentos assíncronos e pesados que não devem depender da sessão interativa do usuário. Ele usa serviços de agendamento, dispatcher e workers especializados para Active Templates, Data Import, Data Exchange, OLE DB e reporting.
+The Investran Application Server hosts heavy and asynchronous processing that should not depend on an interactive user session. It uses scheduling services, a dispatcher, and specialized workers for Active Templates, Data Import, Data Exchange, OLE DB, and reporting.
 
-Esta seção explica o conjunto documentado de services, para que cada um serve e como operá-los com segurança.
+This section explains the documented service set, its purpose, and how to operate it safely.
 
-## Guias
+## Guides
 
-1. [Arquitetura e catálogo de services](catalogo-services.md)
-2. [Operação, configuração e monitoramento](operacao-monitoramento.md)
-3. [Troubleshooting e restart seguro](troubleshooting-restart.md)
-4. [Resumo anterior: Application Server, workers e scheduler](../arquitetura/02-application-server.md)
+1. [Architecture and service catalog](catalogo-services.md)
+2. [Operations, configuration, and monitoring](operacao-monitoramento.md)
+3. [Troubleshooting and safe restart](troubleshooting-restart.md)
+4. [Earlier summary: Application Server, workers, and scheduler](../arquitetura/02-application-server.md)
 
-## Resposta rápida: quais services existem?
+## Quick answer: which services exist?
 
-O Service Manager documentado permite adicionar estas famílias de scheduler service:
+The documented Service Manager can add these scheduler-service families:
 
-| Ação no Service Manager | Finalidade |
+| Service Manager action | Purpose |
 |---|---|
 | Add ATM | Active Template Manager |
-| Add Data Import | Data Import no Investran Web |
+| Add Data Import | Data Import in Investran Web |
 | Add DX Sync | Data Exchange Synchronization |
 | Add DX Workflow | Data Exchange Workflow |
 | Add OLE DB | Investran OLE DB Provider |
 | Add RS | Reporting Services |
-| Add RS Word | processamento de documentos Word dos pacotes de Reporting Services |
-| Add RW | Report Wizard e Crystal no Investran Web, além de integrações relacionadas |
+| Add RS Word | Word document processing for Reporting Services packages |
+| Add RW | Report Wizard and Crystal in Investran Web, plus related integrations |
 
-Business Events possui arquitetura e conta de serviço próprias e não aparece como botão `Add` nessa lista. Além disso, o manual cita os componentes compartilhados `FTI Process Scheduler` e `FTI Process Dispatcher`.
+Business Events have their own architecture and service account, so they do not appear as an `Add` button in this list. The manual also identifies the shared `FTI Process Scheduler` and `FTI Process Dispatcher` components.
 
-> Os nomes exibidos no Windows Services (`services.msc`) podem incluir prefixo, versão, database ou nome atribuído à instância. Não use a tabela como inventário de produção: confirme `Service Name`, `Display Name`, executável, conta e ambiente em cada servidor.
+> Names shown in Windows Services (`services.msc`) may include a prefix, version, database, or instance name. Do not use this table as a production inventory: confirm Service Name, Display Name, executable, account, and environment on every server.
 
-## O que não deve ser confundido
+## Do not confuse these terms
 
-- **Service Manager:** ferramenta administrativa do Investran para criar/configurar instâncias.
-- **Windows service:** processo registrado no Service Control Manager do Windows.
-- **Scheduling Service:** procura trabalhos pendentes conforme polling interval.
-- **Dispatcher:** encaminha o trabalho para o worker adequado.
-- **Worker/Executor:** processo que executa a atividade concreta.
-- **Job/process:** unidade funcional solicitada por usuário ou integração.
-- **IIS/SQL/MSMQ/RabitMQ/MSDTC:** dependências de plataforma; não são todos services próprios do Investran.
+- **Service Manager:** Investran administrative tool for creating/configuring instances.
+- **Windows service:** A process registered in the Windows Service Control Manager.
+- **Scheduling Service:** Finds pending work according to its polling interval.
+- **Dispatcher:** Routes work to the appropriate worker.
+- **Worker/Executor:** Runs the concrete activity.
+- **Job/process:** A functional unit requested by a user or integration.
+- **IIS/SQL/MSMQ/RabbitMQ/MSDTC:** Platform dependencies; not all are Investran services.
 
-## KT prioritário
+## Priority KT
 
-- inventário real de Windows services por servidor e ambiente;
-- mapeamento entre Display Name, Service Name e módulo;
-- conta de logon e cofre/rotação de senha;
-- Master, Staging, porta, UNC e demais dependências;
-- polling, concorrência e capacidade;
-- caminhos de log e alertas;
-- dependências e ordem de start/stop;
-- verificação de jobs ativos antes de restart;
-- recuperação de processo órfão ou fila parada;
-- procedimento após restore, clone, upgrade ou troca de senha.
+- Real Windows-service inventory by server and environment.
+- Mapping between Display Name, Service Name, and module.
+- Logon account and password-vault/rotation process.
+- Master, Staging, port, UNC, and other dependencies.
+- Polling, concurrency, and capacity.
+- Log paths and alerts.
+- Dependencies and start/stop order.
+- Active-job check before restart.
+- Orphan-process or stopped-queue recovery.
+- Procedure after restore, clone, upgrade, or password change.

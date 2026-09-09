@@ -1,39 +1,39 @@
-# Visão geral e mapa de componentes
+# Overview and component map
 
-Esta página é o ponto de entrada da wiki: ela mostra como os módulos do Investran se conectam e para onde ir quando a dúvida for específica.
+This page is the wiki entry point. It shows how Investran modules connect and where to go when a question is specific.
 
-## Mapa operacional rápido
+## Quick operational map
 
-| Componente | Papel principal | Onde aprofundar |
+| Component | Main role | Learn more |
 |---|---|---|
-| Web e autenticação | acesso ao sistema e controles de segurança | [Arquitetura e ambientes](02-arquitetura-e-ambientes.md) |
-| ATM | geração e execução de batches a partir de templates | [ATM](active-templates/README.md) |
-| Allocation Rules | distribuição de valores entre investidores | [Allocation Rules](allocation-rules/README.md) |
-| Reporting | relatórios, filtros, Crystal e WRS | [Report Wizard e Crystal](07-report-wizard-e-crystal.md) |
-| API e SDK | integração programática e contratos WCF | [API, SDK e WRS](08-apis-sdk-wrs.md) |
-| Data Import | carga massiva em XLSX e reconciliação | [Data Import e interfaces](10-data-import-e-interfaces.md) |
-| Application Server | schedulers, workers e serviços de execução | [Application Server e Services](application-services/README.md) |
-| Business Events | processos automatizados e partner transfer | [Business Events](14-business-events.md) |
+| Web and authentication | System access and security controls | [Architecture and environments](02-arquitetura-e-ambientes.md) |
+| ATM | Batch generation and execution from templates | [ATM](active-templates/README.md) |
+| Allocation Rules | Value allocation across investors | [Allocation Rules](allocation-rules/README.md) |
+| Reporting | Reports, filters, Crystal, and WRS | [Report Wizard and Crystal](07-report-wizard-e-crystal.md) |
+| API and SDK | Programmatic integration and WCF contracts | [API, SDK, and WRS](08-apis-sdk-wrs.md) |
+| Data Import | Bulk XLSX loading and reconciliation | [Data Import and interfaces](10-data-import-e-interfaces.md) |
+| Application Server | Schedulers, workers, and execution services | [Application Server and Services](application-services/README.md) |
+| Business Events | Automated processes and Partner Transfer | [Business Events](14-business-events.md) |
 
-## Fluxo funcional do suporte
+## Support flow
 
-1. Identificar o canal afetado: web, batch, interface, report ou API.
-2. Confirmar ambiente, database, usuário e permissões.
-3. Isolar a camada: autenticação, IIS, scheduler/service, banco ou integração externa.
-4. Localizar o módulo responsável e seguir o guia específico.
-5. Validar o resultado antes de fechar o incidente.
+1. Identify the affected channel: web, batch, interface, report, or API.
+2. Confirm the environment, database, user, and permissions.
+3. Isolate the layer: authentication, IIS, scheduler/service, database, or external integration.
+4. Find the responsible module and follow its specific guide.
+5. Validate the result before closing the incident.
 
-## Próximos passos recomendados
+## Recommended next steps
 
-- [Entidades e relacionamentos](dominio/01-entidades-e-relacionamentos.md)
-- [Ciclo contábil e batches](dominio/03-ciclo-contabil-e-batches.md)
-- [Arquitetura lógica](arquitetura/01-arquitetura-logica.md)
-- [Fluxos ponta a ponta](arquitetura/03-fluxos-ponta-a-ponta.md)
+- [Entities and relationships](dominio/01-entidades-e-relacionamentos.md)
+- [Accounting cycle and batches](dominio/03-ciclo-contabil-e-batches.md)
+- [Logical architecture](arquitetura/01-arquitetura-logica.md)
+- [End-to-end flows](arquitetura/03-fluxos-ponta-a-ponta.md)
 - [Troubleshooting](13-troubleshooting.md)
 
-## KT pendente
+## KT pending
 
-- versão e maintenance release do ambiente atendido;
-- módulos licenciados e usados no cliente;
-- customizações e nomes de servidores;
-- owners de processo e critérios de escalonamento.
+- Version and maintenance release of the supported environment.
+- Licensed modules used by the customer.
+- Customizations and server names.
+- Process owners and escalation criteria.

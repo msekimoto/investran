@@ -1,35 +1,35 @@
-# Trilha de aprendizado do Investran
+# Investran learning path
 
-Esta trilha organiza a documentação na ordem mais útil para alguém que precisa entender o sistema antes de sustentá-lo. Ela começa pelo negócio, passa pelo modelo de dados e termina nos componentes técnicos.
+This path organizes the documentation in the most useful order for someone who needs to understand the system before supporting it. It starts with the business, moves through the data model, and ends with technical components.
 
-## Nível 1 - domínio funcional
+## Level 1 - business domain
 
-1. [Entidades e relacionamentos](dominio/01-entidades-e-relacionamentos.md)
-2. [Fundos, investidores e investimentos](dominio/02-fundos-investidores-investimentos.md)
-3. [Ciclo contábil e batches](dominio/03-ciclo-contabil-e-batches.md)
+1. [Entities and relationships](dominio/01-entidades-e-relacionamentos.md)
+2. [Funds, investors, and investments](dominio/02-fundos-investidores-investimentos.md)
+3. [Accounting cycle and batches](dominio/03-ciclo-contabil-e-batches.md)
 
-## Nível 2 - arquitetura da aplicação
+## Level 2 - application architecture
 
-1. [Arquitetura lógica e componentes](arquitetura/01-arquitetura-logica.md)
-2. [Application Server, workers e scheduler](arquitetura/02-application-server.md)
-3. [Fluxos ponta a ponta](arquitetura/03-fluxos-ponta-a-ponta.md)
+1. [Logical architecture and components](arquitetura/01-arquitetura-logica.md)
+2. [Application Server, workers, and scheduler](arquitetura/02-application-server.md)
+3. [End-to-end flows](arquitetura/03-fluxos-ponta-a-ponta.md)
 
-## Nível 3 - reporting
+## Level 3 - reporting
 
-1. [Arquitetura de reporting](reporting/01-arquitetura-reporting.md)
-2. [Report Wizard, Crystal e consumidores](07-report-wizard-e-crystal.md)
-3. [Runbook de falha de reporting](../runbooks/falha-reporting.md)
+1. [Reporting architecture](reporting/01-arquitetura-reporting.md)
+2. [Report Wizard, Crystal, and consumers](07-report-wizard-e-crystal.md)
+3. [Reporting failure runbook](../runbooks/falha-reporting.md)
 
-## Nível 4 - integrações
+## Level 4 - integrations
 
-1. [API e SDK em profundidade](integracoes/01-api-e-sdk.md)
-2. [Data Import e interfaces](10-data-import-e-interfaces.md)
-3. [Segurança e SSO](11-configuracoes-seguranca-sso.md)
+1. [API and SDK in depth](integracoes/01-api-e-sdk.md)
+2. [Data Import and interfaces](10-data-import-e-interfaces.md)
+3. [Security and SSO](11-configuracoes-seguranca-sso.md)
 
-## Nível 5 - automação e sustentação
+## Level 5 - automation and support
 
 1. [Active Templates](active-templates/README.md)
 2. [Allocation Rules](allocation-rules/README.md)
-3. [Batches, jobs e scheduler](06-batches-jobs-scheduler.md)
+3. [Batches, jobs, and scheduler](06-batches-jobs-scheduler.md)
 4. [Business Events](14-business-events.md)
 5. [Troubleshooting](13-troubleshooting.md)

@@ -1,26 +1,26 @@
-# Active Templates - guia de suporte e manutenção
+# Active Templates - Support and maintenance guide
 
-Esta área explica como localizar, compreender, alterar, salvar, testar e executar Active Templates (AT) no Investran 7.
+This area explains how to find, understand, change, save, test, and run Active Templates (AT) in Investran 7.
 
-> O manual de referência é de 2014. Os nomes padrão da ferramenta estão documentados, mas caminho de instalação, bancos, permissões e processo de promoção precisam ser confirmados no ambiente atual.
+> The reference manual is from 2014. Standard tool names are documented, but installation path, databases, permissions, and promotion process must be confirmed in the current environment.
 
-## Por onde começar
+## Where to start
 
-- [Guia prático de uso do ATM](guia-pratico-atm.md): interface, componentes, criação, alteração, Simulation, Scheduler, Preview, Commit e publicação com telas da ferramenta.
+- [ATM practical guide](guia-pratico-atm.md): interface, components, creation, change, Simulation, Scheduler, Preview, Commit, and publication with tool screenshots.
 
-| Necessidade | Documento |
+| Need | Document |
 |---|---|
-| Encontrar o ATM e localizar um template | [Interface, acesso e navegação](01-interface-acesso-navegacao.md) |
-| Entender como o AT gera batches | [Estrutura e funcionamento](02-estrutura-e-funcionamento.md) |
-| Saber o que e como alterar e salvar | [Alteração, salvamento e publicação](03-alteracao-salvamento-publicacao.md) |
-| Simular, depurar, executar e verificar resultados | [Debug, execução, Preview e Commit](04-debug-execucao-preview-commit.md) |
-| Levantar informações específicas do ambiente | [Pendências de KT](KT-PENDENCIAS.md) |
+| Find ATM and locate a template | [Interface, access, and navigation](01-interface-acesso-navegacao.md) |
+| Understand how an AT creates batches | [Structure and behavior](02-estrutura-e-funcionamento.md) |
+| Know what and how to change/save | [Change, saving, and publication](03-alteracao-salvamento-publicacao.md) |
+| Simulate, debug, run, and check results | [Debug, execution, Preview, and Commit](04-debug-execucao-preview-commit.md) |
+| Gather environment-specific information | [KT pending](KT-PENDENCIAS.md) |
 
-## O que é um Active Template
+## What is an Active Template?
 
-Um Active Template é uma unidade executável formada por parameters, Report Wizard reports, Journal Entry Templates, Transaction Templates e, normalmente, VBA. O ATM Engine executa essa definição e cria batches novos.
+An Active Template is an executable unit made of parameters, Report Wizard reports, Journal Entry Templates, Transaction Templates, and usually VBA. The ATM Engine runs this definition and creates new batches.
 
-O ATM não serve para editar batches existentes.
+ATM does not edit existing batches.
 
 ```mermaid
 flowchart LR
@@ -32,56 +32,56 @@ flowchart LR
     AT --> ENGINE[ATM Engine]
     ENGINE --> STG[(Staging)]
     STG --> PREVIEW[Preview]
-    PREVIEW --> COMMIT[Commit no Investran]
+    PREVIEW --> COMMIT[Commit to Investran]
 ```
 
-## Resposta rápida: onde encontrar e como alterar
+## Quick answer: where to find and change it
 
-1. Abra o **Active Template Manager** e conecte-se ao database correto.
-2. Escolha o AT na lista suspensa no painel principal.
-3. Confirme nome, Batch Type, status, creator e last modified.
-4. Expanda a árvore à esquerda: `Parameters`, `Driver Reports`, `Auxiliary Reports`, `Journal Entries` e `Transaction Templates`.
-5. Use `Active Template > Duplicate` antes de mudanças relevantes, conforme a convenção do ambiente.
-6. Mantenha a cópia de desenvolvimento em `Draft`.
-7. Altere somente o componente responsável pelo comportamento.
-8. Se houver VBA, abra `VBA Code > Show VBA Editor` e salve com `VBA Code > Save VBA Module`.
-9. Se um report RW for alterado, execute `System > Refresh Tree`/Refresh no ATM antes de testar.
-10. Execute `Simulate`, confira o Debug Log e compare os resultados.
-11. Depois, teste pelo Scheduler usando **Show temporary results Preview**.
-12. Mude para `Normal` somente depois da aprovação.
-13. Promova com o ARM & ATM Export-Import Console seguindo o processo interno da organização.
+1. Open **Active Template Manager** and connect to the correct database.
+2. Choose the AT from the drop-down list in the main panel.
+3. Confirm name, Batch Type, status, creator, and last modified date.
+4. Expand the left tree: `Parameters`, `Driver Reports`, `Auxiliary Reports`, `Journal Entries`, and `Transaction Templates`.
+5. Use `Active Template > Duplicate` before significant changes, following the environment convention.
+6. Keep the development copy in `Draft`.
+7. Change only the component responsible for the behavior.
+8. If VBA exists, open `VBA Code > Show VBA Editor` and save through `VBA Code > Save VBA Module`.
+9. If an RW report changes, use `System > Refresh Tree`/Refresh in ATM before testing.
+10. Run `Simulate`, review the Debug Log, and compare results.
+11. Then test through Scheduler using **Show temporary results Preview**.
+12. Move to `Normal` only after approval.
+13. Promote with ARM & ATM Export-Import Console under the organization's internal process.
 
-## O que normalmente deve ser alterado
+## What normally needs changing
 
-| Sintoma | Primeiro componente a verificar |
+| Symptom | First component to check |
 |---|---|
-| prompt incorreto ou valor não chega ao batch | Parameter e `Map To a Property` |
-| número errado de transações/batches | Driver Report, nível do mapping e linhas retornadas |
-| dado complementar incorreto | Auxiliary Report ou VBA que o executa |
-| estrutura do lançamento errada | Journal Entry/Transaction Template e ordem |
-| valor, data, Deal ou Position incorretos | mapping para `Application.Context` ou evento VBA |
-| Investor allocation incorreta | Allocation Rule e `Application_AfterTransaction` |
-| zero deveria ser removido/mantido | `Allow zero transactions` no Journal Entry |
-| erro somente no agendamento | Scheduler, Staging, permissões ou configuração |
+| Incorrect prompt or value does not reach batch | Parameter and `Map To a Property` |
+| Incorrect number of transactions/batches | Driver Report, mapping level, and returned rows |
+| Incorrect supporting data | Auxiliary Report or VBA that runs it |
+| Incorrect entry structure | Journal Entry/Transaction Template and order |
+| Incorrect value, date, Deal, or Position | Mapping to `Application.Context` or a VBA event |
+| Incorrect Investor allocation | Allocation Rule and `Application_AfterTransaction` |
+| Zero should be removed/kept | `Allow zero transactions` in Journal Entry |
+| Error occurs only when scheduled | Scheduler, Staging, permissions, or configuration |
 
-Não altere o VBA antes de provar que o erro não está no report, no mapping, no parâmetro ou na configuração.
+Do not change VBA until you prove that the error is not in the report, mapping, parameter, or configuration.
 
-## Estados do template
+## Template states
 
-- `Draft`: desenvolvimento e simulação; indisponível para execução normal.
-- `Normal`: disponível depois de testado.
-- `System`: reservado a templates do fornecedor.
+- `Draft`: Development and simulation; unavailable for normal execution.
+- `Normal`: Available after testing.
+- `System`: Reserved for supplier templates.
 
-## Regras de segurança
+## Safety rules
 
-- nunca desenvolver diretamente em produção;
-- nunca usar **Commit process without showing results** durante desenvolvimento;
-- não ativar `Ignore Errors` sem avaliar risco de batches parciais;
-- não mudar para `Normal` antes de simulação, Scheduler e Preview;
-- não promover o AT sem reports, parameters, Allocation Rules, UDFs e referências necessárias;
-- preservar versão anterior e plano de rollback;
-- reconciliar batches, não apenas o status técnico do processo.
+- Never develop directly in production.
+- Never use **Commit process without showing results** during development.
+- Do not enable `Ignore Errors` without assessing partial-batch risk.
+- Do not move to `Normal` before simulation, Scheduler, and Preview.
+- Do not promote an AT without required reports, parameters, Allocation Rules, UDFs, and references.
+- Preserve the previous version and rollback plan.
+- Reconcile batches, not only the process technical status.
 
-## Fonte
+## Source
 
 - *Internal_Inv7_INV_ATM_Dev_Guide_7.pdf*.

@@ -1,41 +1,41 @@
-# APIs, SDK e Web Reporting Services
+# APIs, SDK, and Web Reporting Services
 
-Esta página funciona como porta de entrada para integrações e reporting programático. Os detalhes completos ficam nos guias especializados abaixo.
+This page is an entry point for programmatic integrations and reporting. Full details are in the specialized guides below.
 
-## Guias principais
+## Main guides
 
-- [API e SDK em profundidade](integracoes/01-api-e-sdk.md): object model, DTOs, fetch options, versionamento e General Ledger.
-- [Arquitetura de reporting](reporting/01-arquitetura-reporting.md): cadeia de reporting e ponto de falha.
-- [Web Reporting Services](reporting/03-web-reporting-services.md): segurança, publicação e suporte ao serviço SOAP.
-- [Runbook de falha de reporting](../runbooks/falha-reporting.md): ação em incidentes ativos.
+- [API and SDK in depth](integracoes/01-api-e-sdk.md): object model, DTOs, fetch options, versioning, and General Ledger.
+- [Reporting architecture](reporting/01-arquitetura-reporting.md): reporting chain and failure points.
+- [Web Reporting Services](reporting/03-web-reporting-services.md): security, publication, and SOAP service support.
+- [Reporting failure runbook](../runbooks/falha-reporting.md): actions for active incidents.
 
-## Quando usar cada caminho
+## When to use each path
 
-| Situação | Guia indicado |
+| Situation | Recommended guide |
 |---|---|
-| Problema em DTO, contrato, Load/Publish/Remove | [API e SDK em profundidade](integracoes/01-api-e-sdk.md) |
-| Falha em autenticação, URL ou WRS | [Web Reporting Services](reporting/03-web-reporting-services.md) |
-| Relatório não renderiza ou não responde | [Report Wizard - desenvolvimento e operação](reporting/02-report-wizard-desenvolvimento-operacao.md) |
-| Incidente em produção | [Runbook de falha de reporting](../runbooks/falha-reporting.md) |
+| DTO, contract, Load/Publish/Remove problem | [API and SDK in depth](integracoes/01-api-e-sdk.md) |
+| Authentication, URL, or WRS failure | [Web Reporting Services](reporting/03-web-reporting-services.md) |
+| Report does not render or respond | [Report Wizard - development and operations](reporting/02-report-wizard-desenvolvimento-operacao.md) |
+| Production incident | [Reporting failure runbook](../runbooks/falha-reporting.md) |
 
-## Checklist de integração
+## Integration checklist
 
-- confirmar consumidor, endpoint, contrato e versão do assembly;
-- validar autenticação, autorização e certificados;
-- registrar timeout, retry e idempotência;
-- guardar request/response/fault sanitizados;
-- reconciliar o efeito da escrita antes de repetir ou compensar.
+- Confirm the consumer, endpoint, contract, and assembly version.
+- Validate authentication, authorization, and certificates.
+- Record timeout, retry, and idempotency behavior.
+- Keep sanitized request/response/fault records.
+- Reconcile the write effect before repeating or compensating.
 
-## Checklist de WRS
+## WRS checklist
 
-- validar CompanyID, URL, IIS, app pool e certificado;
-- confirmar security levels, contact e WRS filter;
-- isolar o report RW antes de investigar transporte ou formato;
-- verificar logs, carga e performance por ambiente.
+- Validate CompanyID, URL, IIS, app pool, and certificate.
+- Confirm security levels, Contact, and WRS filter.
+- Isolate the RW report before investigating transport or format.
+- Check logs, load, and performance by environment.
 
-## KT pendente
+## KT pending
 
-- inventário de endpoints e consumidores;
-- autenticação e certificados atuais;
-- regras de retry, idempotência e correlação;
-- versão dos assemblies e manutenção implementada no ambiente.
+- Endpoint and consumer inventory.
+- Current authentication and certificates.
+- Retry, idempotency, and correlation rules.
+- Assembly versions and environment maintenance level.

@@ -1,36 +1,35 @@
-# Runbook - Deploy/manutenção
+# Runbook - Deployment and maintenance
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | KT pendente |
-| Owner técnico | A definir com a equipe de sustentação |
-| Owner funcional | A definir com a área de negócio |
-| Escopo e ambiente | Produto padrão; validar versão, janela e ambiente antes da execução |
-| Última validação | Não validado em ambiente atendido |
-| Próxima revisão | Após a primeira execução controlada ou mudança de versão |
-| Evidência | Ticket aprovado, plano de retorno, resultados de smoke test e encerramento sanitizado |
+| Status | KT pending |
+| Technical owner | To be confirmed with the support team |
+| Functional owner | To be confirmed with the business team |
+| Scope and environment | Standard product; validate version, maintenance window, and environment before execution |
+| Last validation | Not validated in a supported environment |
+| Next review | After the first controlled execution or a version change |
+| Evidence | Approved ticket, rollback plan, smoke-test results, and sanitized closure record |
 
-## Antes
+## Before
 
-- ticket/aprovações/janela/comunicação;
-- versão, pacote e checksum;
-- release notes e customizações afetadas;
-- backup/restore point e critério de abortar;
-- serviços/jobs a parar e owner;
-- testes smoke/regressão e aprovadores.
+- Ticket, approvals, maintenance window, and communication.
+- Version, package, and checksum.
+- Release notes and affected customizations.
+- Backup or restore point and abort criteria.
+- Services and jobs to stop, plus their owner.
+- Smoke and regression tests, with approvers.
 
-## Execução
+## Execution
 
-Siga o runbook específico da versão. O material histórico orienta database antes de servers/workstations e aplicação coordenada dos componentes. Registre início/fim e resultado de cada passo.
+Follow the version-specific runbook. Historical material indicates that the database should be handled before servers and workstations, with coordinated application of the components. Record the start and end time and the result of every step.
 
-## Depois
+## After
 
-- serviços, scheduler, IIS e conectividade;
-- login/autorização;
-- report crítico;
-- AT/AR/BE/import/API controlados conforme escopo;
-- reconciliação e monitoramento;
-- decisão formal de concluir ou retornar.
-
+- Services, scheduler, IIS, and connectivity.
+- Login and authorization.
+- A critical report.
+- Controlled AT, AR, BE, import, and API checks within the change scope.
+- Reconciliation and monitoring.
+- A formal decision to close or roll back.

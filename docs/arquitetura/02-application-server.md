@@ -1,78 +1,66 @@
-# Application Server, workers e scheduler
+# Application Server, workers, and scheduler
 
-> Para o catálogo completo dos Windows services, finalidade, configuração, contas, monitoramento e restart seguro, consulte a nova seção [Application Server e Services](../application-services/README.md), o [catálogo de services](../application-services/catalogo-services.md), o guia de [operação e monitoramento](../application-services/operacao-monitoramento.md) e o guia de [troubleshooting e restart](../application-services/troubleshooting-restart.md).
+> For the full Windows-service catalog, purpose, configuration, accounts, monitoring, and safe restart, see [Application Server and Services](../application-services/README.md), the [service catalog](../application-services/catalogo-services.md), [operations and monitoring](../application-services/operacao-monitoramento.md), and [troubleshooting and restart](../application-services/troubleshooting-restart.md).
 
-## Papel do Application Server
+## Application Server role
 
-O Application Server concentra processamentos que não devem depender da sessão interativa do usuário. O diagrama FIS mostra Scheduling Service e Dispatcher acionando workers para Active Templates, Allocation Rules, Report Engine/OLE DB, Reporting Services, Data Exchange e Data Import. Business Events também dependem de componentes de aplicação, embora tenham arquitetura própria.
+The Application Server handles processing that should not depend on an interactive user session. The FIS diagram shows Scheduling Service and Dispatcher starting workers for Active Templates, Allocation Rules, Report Engine/OLE DB, Reporting Services, Data Exchange, and Data Import. Business Events also depend on application components, although they have their own architecture.
 
 ```mermaid
 sequenceDiagram
-    participant U as Usuário/Sistema
+    participant U as User/System
     participant S as Scheduling Service
     participant D as Dispatcher
     participant W as Worker
     participant G as Staging/Master DB
-
-    U->>S: agenda ou solicita execução
-    S->>D: envia trabalho e contexto
-    D->>W: inicia worker apropriado
-    W->>G: lê dados e grava resultado/status
-    W-->>D: sucesso ou erro
-    D-->>S: atualiza execução
-    S-->>U: status/log/resultado
+    U->>S: schedule or request execution
+    S->>D: send work and context
+    D->>W: start appropriate worker
+    W->>G: read data and write result/status
+    W-->>D: success or error
+    D-->>S: update execution
+    S-->>U: status/log/result
 ```
 
-## Serviços documentados
+## Documented services
 
-- Active Template;
-- Allocation Rule;
-- Data Import;
-- DX Synchronization;
-- DX Workflow;
-- Investran OLE DB;
-- Reporting Services;
-- RS Word;
-- Report Wizard.
+- Active Template
+- Allocation Rule
+- Data Import
+- DX Synchronization
+- DX Workflow
+- Investran OLE DB
+- Reporting Services
+- RS Word
+- Report Wizard
 
-O ambiente pode usar apenas um subconjunto desses serviços. Esses serviços podem estar espalhados em vários servidores.
+The environment may use only a subset of these services, distributed across several servers. Other Windows services can support specific Investran flows.
 
-Existem outros serviços Windows que são responsáveis por outros fluxos específicos no Investran.
+## Minimum correlation data
 
-## Correlação mínima
+Record the process/template/report, Process ID, execution ID, GUID or job ID, user/service account, time and timezone, worker/service, Master/Staging database, log file, and created output such as a batch, report, or import result.
 
-Para rastrear uma execução, registre:
+## Typical failures
 
-- processo/template/report;
-- Process ID, execution ID, GUID ou job ID;
-- usuário/conta de serviço;
-- horário e timezone;
-- worker/service;
-- Master/Staging database;
-- arquivo de log;
-- output criado, como batch/report/import result.
+- Stopped service or invalid account/password.
+- Incorrect scheduler mapping.
+- Worker incompatible with the artifact version.
+- Queue/dispatcher not consuming work.
+- Master or Staging connectivity/permission problem.
+- Technically complete execution with uncommitted output.
+- Restart while work is active.
+- Invalid/expired certificates.
+- Database outage.
+- Service-account password change.
+- Server restart with services not set to start automatically.
 
-## Falhas típicas
+## KT pending
 
-- serviço parado ou conta/senha inválida
-- mapping de scheduler incorreto
-- worker incompatível com a versão do artefato
-- fila/dispatcher sem consumir trabalho
-- conectividade/permissão com Master ou Staging
-- execução concluída tecnicamente, mas output não commitado
-- restart durante trabalho ativo
-- certificados inválidos e ou expirados
-- banco fora do ar
-- mudança de senha de conta do sistema
-- servidor reiniciado e serviços não iniciados no automático
-
-## KT pendente
-
-- instâncias e nomes de serviço do ambiente;
-- mapeamento do `Web.config`, `Config.xml`, `app.config`, `app-nlog.config` ou equivalente atual;
-- concorrência, timeout e capacidade por worker;
-- sequência segura de restart;
-- dashboards e alertas;
-- procedimentos de recuperação de fila/trabalho órfão.
-- procedimentos de instalação de certificados.
-- procedimentos de mudança de senha de contas do sistema.
+- Environment instances and service names.
+- Current mapping for `Web.config`, `Config.xml`, `app.config`, `app-nlog.config`, or equivalent.
+- Worker concurrency, timeout, and capacity.
+- Safe restart sequence.
+- Dashboards and alerts.
+- Queue/orphan-work recovery procedures.
+- Certificate installation procedures.
+- Service-account password-change procedures.

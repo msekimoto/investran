@@ -1,43 +1,42 @@
-# Configurações, segurança e SSO
+# Configuration, security, and SSO
 
-## Camadas de configuração
+## Configuration layers
 
-- parâmetros de sistema no banco/aplicação;
-- IIS, web.config e ferramentas de configuração;
-- mappings de serviços no Application Server;
-- Team Security, licenças e security levels;
-- contas de serviço;
-- certificados e protocolos de autenticação;
-- parâmetros específicos de reports, AT, AR, imports e integrações.
+- System parameters in the database/application.
+- IIS, `web.config`, and configuration tools.
+- Service mappings in the Application Server.
+- Team Security, licenses, and security levels.
+- Service accounts.
+- Certificates and authentication protocols.
+- Parameters specific to reports, AT, AR, imports, and integrations.
 
-Toda configuração deve registrar ambiente, valor mascarado quando sensível, origem/default, motivo, data, owner, impacto e rollback.
+Every configuration must record its environment, masked value when sensitive, source/default, reason, date, owner, impact, and rollback.
 
 ## SSO
 
-O guia interno descreve WS-Federation e SAML2 no Investran Web. Entradas incluem issuer/Sign-On URI, certificado/thumbprint, IdP e identificador único. Para SAML2, a conta do serviço web precisa de acesso apropriado à chave privada. Mudanças podem exigir reciclagem/restart do IIS conforme o procedimento aprovado.
+The internal guide describes WS-Federation and SAML2 in Investran Web. Inputs include issuer/Sign-On URI, certificate/thumbprint, IdP, and unique identifier. For SAML2, the web-service account needs appropriate private-key access. Changes may require an IIS recycle/restart under the approved procedure.
 
-O próprio guia alerta que seu conteúdo pode estar obsoleto. Não use comandos antigos de criação de certificado ou edição manual de `web.config` sem validação de Segurança/IAM/FIS.
+The guide itself warns that it may be obsolete. Do not use old certificate-creation commands or manually edit `web.config` without validation from Security, IAM, and FIS.
 
-## Diagnóstico de acesso
+## Access diagnosis
 
-1. Separar autenticação de autorização.
-2. Confirmar usuário, URL/site, horário, IdP e mensagem.
-3. Verificar validade/cadeia/subject/SAN/permissão do certificado.
-4. Revisar logs do IdP, IIS/Investran Web e Windows.
-5. Confirmar claim/UPN e associação ao usuário/Team Security.
-6. Testar conta controlada e evitar ampliar permissões como workaround.
+1. Separate authentication from authorization.
+2. Confirm the user, URL/site, time, IdP, and message.
+3. Check certificate validity, chain, subject/SAN, and permission.
+4. Review IdP, IIS/Investran Web, and Windows logs.
+5. Confirm claim/UPN and mapping to the user/Team Security.
+6. Test with a controlled account; do not expand permissions as a workaround.
 
-## KT pendente
+## KT pending
 
-- IdP/protocolo/claims atuais;
-- owners IAM e fluxo de certificado;
-- contas de serviço, vault e política de rotação;
-- matriz de Team Security/licenças;
-- parâmetros customizados e diferenças entre ambientes.
+- Current IdP/protocol/claims.
+- IAM owners and certificate workflow.
+- Service accounts, vault, and rotation policy.
+- Team Security/license matrix.
+- Customized parameters and differences across environments.
 
-## Fontes
+## Sources
 
 - *Internal_Investran SSO Guide.docx*.
-- *Internal_Inv7_INV_Administrators_7.pdf*, seções SSO, security e service accounts.
-- *Internal_Inv7_INV_Implementation.pdf*, certificados, licenças e Team Security.
-
+- *Internal_Inv7_INV_Administrators_7.pdf*, SSO, security, and service-account sections.
+- *Internal_Inv7_INV_Implementation.pdf*, certificates, licenses, and Team Security.

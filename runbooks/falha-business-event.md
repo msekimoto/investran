@@ -1,23 +1,22 @@
-# Runbook - Falha de Business Event
+# Runbook - Business Event failure
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | KT pendente |
-| Owner técnico | A definir com a equipe de sustentação |
-| Owner funcional | A definir com a área de negócio |
-| Escopo e ambiente | Produto padrão; validar Business Event, template e ambiente afetado |
-| Última validação | Não validado em ambiente atendido |
-| Próxima revisão | Após incidente real revisado ou alteração no fluxo do evento |
-| Evidência | Ticket, execution/GUID, logs sanitizados e reconciliação aprovada |
+| Status | KT pending |
+| Technical owner | To be confirmed with the support team |
+| Functional owner | To be confirmed with the business team |
+| Scope and environment | Standard product; validate the Business Event, template, and affected environment |
+| Last validation | Not validated in a supported environment |
+| Next review | After a reviewed production incident or event-flow change |
+| Evidence | Ticket, execution/GUID, sanitized logs, and approved reconciliation |
 
-1. Registrar BE, template/version, parâmetros, usuário, entidade, horário e execution/GUID.
-2. Confirmar compatibilidade com a MR e status ativo.
-3. Preservar logs do Web Server e Application Server.
-4. Verificar deployment service, BE service account e dependências RW.
-5. Determinar se foi criado batch/footprint/output parcial.
-6. Não repetir nem desbloquear via SQL sem aprovação e reconciliação.
-7. Corrigir configuração em ambiente seguro, executar caso controlado e reconciliar.
-8. Para Partner Transfer, validar reversões, rebooking, datas, percentuais, moedas e hierarquias de exclusão.
-
+1. Record the BE, template and version, parameters, user, entity, time, and execution/GUID.
+2. Confirm compatibility with the MR and active status.
+3. Preserve Web Server and Application Server logs.
+4. Check the deployment service, BE service account, and RW dependencies.
+5. Determine whether a partial batch, footprint, or output was created.
+6. Do not repeat the action or unlock data through SQL without approval and reconciliation.
+7. Fix the configuration in a safe environment, run a controlled case, and reconcile it.
+8. For Partner Transfer, validate reversals, rebooking, dates, percentages, currencies, and exclusion hierarchies.

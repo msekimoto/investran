@@ -1,43 +1,42 @@
-# Sessão de KT - Tópico
+# KT session - Topic
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | Planejada / Em andamento / Concluída / KT pendente |
-| Owner técnico | Especialista ou papel responsável |
-| Owner funcional | Responsável pelo processo |
-| Escopo e ambiente | Processo, versão e ambiente discutidos |
-| Última validação | Data e resultado da prática controlada |
-| Próxima revisão | Data ou pendência que exige retorno |
-| Evidência | Ata, ticket, gravação autorizada ou execução sanitizada |
+| Status | Planned / In progress / Complete / KT pending |
+| Technical owner | Specialist or responsible role |
+| Functional owner | Process owner |
+| Scope and environment | Process, version, and environment discussed |
+| Last validation | Date and result of the controlled practice |
+| Next review | Date or item requiring follow-up |
+| Evidence | Meeting notes, ticket, authorized recording, or sanitized execution record |
 
-- **Especialista:**
-- **Participantes:**
-- **Data:**
-- **Processo/SLA:**
-- **Documento/artefato relacionado:**
+- **Specialist:**
+- **Participants:**
+- **Date:**
+- **Process/SLA:**
+- **Related document/artifact:**
 
-## Objetivo e contexto funcional
+## Purpose and business context
 
-## Demonstração do fluxo normal
+## Normal-flow demonstration
 
-## Logs, monitoramento e critérios de sucesso
+## Logs, monitoring, and success criteria
 
-## Falhas comuns e recuperação
+## Common failures and recovery
 
-## Riscos, exceções e conhecimento não documentado
+## Risks, exceptions, and undocumented knowledge
 
-## Prática executada pelo receptor
+## Practice completed by the recipient
 
-## Perguntas e pendências
+## Questions and open items
 
-## Critério de aceite
+## Acceptance criteria
 
-- [ ] Documento atualizado
-- [ ] Demonstração concluída
-- [ ] Execução prática concluída
-- [ ] Falha/recovery discutidos ou simulados
-- [ ] Acessos testados
-- [ ] Owner aprovou
-
+- [ ] Document updated
+- [ ] Demonstration completed
+- [ ] Hands-on practice completed
+- [ ] Failure/recovery discussed or simulated
+- [ ] Access tested
+- [ ] Owner approved

@@ -1,49 +1,48 @@
-# Operação, criticidade e calendário
+# Operations, criticality, and calendar
 
-Os manuais descrevem capacidades técnicas, mas não o calendário operacional de cada organização. Este documento pretende virar o painel diário do suporte para um cliente. Essa é a nossa sugestão inicial. O KT mencionado aqui considera um analista que já saiba o básico das ferramentas do Investran e está focado apenas nos aspectos específicos de cada cliente.
+The manuals describe technical capabilities, not each organization's operating calendar. This document is intended to become the daily support dashboard for a customer. It is an initial suggestion for an analyst who already knows the Investran tools and needs the customer-specific details.
 
-## Rotina mínima sugerida
+## Suggested minimum routine
 
-### Início do dia
+### Start of day
 
-- conferir serviços e schedulers críticos;
-- revisar falhas/atrasos desde o último turno;
-- validar filas e jobs em `Ready`, `Running` ou equivalente além do tempo esperado;
-- confirmar espaço em disco, disponibilidade de banco e alertas de certificado/conta;
-- verificar interfaces de entrada e saída aguardadas.
+- Check critical services and schedulers.
+- Review failures and delays since the previous shift.
+- Validate queues and jobs in `Ready`, `Running`, or an equivalent state beyond the expected time.
+- Confirm disk space, database availability, and certificate/account alerts.
+- Check pending inbound and outbound interfaces.
 
-### Durante o dia
+### During the day
 
-- registrar ticket antes de qualquer intervenção;
-- correlacionar horário, usuário, entidade, job/batch e ambiente;
-- preservar log e evidência antes de retry/restart;
-- reconciliar saída funcional, não apenas status técnico.
+- Record a ticket before any intervention.
+- Correlate time, user, entity, job/batch, and environment.
+- Preserve logs and evidence before a retry or restart.
+- Reconcile the business output, not only the technical status.
 
-### Fim do dia
+### End of day
 
-- confirmar conclusão dos processos críticos;
-- registrar pendências, workarounds e próximo owner;
-- garantir que nenhum batch/import/BE ficou parcialmente processado.
+- Confirm completion of critical processes.
+- Record open items, workarounds, and the next owner.
+- Ensure no batch, import, or BE remains partially processed.
 
-## Calendário a obter no KT
+## Calendar to obtain during KT
 
-| Processo | Frequência/horário | SLA/cutoff | Dependência | Validação funcional | Owner/backup |
+| Process | Frequency/time | SLA/cutoff | Dependency | Business validation | Owner/backup |
 |---|---|---|---|---|---|
-| Batches de fechamento | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-| Reporting | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-| Data Import/interfaces | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-| Business Events | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-| Maintenance Job/backup | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-| Servidores e Infra | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-| Interfaces com outras apps | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
-| Conheça seu cliente (Networking) | KT pendente | KT pendente | KT pendente | KT pendente | KT pendente |
+| Closing batches | KT pending | KT pending | KT pending | KT pending | KT pending |
+| Reporting | KT pending | KT pending | KT pending | KT pending | KT pending |
+| Data Import/interfaces | KT pending | KT pending | KT pending | KT pending | KT pending |
+| Business Events | KT pending | KT pending | KT pending | KT pending | KT pending |
+| Maintenance job/backup | KT pending | KT pending | KT pending | KT pending | KT pending |
+| Servers and infrastructure | KT pending | KT pending | KT pending | KT pending | KT pending |
+| Interfaces with other applications | KT pending | KT pending | KT pending | KT pending | KT pending |
+| Know your customer (networking) | KT pending | KT pending | KT pending | KT pending | KT pending |
 
-## Criticidade
+## Criticality
 
-- **P1:** risco financeiro/regulatório, fechamento bloqueado, indisponibilidade ampla ou corrupção/inconsistência.
-- **P2:** processo importante bloqueado, sem workaround aceitável.
-- **P3:** impacto restrito ou workaround controlado.
-- **P4:** dúvida, melhoria ou manutenção planejada.
+- **P1:** Financial or regulatory risk, blocked close, broad outage, or corruption/inconsistency.
+- **P2:** Important process blocked, with no acceptable workaround.
+- **P3:** Restricted impact or a controlled workaround.
+- **P4:** Question, improvement, or planned maintenance.
 
-Alinhar definições e SLAs oficiais da conta durante o KT.
-
+Align the official account definitions and SLAs during KT.

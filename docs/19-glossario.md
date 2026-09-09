@@ -1,23 +1,23 @@
-# Glossário operacional
+# Operational glossary
 
-Os termos abaixo descrevem o uso nesta base de conhecimento. Confirme nomes de telas, serviços e versões no ambiente antes de executar um procedimento.
+The terms below describe how this knowledge base uses them. Confirm screen names, services, and versions in the environment before performing a procedure.
 
-| Termo | Significado prático |
+| Term | Practical meaning |
 |---|---|
-| AT / Active Template | Template ativo usado para estruturar, executar ou publicar processos e saídas configuráveis. |
-| ARM / Allocation Rules Manager | Conjunto de regras de alocação e seu ciclo de desenvolvimento, validação e publicação. |
-| Batch | Processamento agrupado e rastreável por identificador, cujo resultado precisa ser reconciliado antes de retry ou reprocessamento. |
-| BE / Business Event | Evento configurado que inicia ou coordena uma ação de negócio; pode gerar efeitos downstream e exige validação de estado parcial. |
-| Cutoff | Horário ou condição-limite após a qual o impacto operacional ou financeiro pode mudar. O valor real é `KT pendente`. |
-| Evidência sanitizada | Registro que sustenta diagnóstico ou validação sem expor credenciais, dados pessoais, financeiros ou topologia interna. |
-| KT | Transferência de conhecimento. `KT pendente` marca uma informação que ainda precisa ser confirmada com a equipe responsável. |
-| Owner técnico / funcional | Papel responsável, respectivamente, pela sustentação técnica e pela decisão ou validação do processo de negócio. |
-| Reconciliação | Comparação controlada de contagens, valores, status e efeitos downstream para confirmar que um processo terminou corretamente. |
-| Retry / reprocessamento | Nova tentativa de execução. Só é segura após confirmar o estado anterior, idempotência e aprovação quando houver risco de duplicação. |
-| RW / Report Wizard | Componente e definições usados para relatórios, parâmetros, filtros e resultados de reporting. |
-| SLA | Compromisso de serviço; não assuma um valor se ele não estiver confirmado para o ambiente. |
-| WRS / Web Reporting Services | Camada de serviços web para descoberta e execução de relatórios. |
+| AT / Active Template | An active template used to structure, run, or publish configurable processes and outputs. |
+| ARM / Allocation Rules Manager | The allocation-rule set and its development, validation, and publication lifecycle. |
+| Batch | A grouped process tracked by an identifier. Its result must be reconciled before a retry or reprocessing. |
+| BE / Business Event | A configured event that starts or coordinates a business action. It can produce downstream effects and requires partial-state validation. |
+| Cutoff | A time or condition after which operational or financial impact can change. The actual value is `KT pending`. |
+| Sanitized evidence | A record that supports diagnosis or validation without exposing credentials, personal or financial data, or internal topology. |
+| KT | Knowledge transfer. `KT pending` marks information that still needs confirmation with the responsible team. |
+| Technical / functional owner | The role accountable for technical support or for the business-process decision and validation. |
+| Reconciliation | A controlled comparison of counts, values, statuses, and downstream effects to confirm that a process completed correctly. |
+| Retry / reprocessing | A new execution attempt. It is safe only after confirming the prior state, idempotency, and approval when duplicate-processing risk exists. |
+| RW / Report Wizard | The component and definitions used for reports, parameters, filters, and reporting results. |
+| SLA | A service commitment. Do not assume a value unless it is confirmed for the environment. |
+| WRS / Web Reporting Services | The web-service layer for discovering and running reports. |
 
-## Uso do glossário
+## Use of this glossary
 
-Se um termo tiver interpretação específica no ambiente, documente-a com fonte, versão, owner e evidência no componente ou runbook correspondente. Não substitua o termo padrão por uma abreviação local sem defini-la aqui ou no próprio documento.
+If a term has a specific meaning in an environment, document it with its source, version, owner, and evidence in the related component or runbook. Do not replace a standard term with a local abbreviation without defining it here or in the document itself.

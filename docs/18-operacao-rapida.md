@@ -1,44 +1,44 @@
-# Operação rápida e plantão
+# Quick operations and on-call guide
 
-Use esta página como ponto de entrada durante um incidente ou antes de uma mudança. Ela reduz o tempo até o diagnóstico sem substituir a aprovação, o ticket ou o runbook específico.
+Use this page as the entry point during an incident or before a change. It shortens the time to diagnosis without replacing approval, a ticket, or the specific runbook.
 
-> **Limite conhecido:** owners, SLAs, horários de corte, topologia e contatos do ambiente ainda são `KT pendente`. Não invente esses dados: registre a lacuna no ticket e escale pelo processo vigente.
+> **Known limit:** owners, SLAs, cutoffs, topology, and environment contacts are still `KT pending`. Do not invent this information. Record the gap in the ticket and escalate through the current process.
 
-## Nos primeiros 15 minutos
+## First 15 minutes
 
-1. Abra ou atualize o ticket com horário, ambiente, impacto, usuários ou entidades afetadas e o último comportamento conhecido como bom.
-2. Preserve evidências sanitizadas antes de alterar estado: mensagem, IDs de correlação, status, screenshot e logs relevantes.
-3. Classifique o alcance: indisponibilidade geral, processo isolado, dado incorreto, segurança ou degradação.
-4. Compare mudanças recentes com uma execução conhecida. Execute somente verificações reversíveis e de baixo risco.
-5. Escolha o runbook abaixo. Pare e escale se houver impacto financeiro, segurança, escrita parcial, dados duplicados ou estado desconhecido.
+1. Open or update the ticket with the time, environment, impact, affected users or entities, and the last known-good behavior.
+2. Preserve sanitized evidence before changing state: message, correlation IDs, status, screenshot, and relevant logs.
+3. Classify the scope: broad outage, isolated process, incorrect data, security, or degradation.
+4. Compare recent changes with a known-good execution. Run only reversible, low-risk checks.
+5. Select the runbook below. Stop and escalate if there is financial impact, security risk, partial writes, duplicate data, or an unknown state.
 
-## Escolha o caminho
+## Choose a path
 
-| Situação | Primeiro procedimento |
+| Situation | First procedure |
 |---|---|
-| Impacto ainda incerto ou múltiplas camadas | [Triagem de incidente](../runbooks/incidente.md) |
-| Batch, scheduler ou job com falha | [Falha de batch/job](../runbooks/falha-batch-job.md) |
-| Report Wizard, Crystal, WRS ou exportação | [Falha de reporting](../runbooks/falha-reporting.md) |
-| Business Event ou Partner Transfer | [Falha de Business Event](../runbooks/falha-business-event.md) |
-| Deploy, upgrade ou manutenção planejada | [Deploy/manutenção](../runbooks/deploy-manutencao.md) |
+| Unknown impact or multiple layers | [Incident triage](../runbooks/incidente.md) |
+| Batch, scheduler, or job failure | [Batch/job failure](../runbooks/falha-batch-job.md) |
+| Report Wizard, Crystal, WRS, or export | [Reporting failure](../runbooks/falha-reporting.md) |
+| Business Event or Partner Transfer | [Business Event failure](../runbooks/falha-business-event.md) |
+| Planned deployment, upgrade, or maintenance | [Deployment and maintenance](../runbooks/deploy-manutencao.md) |
 
-## Critérios para parar e escalar
+## Stop and escalate when
 
-- há possível exposição de dados, falha de autorização ou evidência não sanitizada;
-- a operação pode duplicar, excluir ou alterar dados financeiros;
-- existe processamento parcial, lock persistente ou o resultado de uma tentativa anterior é desconhecido;
-- a mudança exige SQL, reinício, retry ou reprocessamento não previsto no procedimento aprovado;
-- a causa atravessa uma camada sem owner confirmado (infraestrutura, banco, integração ou funcional).
+- there may be data exposure, an authorization failure, or unsanitized evidence;
+- the operation may duplicate, delete, or change financial data;
+- processing is partial, a lock persists, or the previous attempt has an unknown result;
+- the change requires SQL, a restart, a retry, or reprocessing that is not in an approved procedure;
+- the cause crosses a layer without a confirmed owner: infrastructure, database, integration, or functional support.
 
-Ao escalar, envie o pacote mínimo: ticket, impacto, ambiente, janela temporal, passo reproduzível, IDs correlatos, ação já realizada, resultado, evidência sanitizada e decisão solicitada.
+When escalating, provide the minimum package: ticket, impact, environment, time window, reproducible step, related IDs, action already taken, result, sanitized evidence, and requested decision.
 
-## Fechamento mínimo
+## Minimum closure
 
-Antes de encerrar, valide o cenário original, um caso negativo de segurança quando aplicável, reconciliação funcional e ausência de recorrência no período acordado. Registre causa (ou hipótese), ação, evidência, impacto residual, follow-up e a atualização necessária nesta base.
+Before closing, validate the original scenario, a negative security case when applicable, business reconciliation, and no recurrence during the agreed period. Record the cause (or hypothesis), action, evidence, remaining impact, follow-up, and the required update to this knowledge base.
 
-## Referências
+## References
 
-- [Troubleshooting geral](13-troubleshooting.md)
-- [Plano de KT](16-plano-de-kt.md)
-- [Glossário](19-glossario.md)
-- [Política de informação sensível](../SECURITY.md)
+- [General troubleshooting](13-troubleshooting.md)
+- [KT plan](16-plano-de-kt.md)
+- [Glossary](19-glossario.md)
+- [Sensitive information policy](../SECURITY.md)

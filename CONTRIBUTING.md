@@ -1,23 +1,22 @@
-# Como contribuir
+# How to contribute
 
-## Princípios
+## Principles
 
-1. Separar claramente fato confirmado, hipótese e `KT pendente`.
-2. Informar versão e ambiente em toda configuração.
-3. Registrar fonte, data da última validação e responsável.
-4. Escrever procedimentos com pré-condições, impacto, validação e retorno.
-5. Não copiar trechos extensos dos manuais; prefira síntese e referência por documento/página.
-6. Nunca incluir segredos ou dados de produção.
+1. Clearly separate confirmed facts, assumptions, and `KT pending` items.
+2. State the version and environment for every configuration.
+3. Record the source, last validation date, and owner.
+4. Write procedures with prerequisites, impact, validation, and rollback.
+5. Do not copy long passages from manuals. Prefer a concise summary and a document or page reference.
+6. Never include secrets or production data.
 
-## Critério de pronto
+## Definition of done
 
-Um guia operacional só está concluído quando outra pessoa consegue executar o fluxo em ambiente seguro, localizar logs, reconhecer sucesso/falha e saber quando interromper e escalar.
+An operational guide is complete only when another person can run the flow in a safe environment, find the logs, recognize success or failure, and know when to stop and escalate.
 
-## Fluxo sugerido
+## Suggested workflow
 
-- criar branch e pull request;
-- pedir revisão do especialista funcional e do técnico;
-- executar o procedimento em DEV/UAT quando possível;
-- registrar evidência e data de validação;
-- atualizar o status no [plano de KT](docs/16-plano-de-kt.md).
-
+- Create a branch and pull request.
+- Request review from the functional and technical specialists.
+- Run the procedure in DEV/UAT when possible.
+- Record the evidence and validation date.
+- Update the status in the [KT plan](docs/16-plano-de-kt.md).

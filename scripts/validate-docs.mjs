@@ -5,13 +5,13 @@ const root = process.cwd();
 const ignoredDirectories = new Set(['.git', 'dist', 'node_modules']);
 const documentationRoots = ['README.md', 'CONTRIBUTING.md', 'SECURITY.md', 'docs', 'runbooks', 'templates'];
 const requiredRunbookControls = [
-  '## Controle documental',
+  '## Document control',
   '| Status |',
-  '| Owner técnico |',
-  '| Owner funcional |',
-  '| Última validação |',
-  '| Próxima revisão |',
-  '| Evidência |',
+  '| Technical owner |',
+  '| Functional owner |',
+  '| Last validation |',
+  '| Next review |',
+  '| Evidence |',
 ];
 const secretPatterns = [
   /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/i,

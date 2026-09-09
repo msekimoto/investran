@@ -1,75 +1,67 @@
-# Fundos, investidores e investimentos
+# Funds, investors, and investments
 
-## Duas perspectivas do mesmo sistema
+## Two perspectives of the same system
 
-Para entender o Investran, separe o domínio em dois lados conectados pela contabilidade.
+To understand Investran, separate the domain into two sides connected by accounting.
 
 ```mermaid
 flowchart LR
-    subgraph CAP[Capital e participação]
+    subgraph CAP[Capital and participation]
         I[Investor]
         SI[Specific Investor]
         V[Vehicle / Specific Vehicle]
         C[Commitment]
         I --> SI --> V --> C
     end
-
     LE[Legal Entity / Fund]
-
-    subgraph INV[Investimentos do fundo]
+    subgraph INV[Fund investments]
         D[Deal / Specific Deal]
         P[Position / Specific Position]
         S[Security / Lot / Pool]
         D --> P --> S
     end
-
     CAP --> LE --> INV
-    LE --> B[Accounting: batches e transactions]
+    LE --> B[Accounting: batches and transactions]
 ```
 
-O lado esquerdo responde **quem fornece capital e por qual estrutura**. O lado direito responde **onde o fundo investe e quais posições mantém**. Batches e transactions registram os eventos que alteram esses dois lados.
+The left side answers **who provides capital and through which structure**. The right side answers **where the fund invests and which positions it holds**. Batches and transactions record events that change both sides.
 
 ## Commitment
 
-Commitment é o compromisso de capital assumido pela participação investidora. No suporte, diferencie:
+Commitment is capital promised by the investor participation. In support, distinguish:
 
-- commitment total;
-- capital já chamado/funded;
-- unfunded commitment;
-- transferências ou alterações de compromisso;
-- data de vigência/closing;
-- moeda e contexto da Legal Entity/Vehicle.
+- Total commitment.
+- Called/funded capital.
+- Unfunded commitment.
+- Commitment transfers or changes.
+- Effective/closing date.
+- Currency and Legal Entity/Vehicle context.
 
-A fórmula simplificada `unfunded = commitment - capital chamado` ajuda no raciocínio, mas não deve substituir regras, transações e reports oficiais da instalação.
+The simplified formula `unfunded = commitment - called capital` helps reasoning, but it does not replace official installation rules, transactions, and reports.
 
 ## Allocation
 
-Allocation distribui um valor ou quantidade de uma transaction entre investidores. Ela pode ser:
-
-- estática ou dinâmica;
-- Top Down ou Bottom Up;
-- baseada em commitment, saldo, custo ou outra medida;
-- calculada por regra de sistema ou customizada no ARM.
+Allocation distributes a transaction value or quantity across investors. It can be static or dynamic, Top Down or Bottom Up, based on commitment, balance, cost, or another measure, and calculated by a system or customized ARM rule.
 
 ```mermaid
 flowchart LR
-    T[Transaction total] --> AR[Allocation Rule]
-    DATA[Commitments / saldos / datas / hierarquias] --> AR
+    T[Total transaction] --> AR[Allocation Rule]
+    DATA[Commitments / balances / dates / hierarchies] --> AR
     AR --> A1[Investor Allocation A]
     AR --> A2[Investor Allocation B]
     AR --> A3[Investor Allocation C]
-    A1 & A2 & A3 --> R[Reconciliação: soma, moeda e arredondamento]
+    A1 & A2 & A3 --> R[Reconciliation: total, currency, and rounding]
 ```
 
-## Exemplo conceitual
+## Conceptual example
 
-Uma Legal Entity possui dois Specific Investors. Uma capital call gera um batch. Cada journal entry possui transactions de débito/crédito. A Allocation Rule consulta a base apropriada e cria Investor Allocations para dividir a transaction entre os dois investidores. O Report Wizard pode então recuperar tanto o total da Legal Entity quanto o detalhe por investor.
+A Legal Entity has two Specific Investors. A capital call creates a batch. Each journal entry contains debit/credit transactions. The Allocation Rule reads the relevant data and creates Investor Allocations that split the transaction across the two investors. Report Wizard can then retrieve both the Legal Entity total and investor detail.
 
-## Relações que precisam ser confirmadas no KT
+## Relationships to confirm during KT
 
-- estrutura Legal Entity → Vehicle → Specific Investor usada pela organização;
-- tipos de Deal/Position adotados;
-- onde commitment e unfunded são considerados fonte oficial;
-- regras de vigência, closing e transferências;
-- hierarquias e UDFs que alteram seleção/alocação;
-- reports oficiais de reconciliação por entidade.
+- Legal Entity → Vehicle → Specific Investor structure used by the organization.
+- Deal/Position types in use.
+- Official source for commitment and unfunded values.
+- Effective-date, closing, and transfer rules.
+- Hierarchies and UDFs that change selection/allocation.
+- Official reconciliation reports by entity.

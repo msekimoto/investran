@@ -1,38 +1,38 @@
 # Business Events (BE)
 
-Business Events são processos orientados a negócio executados pela camada web e por serviços do Investran. Eles combinam uma interface de configuração, um template importado, regras de domínio, acesso às APIs do Investran e, dependendo do evento, relatórios do Report Wizard, Allocation Rules, scripts de banco e geração de batches.
+Business Events are business-oriented processes run by the web layer and Investran services. They combine a configuration interface, an imported template, domain rules, Investran API access, and—depending on the event—Report Wizard reports, Allocation Rules, database scripts, and batch generation.
 
-Esta seção organiza o conhecimento necessário para implantar, configurar, executar e sustentar Business Events.
+This section organizes the knowledge needed to deploy, configure, run, and support Business Events.
 
-## Guias
+## Guides
 
-1. [Guia prático de Business Events](guia-pratico-business-events.md)
-2. [Partner Transfer em profundidade](partner-transfer.md)
-3. [Troubleshooting e recuperação](troubleshooting.md)
-4. [Resumo anterior: Business Events e Partner Transfer](../14-business-events.md)
+1. [Business Events practical guide](guia-pratico-business-events.md)
+2. [Partner Transfer in depth](partner-transfer.md)
+3. [Troubleshooting and recovery](troubleshooting.md)
+4. [Earlier summary: Business Events and Partner Transfer](../14-business-events.md)
 
-## O que está comprovado pelos manuais
+## What the manuals confirm
 
-- os templates de BE são distribuídos como arquivos `.ZIP`;
-- a importação ocorre no Investran Web, em **Events & Imports > Business Events > Import Templates**;
-- são necessárias permissões de inclusão e alteração no módulo Business Event;
-- um BE pode depender de scripts SQL, reports `.CAB` ou `.IED`, Report Wizard e Allocation Rules;
-- a arquitetura possui componentes no cliente/web e no servidor, conectados pelo Enterprise Service Bus;
-- a documentação de manutenção lista `Equity Pickup`, `Fund Valuation`, `LP Capital Event` e `Partner Transfer` como Business Events de sistema daquela versão.
+- BE templates are distributed as `.ZIP` files.
+- Import occurs in Investran Web under **Events & Imports > Business Events > Import Templates**.
+- Add and edit permissions are required in the Business Event module.
+- A BE can depend on SQL scripts, `.CAB` or `.IED` reports, Report Wizard, and Allocation Rules.
+- The architecture has client/web and server components connected through the Enterprise Service Bus.
+- The maintenance documentation lists `Equity Pickup`, `Fund Valuation`, `LP Capital Event`, and `Partner Transfer` as system Business Events for that version.
 
-Essa lista é um catálogo daquela maintenance release, não uma garantia de que sejam os únicos BEs existentes ou instalados no ambiente atual.
+This is a catalog for that maintenance release, not proof that those are the only BEs installed in the current environment.
 
-## Regra de operação
+## Operating rule
 
-Um BE deve ser tratado como uma cadeia de dependências, não apenas como um template. Antes de executar ou publicar uma alteração, identifique o template, a versão, os reports, as regras, os scripts, a conta de serviço, as entidades afetadas e os artefatos que podem ser gravados.
+Treat a BE as a dependency chain, not only as a template. Before running or publishing a change, identify the template, version, reports, rules, scripts, service account, affected entities, and artifacts that can be written.
 
-## KT prioritário
+## Priority KT
 
-- inventário de BEs instalados, versões e owners;
-- finalidade e janela operacional de cada evento;
-- parâmetros e validações funcionais;
-- reports, Allocation Rules, scripts e hierarquias usados;
-- serviços, contas e servidores envolvidos;
-- batches, lançamentos e arquivos produzidos;
-- procedimento aprovado de reprocessamento e rollback;
-- incidentes recorrentes e critérios de escalonamento.
+- Inventory of installed BEs, versions, and owners.
+- Purpose and operating window of every event.
+- Parameters and business validations.
+- Reports, Allocation Rules, scripts, and hierarchies in use.
+- Services, accounts, and servers involved.
+- Generated batches, entries, and files.
+- Approved reprocessing and rollback procedure.
+- Recurring incidents and escalation criteria.

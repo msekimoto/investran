@@ -1,36 +1,35 @@
-# Data Import e interfaces
+# Data Import and interfaces
 
-Esta página orienta a entrada no módulo de importação. O material detalhado está nos guias específicos de Data Import e no troubleshooting do processo.
+This page is the entry point for the import module. Detailed material is in the specific Data Import guides and process troubleshooting.
 
-## Material detalhado
+## Detailed material
 
-- [Data Import](data-import/README.md): visão geral, limites e fluxos de suporte.
-- [Guia prático de Data Import](data-import/guia-pratico-data-import.md): execução, mapeamento e rotina operacional.
-- [Templates, entidades e mappings](data-import/templates-entidades-mappings.md): mapeamentos e regras por entidade.
-- [Troubleshooting de Data Import](data-import/troubleshooting.md): diagnóstico de rejeições e carga parcial.
+- [Data Import](data-import/README.md): overview, limitations, and support flows.
+- [Data Import practical guide](data-import/guia-pratico-data-import.md): execution, mapping, and daily operations.
+- [Templates, entities, and mappings](data-import/templates-entidades-mappings.md): mappings and rules by entity.
+- [Data Import troubleshooting](data-import/troubleshooting.md): rejected-row and partial-load diagnosis.
 
-## Fluxo de suporte recomendado
+## Recommended support flow
 
-1. confirmar entidade, template e entitlement;
-2. validar mapping, chaves e UDFs;
-3. testar uma amostra em ambiente controlado;
-4. registrar job, arquivo, usuário e checksum;
-5. monitorar status e linhas rejeitadas;
-6. reconciliar conta/quantidade/entidade após a carga;
-7. arquivar evidência e repetir somente quando a idempotência for garantida.
+1. Confirm the entity, template, and entitlement.
+2. Validate the mapping, keys, and UDFs.
+3. Test a sample in a controlled environment.
+4. Record the job, file, user, and checksum.
+5. Monitor status and rejected rows.
+6. Reconcile account/count/entity after loading.
+7. Archive evidence and repeat only when idempotency is guaranteed.
 
-## Decisão rápida
+## Quick decision
 
-| Questão | Guia melhor |
+| Question | Best guide |
 |---|---|
-| O job rejeita linhas ou falha no mapeamento | [Troubleshooting de Data Import](data-import/troubleshooting.md) |
-| Preciso preparar o arquivo e os templates | [Templates, entidades e mappings](data-import/templates-entidades-mappings.md) |
-| Quero entender o processo geral | [Data Import](data-import/README.md) |
+| Job rejects rows or mapping fails | [Data Import troubleshooting](data-import/troubleshooting.md) |
+| Need to prepare the file and templates | [Templates, entities, and mappings](data-import/templates-entidades-mappings.md) |
+| Need to understand the overall process | [Data Import](data-import/README.md) |
 
-## KT pendente
+## KT pending
 
-- templates oficiais e customizados;
-- entidades por frequência e volume;
-- owner da interface e rotina de reconciliação;
-- regras de retry, cancelamento e carga parcial.
-
+- Official and customized templates.
+- Entities by frequency and volume.
+- Interface owner and reconciliation routine.
+- Retry, cancellation, and partial-load rules.

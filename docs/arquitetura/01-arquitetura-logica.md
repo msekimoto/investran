@@ -1,26 +1,23 @@
-# Arquitetura lógica e componentes
+# Logical architecture and components
 
-## Visão em camadas
+## Layered view
 
 ```mermaid
 flowchart TB
-    U[Usuários e sistemas externos]
-
-    subgraph UX[Experiência e canais]
+    U[Users and external systems]
+    subgraph UX[Experience and channels]
         WEB[Investran Web]
         DESK[Accounting / Report Wizard / Reporting Services]
-        DX[Data Exchange / aplicações customizadas]
+        DX[Data Exchange / custom applications]
     end
-
-    subgraph WS[Web e serviços]
+    subgraph WS[Web and services]
         IIS[Web Server / IIS]
         WAS[Web Application Server]
         REST[REST Controllers]
         SOAP[SOAP/WCF Web Services]
-        SEC[Autenticação / Team Security / SSO]
+        SEC[Authentication / Team Security / SSO]
     end
-
-    subgraph APP[Processamento de aplicação]
+    subgraph APP[Application processing]
         SCH[Scheduling Service]
         DSP[Dispatcher]
         ATM[Active Templates]
@@ -30,13 +27,11 @@ flowchart TB
         BE[Business Events]
         DI[Data Import]
     end
-
-    subgraph DATA[Dados]
+    subgraph DATA[Data]
         MASTER[(Investran Master)]
         STAGING[(Investran Staging)]
-        RDB[(Reporting / WRS Admin quando aplicável)]
+        RDB[(Reporting / WRS Admin when applicable)]
     end
-
     U --> UX
     WEB --> IIS --> WAS
     WAS --> REST & SOAP & SEC
@@ -47,37 +42,37 @@ flowchart TB
     APP --> MASTER & STAGING & RDB
 ```
 
-## Responsabilidade por camada
+## Responsibility by layer
 
-| Camada | Responsabilidade | Evidência de suporte |
+| Layer | Responsibility | Support evidence |
 |---|---|---|
-| Canais | interação e execução | usuário, URL, parâmetros, screenshot |
-| Web/IIS | hosting, autenticação e APIs | IIS/app pool, HTTP, certificado, web logs |
-| Web Application | regras e service contracts | application logs, fault, correlation |
-| Application Server | processamento assíncrono/pesado | scheduler, dispatcher, worker e execution ID |
-| Reporting | consultas e saídas | report, parâmetros, engine/provider e duração |
-| Dados | persistência e staging | IDs, status, blocking, jobs e integridade |
+| Channels | Interaction and execution | User, URL, parameters, screenshot |
+| Web/IIS | Hosting, authentication, and APIs | IIS/app pool, HTTP, certificate, web logs |
+| Web Application | Rules and service contracts | Application logs, fault, correlation |
+| Application Server | Heavy/asynchronous processing | Scheduler, dispatcher, worker, execution ID |
+| Reporting | Queries and outputs | Report, parameters, engine/provider, duration |
+| Data | Persistence and staging | IDs, status, blocking, jobs, integrity |
 
-## Como localizar uma falha
+## How to locate a failure
 
 ```mermaid
 flowchart LR
-    S[Sintoma] --> Q1{Só um usuário?}
-    Q1 -- Sim --> A[Permissão, contexto ou parâmetros]
-    Q1 -- Não --> Q2{Canal web indisponível?}
-    Q2 -- Sim --> W[IIS, app pool, SSO, certificado]
-    Q2 -- Não --> Q3{Execução assíncrona?}
-    Q3 -- Sim --> P[Scheduler, dispatcher, worker, staging]
-    Q3 -- Não --> Q4{Consulta/relatório?}
-    Q4 -- Sim --> R[RW, Crystal/OLE DB, SQL, volume]
-    Q4 -- Não --> D[API, regra funcional ou banco]
+    S[Symptom] --> Q1{One user only?}
+    Q1 -- Yes --> A[Permission, context, or parameters]
+    Q1 -- No --> Q2{Web channel unavailable?}
+    Q2 -- Yes --> W[IIS, app pool, SSO, certificate]
+    Q2 -- No --> Q3{Asynchronous execution?}
+    Q3 -- Yes --> P[Scheduler, dispatcher, worker, staging]
+    Q3 -- No --> Q4{Query/report?}
+    Q4 -- Yes --> R[RW, Crystal/OLE DB, SQL, volume]
+    Q4 -- No --> D[API, business rule, or database]
 ```
 
-## Limitação
+## Limitation
 
-O desenho combina os componentes documentados pela FIS. A topologia física pode consolidar Web Server e Web Application Server ou distribuir componentes em várias instâncias. O inventário do ambiente deve mapear cada bloco para hostname, serviço, URL, conta e monitoramento reais.
+The diagram combines FIS-documented components. Physical topology may combine the Web Server and Web Application Server or distribute components across several instances. The environment inventory must map each block to its real hostname, service, URL, account, and monitoring.
 
-## Fontes
+## Sources
 
-- *Internal_Inv7_INV_Architecture_7.pdf*, Deployment, Web Components, Application Server e Reporting.
-- *Internal_Inv7_INV_Implementation.pdf*, server setup e scheduler services.
+- *Internal_Inv7_INV_Architecture_7.pdf*, Deployment, Web Components, Application Server, and Reporting.
+- *Internal_Inv7_INV_Implementation.pdf*, server setup and scheduler services.

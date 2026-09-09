@@ -1,93 +1,91 @@
-# Arquitetura de reporting
+# Reporting architecture
 
-## Mapa dos componentes
+## Component map
 
 ```mermaid
 flowchart LR
-    DB[(Banco Investran)] --> META[Metadata / hierarquias]
-    DB --> ENG[Engine Report Wizard]
+    DB[(Investran Database)] --> META[Metadata / hierarchies]
+    DB --> ENG[Report Wizard Engine]
     META --> ENG
-    DEF[Book + definição do report] --> ENG
-    PAR[Parâmetros / time period / moeda] --> ENG
+    DEF[Book + report definition] --> ENG
+    PAR[Parameters / time period / currency] --> ENG
     TS[Team Security] --> ENG
-
     ENG --> UI[Report Wizard / Investran]
     ENG --> ATM[Active Templates]
     ENG --> ARM[Allocation Rules]
     ENG --> BE[Business Events]
-    ENG --> OLE[RW ou Investran OLE DB Provider]
+    ENG --> OLE[RW or Investran OLE DB Provider]
     ENG --> WRS[Web Reporting Services]
-
     OLE --> CR[Crystal Reports]
     WRS --> DX[Data Exchange]
-    WRS --> SOAP[Aplicações SOAP]
+    WRS --> SOAP[SOAP applications]
     CR --> OUT[Viewer / PDF / Excel]
     WRS --> OUT2[XML / HTML / PDF]
 ```
 
-## Caminhos de execução
+## Execution paths
 
-| Caminho | Sequência | Identidade/segurança relevante |
+| Path | Sequence | Relevant identity/security |
 |---|---|---|
-| interativo | usuário -> Investran -> RW engine -> banco | login do Investran e Team Security |
-| Crystal direto | usuário -> RW -> Crystal Viewer | acesso ao report e provider instalado |
-| Crystal externo | Crystal -> OLE DB Provider -> RW engine -> banco | conta de conexão, RW User/Admin e parâmetros |
-| WRS com Contact | consumidor -> IIS/WRS -> RW engine -> banco | Contact, relacionamento, security level e WRS filter |
-| WRS com SQL user | consumidor -> IIS/WRS -> RW engine -> banco | usuário SQL; o manual alerta que filtros/security levels WRS não são aplicados |
-| automação | AT/AR/BE -> report driver -> RW engine | conta do processo e contrato do driver report |
+| Interactive | User → Investran → RW engine → database | Investran login and Team Security |
+| Direct Crystal | User → RW → Crystal Viewer | Report access and installed provider |
+| External Crystal | Crystal → OLE DB Provider → RW engine → database | Connection account, RW User/Admin, and parameters |
+| WRS with Contact | Consumer → IIS/WRS → RW engine → database | Contact, relationship, security level, and WRS filter |
+| WRS with SQL user | Consumer → IIS/WRS → RW engine → database | SQL user; manual warns that WRS filters/security levels are not applied |
+| Automation | AT/AR/BE → report driver → RW engine | Process account and driver-report contract |
 
-## Por que um report RW é um componente compartilhado
+## Why an RW report is a shared component
 
-Um report pode ser simultaneamente interface humana, fonte de Crystal, driver de Active Template, fonte de Allocation Rule, dependência de Business Event ou contrato de integração. Alterar colunas, filtros, nomes, tipos ou cardinalidade pode afetar processos sem relação aparente com a tela do report.
+A report can be a human interface, Crystal source, Active Template driver, Allocation Rule source, Business Event dependency, or integration contract at the same time. Changing columns, filters, names, types, or cardinality can affect processes that do not appear related to its screen.
 
-## Fronteiras de segurança
+## Security boundaries
 
 ```mermaid
 flowchart TD
-    AUTH[Autenticação de transporte / IIS] --> IDENT[Identidade de execução]
-    IDENT --> CONTACT{Contact WRS?}
-    CONTACT -->|Sim| REL[Relacionamento com entidade]
+    AUTH[Transport authentication / IIS] --> IDENT[Execution identity]
+    IDENT --> CONTACT{WRS Contact?}
+    CONTACT -->|Yes| REL[Entity relationship]
     REL --> LEVEL[Security level]
-    LEVEL --> FILTER[WRS filter do report]
-    CONTACT -->|Não, usuário SQL| SQL[Permissões SQL/RW]
-    FILTER --> DATA[Dados permitidos]
-    SQL --> DATA2[Dados sem filtro funcional WRS]
+    LEVEL --> FILTER[Report WRS filter]
+    CONTACT -->|No, SQL user| SQL[SQL/RW permissions]
+    FILTER --> DATA[Allowed data]
+    SQL --> DATA2[Data without WRS functional filter]
 ```
 
-Autenticar no IIS não prova autorização funcional no report. Da mesma forma, executar com conta administrativa ou SQL pode ocultar erros de configuração e gerar uma falsa validação.
+IIS authentication does not prove functional authorization in the report. Likewise, running with an administrative or SQL account can hide configuration errors and create a false validation.
 
-## Diagnóstico por camada
+## Diagnosis by layer
 
-| Camada | Sintoma típico | Evidência necessária |
+| Layer | Typical symptom | Required evidence |
 |---|---|---|
-| consumidor | chamada, paginação ou PDF inválido | request sanitizado, método, formato e response/fault |
-| rede/TLS | WRS indisponível | DNS, porta, certificado, firewall e handshake |
-| IIS/WRS | 5xx, recycle ou falha geral | logs IIS/aplicação, app pool, CPU e memória |
-| configuração WRS | empresa/conexão não encontrada | `CompanyID`, mapeamento e teste de conexão |
-| segurança | report ausente, vazio ou excessivo | Contact, relação, security level, filtro e identidade |
-| parâmetros | vazio ou erro de tipo | ID, nome, tipo, formato e valor efetivo |
-| definição RW | total/cardinalidade incorretos | versão, columns, filters, aggregation e hierarchy |
-| engine/SQL | lentidão ou timeout | duração RW isolada, volume, plano e blocking |
-| OLE DB/Crystal | RW funciona, layout falha | provider, Add Command, datasource, schema e subreports |
-| automação | interativo funciona, job falha | conta do processo, versão publicada e contexto |
+| Consumer | Invalid call, pagination, or PDF | Sanitized request, method, format, response/fault |
+| Network/TLS | WRS unavailable | DNS, port, certificate, firewall, handshake |
+| IIS/WRS | 5xx, recycle, or general failure | IIS/application logs, app pool, CPU, memory |
+| WRS configuration | Company/connection not found | `CompanyID`, mapping, connection test |
+| Security | Missing, empty, or excessive report | Contact, relationship, security level, filter, identity |
+| Parameters | Empty result or type error | ID, name, type, format, actual value |
+| RW definition | Incorrect total/cardinality | Version, columns, filters, aggregation, hierarchy |
+| Engine/SQL | Slow or timeout | Isolated RW duration, volume, plan, blocking |
+| OLE DB/Crystal | RW works, layout fails | Provider, Add Command, datasource, schema, subreports |
+| Automation | Interactive works, job fails | Process account, published version, context |
 
-## Ordem de isolamento
+## Isolation order
 
-1. Confirme ambiente, usuário e caminho de execução.
-2. Execute o report RW base com os mesmos parâmetros.
-3. Compare com conjunto conhecido e última versão boa.
-4. Adicione uma camada por vez: provider, Crystal, WRS ou automação.
-5. Valide segurança com usuário representativo e teste negativo.
-6. Só depois investigue tuning de banco ou ampliação de timeout.
+1. Confirm environment, user, and execution path.
+2. Run the base RW report with the same parameters.
+3. Compare with a known data set and last good version.
+4. Add one layer at a time: provider, Crystal, WRS, or automation.
+5. Validate security with a representative user and a negative test.
+6. Only then investigate database tuning or timeout increases.
 
-## Guias relacionados
+## Related guides
 
-- [Report Wizard - desenvolvimento e operação](02-report-wizard-desenvolvimento-operacao.md)
+- [Report Wizard - development and operations](02-report-wizard-desenvolvimento-operacao.md)
 - [Web Reporting Services](03-web-reporting-services.md)
-- [Report Wizard, Crystal Reports e WRS](../07-report-wizard-e-crystal.md)
-- [Runbook - Falha de reporting](../../runbooks/falha-reporting.md)
+- [Report Wizard, Crystal Reports, and WRS](../07-report-wizard-e-crystal.md)
+- [Runbook - Reporting failure](../../runbooks/falha-reporting.md)
 
-## Fontes
+## Sources
 
 - *Internal_Inv7_INV_RW_Dev_Guide_7.pdf*.
 - *Internal_Inv7_INV_WRS_Install-Admin_7.pdf*.

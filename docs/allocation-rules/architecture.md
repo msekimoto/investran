@@ -1,48 +1,48 @@
-# Allocation Rules — Arquitetura e Fluxo
+# Allocation Rules — Architecture and flow
 
-## Visão geral
+## Overview
 
-Allocation Rules definem como valores ou quantidades associados a uma transação são distribuídos entre investidores de uma Legal Entity.
+Allocation Rules define how values or quantities associated with a transaction are distributed across investors in a Legal Entity.
 
 ```mermaid
 flowchart TD
-    A[Origem do valor] --> B[Contexto da transação]
+    A[Value source] --> B[Transaction context]
     B --> C[Allocation Rule]
-    C --> D[Seleção de investidores]
-    D --> E[Cálculo de percentuais ou valores]
-    E --> F[Resultado por investidor]
-    F --> G[Agregação por Vehicle]
-    G --> H[Agregação por Legal Entity]
+    C --> D[Investor selection]
+    D --> E[Percentage or value calculation]
+    E --> F[Result by investor]
+    F --> G[Aggregation by Vehicle]
+    G --> H[Aggregation by Legal Entity]
 ```
 
-## Componentes envolvidos
+## Components involved
 
-| Componente | Papel |
+| Component | Role |
 |---|---|
-| Batch / Transaction | Fornece o valor, quantidade, datas e contexto contábil. |
-| Legal Entity | Define o universo principal da alocação. |
-| Investor | Recebe o resultado da alocação. |
-| Allocation Rule Manager | Ferramenta usada para administrar ou executar regras, conforme permissões. |
-| Active Template | Pode selecionar uma Allocation Rule por identificador. |
-| Report Wizard | Pode ser utilizado para consultar metadados, dados de suporte e identificadores de regras. |
+| Batch / Transaction | Provides value, quantity, dates, and accounting context. |
+| Legal Entity | Defines the main allocation universe. |
+| Investor | Receives the allocation result. |
+| Allocation Rule Manager | Tool used to administer or run rules, according to permissions. |
+| Active Template | Can select an Allocation Rule by identifier. |
+| Report Wizard | Can query metadata, supporting data, and rule identifiers. |
 
-O ARM Engine recebe properties e parameters do Accounting ou de outro consumidor, propaga valores com nomes correspondentes aos reports RW associados e devolve um `InvestorSet` com `Amount`, `LEAmount` e `Quantity` por Investor.
+The ARM Engine receives properties and parameters from Accounting or another consumer, propagates values whose names match associated RW reports, and returns an `InvestorSet` with `Amount`, `LEAmount`, and `Quantity` by Investor.
 
-## Fluxo Top Down
+## Top Down flow
 
-No modelo Top Down, o valor nasce no nível da Legal Entity e é distribuído aos investidores.
+In Top Down, a value starts at Legal Entity level and is distributed to investors.
 
 ```mermaid
 flowchart LR
-    LE[Valor na Legal Entity] --> AR[Regra estática ou dinâmica]
+    LE[Legal Entity value] --> AR[Static or dynamic rule]
     AR --> I1[Investor A]
     AR --> I2[Investor B]
     AR --> I3[Investor C]
 ```
 
-## Fluxo Bottom Up
+## Bottom Up flow
 
-No modelo Bottom Up, os valores são informados ou calculados no nível dos investidores e posteriormente agregados.
+In Bottom Up, values are provided or calculated at investor level and then aggregated.
 
 ```mermaid
 flowchart BT
@@ -52,48 +52,40 @@ flowchart BT
     V --> LE[Legal Entity]
 ```
 
-## Integração com Active Templates
+## Integration with Active Templates
 
-O guia do Active Template Manager documenta que uma transação pode receber uma Allocation Rule por ID durante a execução. Também documenta os identificadores de exemplo:
+The Active Template Manager guide documents that a transaction can receive an Allocation Rule by ID during execution:
 
-| ID | Regra de sistema |
+| ID | System rule |
 |---:|---|
 | 0 | Non-Dominant |
 | 1 | No Allocation |
 | 2 | User Provided |
 
-Quando `User Provided` é utilizada, o código VBA pode preencher o conjunto de investidores após a transação. Os identificadores devem ser confirmados no ambiente instalado antes de qualquer implementação.
+With `User Provided`, VBA can fill the investor set after the transaction. Confirm identifiers in the installed environment before implementation.
 
-## Fronteiras de responsabilidade
+## Responsibility boundaries
 
-Uma divergência de alocação não prova que a regra está defeituosa. A causa também pode estar em:
+An allocation discrepancy does not prove a defective rule. The cause can also be an incorrect Legal Entity, incomplete investor universe, incorrect commitment/closing date/balance/cost, incorrect accounting/effective date, wrong rule selected by Active Template, incorrect dominant/non-dominant transaction configuration, or correctly produced data consumed incorrectly by another component.
 
-- Legal Entity incorreta;
-- universo de investidores incompleto;
-- commitment, closing date, saldo ou custo incorreto;
-- data contábil ou efetiva incorreta;
-- regra errada selecionada pelo Active Template;
-- transação dominante ou não dominante configurada incorretamente;
-- resultado produzido corretamente, mas consumido de forma incorreta por outro componente.
+## Required validation points
 
-## Pontos obrigatórios de validação
+1. Identity of the executed rule.
+2. Static or dynamic type.
+3. Top Down or Bottom Up direction.
+4. Context Legal Entity.
+5. Date used by the calculation.
+6. Eligible investors.
+7. Calculation base.
+8. Allocated total versus source total.
+9. Rounding treatment.
+10. Component that invoked the rule.
 
-1. Identidade da regra executada.
-2. Tipo: estática ou dinâmica.
-3. Direção: Top Down ou Bottom Up.
-4. Legal Entity de contexto.
-5. Data usada pelo cálculo.
-6. Investidores elegíveis.
-7. Base de cálculo.
-8. Total alocado versus total de origem.
-9. Tratamento de arredondamento.
-10. Componente que invocou a regra.
+## Source limitations
 
-## Limitações da fonte
+The manual documents interface, engine at a functional level, and the object model used by VBA, but not physical tables, stored procedures, internal engine processes, export-package format, or each environment's deployment. These items remain subject to KT and local validation.
 
-O manual documenta a interface, o engine em nível funcional e o object model usado pelo VBA, mas não descreve tabelas físicas, stored procedures, processos internos do engine, formato do pacote de exportação nem a implantação específica de cada ambiente. Esses pontos permanecem dependentes de KT e validação local.
+## Detailed references
 
-## Referências detalhadas
-
-- [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md)
-- [Object model e contratos técnicos](object-model.md)
+- [ARM interface and lifecycle](arm-interface-and-lifecycle.md)
+- [Object model and technical contracts](object-model.md)

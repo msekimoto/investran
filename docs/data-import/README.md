@@ -1,49 +1,49 @@
 # Data Import
 
-O Data Import permite incluir e atualizar dados do Investran a partir de planilhas Excel, com validação, agendamento, acompanhamento e reconciliação. O manual também indica acesso programático pelo SDK para cargas automatizadas.
+Data Import lets users add and update Investran data from Excel spreadsheets, with validation, scheduling, monitoring, and reconciliation. The manual also indicates SDK access for automated loads.
 
-Esta seção organiza o conhecimento necessário para preparar arquivos, configurar mappings, executar jobs e prestar suporte ao processo.
+This section organizes the knowledge needed to prepare files, configure mappings, run jobs, and support the process.
 
-## Guias
+## Guides
 
-1. [Guia prático de Data Import](guia-pratico-data-import.md)
-2. [Templates, entidades e mappings](templates-entidades-mappings.md)
-3. [Troubleshooting e recuperação](troubleshooting.md)
-4. [Resumo anterior: Data Import e interfaces](../10-data-import-e-interfaces.md)
+1. [Data Import practical guide](guia-pratico-data-import.md)
+2. [Templates, entities, and mappings](templates-entidades-mappings.md)
+3. [Troubleshooting and recovery](troubleshooting.md)
+4. [Earlier summary: Data Import and interfaces](../10-data-import-e-interfaces.md)
 
-## Fluxo resumido
+## Summary flow
 
 ```mermaid
 flowchart LR
-    X[Arquivo XLSX] --> J[Import Job]
+    X[XLSX file] --> J[Import Job]
     J --> M[Spreadsheet Mapping]
     M --> V[Validation]
-    V -->|Aprovado| L[Load]
-    V -->|Erro| F[Feedback e correção]
+    V -->|Approved| L[Load]
+    V -->|Error| F[Feedback and correction]
     L --> R[Reconciliation Reports]
-    R --> A[Aprovação e evidências]
+    R --> A[Approval and evidence]
 ```
 
-## Limites documentados
+## Documented limits
 
-- somente `.XLSX` do Excel 2007 ou superior;
-- tamanho máximo de 100 MB na versão do manual;
-- licenças e entitlements variam conforme dados de mercado, portfólio ou transações;
-- transações podem ser incluídas, mas não atualizadas pelo Data Import documentado;
-- Team Security domains e entitlements não são importados;
-- para UDFs, são importados valores de UDFs já existentes.
+- Only Excel 2007 or later `.XLSX` files.
+- Maximum size of 100 MB in the manual version.
+- Licenses and entitlements vary for market data, portfolio data, or transactions.
+- Transactions can be added, but not updated, by the documented Data Import process.
+- Team Security domains and entitlements are not imported.
+- For UDFs, only values for existing UDFs are imported.
 
-Confirme esses limites na versão instalada antes de transformar qualquer um deles em regra operacional.
+Confirm these limits in the installed version before treating any of them as an operating rule.
 
-## KT prioritário
+## Priority KT
 
-- templates oficiais e customizados usados no ambiente;
-- entidades, volumes, frequência e janela de cada carga;
-- origem, owner e classificação dos arquivos;
-- mappings, IDs e regras de referência entre abas;
-- licenças, usuários, domínios e entitlements;
-- Application Server, Data Import Service, Master e Staging;
-- convenção de nomes, retenção e segurança dos arquivos;
-- reconciliação funcional e técnica;
-- procedimento de cancelamento, retry e tratamento de carga parcial;
-- automações via SDK e integrações externas.
+- Official and customized templates used in the environment.
+- Entities, volumes, frequency, and window for each load.
+- File source, owner, and classification.
+- Mappings, IDs, and cross-sheet reference rules.
+- Licenses, users, domains, and entitlements.
+- Application Server, Data Import Service, Master, and Staging.
+- File naming, retention, and security convention.
+- Functional and technical reconciliation.
+- Cancellation, retry, and partial-load procedure.
+- SDK automation and external integrations.

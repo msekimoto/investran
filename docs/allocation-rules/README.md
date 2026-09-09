@@ -1,52 +1,46 @@
-# Allocation Rules (AR) — Guia de Sustentação
+# Allocation Rules (AR) — Support Guide
 
-> Base inicial construída a partir dos materiais de Investran enviados para este repositório. Procedimentos específicos de cada ambiente devem ser confirmados durante o KT antes de qualquer alteração em produção.
+> Initial baseline built from the Investran materials supplied to this repository. Confirm environment-specific procedures during KT before any production change.
 
-## Objetivo
+## Purpose
 
-Este conjunto de documentos orienta a análise e a sustentação de **Allocation Rules** no Investran. O foco não é catalogar todas as regras existentes, mas fornecer um método seguro para localizar, entender, testar e diagnosticar uma regra desconhecida.
+This document set supports the analysis and maintenance of **Allocation Rules** in Investran. Its goal is not to catalog every existing rule, but to provide a safe method to find, understand, test, and diagnose an unknown rule.
 
-## Conceito
+## Concept
 
-Allocation Rules definem como um valor de transação, lucro, despesa, ganho, perda ou quantidade de ações é distribuído entre investidores associados a uma Legal Entity.
+Allocation Rules define how a transaction value, profit, expense, gain, loss, or share quantity is distributed among investors associated with a Legal Entity.
 
-A regra pode produzir:
+A rule can produce:
 
-- percentuais por investidor;
-- valores por investidor;
-- quantidades por investidor;
-- agregações resultantes nos níveis de Vehicle e Legal Entity.
+- Percentages by investor.
+- Values by investor.
+- Quantities by investor.
+- Resulting aggregations at Vehicle and Legal Entity level.
 
-## Classificações documentadas
+## Documented classifications
 
 ### Static Allocation Rules
 
-Usam percentuais fixos definidos em tabela para os investidores. O material conceitual informa que são mantidas pela ferramenta **Static Allocation Rules**, no Portfolio & Investor Manager.
-
-Em um cenário normal de utilização do Investran esse tipo de Allocation Rule quase nunca dá problema.
+These use fixed percentages stored in a table for investors. The conceptual material states that they are maintained through the **Static Allocation Rules** tool in Portfolio & Investor Manager. In a normal Investran scenario, this type of rule rarely causes a problem.
 
 ### Dynamic Allocation Rules
 
-Calculam os percentuais de acordo com os dados disponíveis no momento da execução. Exemplos documentados:
+These calculate percentages from data available at execution time. Documented examples include:
 
-- By Average Cash Balance;
-- By Commitment & Closing Date;
-- By Commitment (No Date);
-- By Specific Closing Date Commitment;
-- By Unfunded Commitment;
-- Investment Cost (As of GL Date);
-- Management Fees — inside investment period;
-- Management Fees — outside investment period.
+- By Average Cash Balance
+- By Commitment & Closing Date
+- By Commitment (No Date)
+- By Specific Closing Date Commitment
+- By Unfunded Commitment
+- Investment Cost (As of GL Date)
+- Management Fees — inside investment period
+- Management Fees — outside investment period
 
-### Top Down
+### Top Down and Bottom Up
 
-O valor é informado no nível da Legal Entity e distribuído entre investidores com base em uma regra ou tabela de percentuais.
+**Top Down** starts with a value at Legal Entity level and distributes it across investors by a rule or percentage table. **Bottom Up** defines or calculates values at investor level and then aggregates them to Vehicle and Legal Entity.
 
-### Bottom Up
-
-Os valores são definidos ou calculados no nível dos investidores e depois agregados para Vehicle e Legal Entity.
-
-## Componentes relacionados
+## Related components
 
 ```mermaid
 flowchart LR
@@ -55,61 +49,59 @@ flowchart LR
     INV --> VEH[Vehicle Totals]
     VEH --> LE[Legal Entity Totals]
     AT[Active Template] -->|Allocation Rule ID| AR
-    RW[Report Wizard / Metadata] -->|Lookup e validação| AR
+    RW[Report Wizard / Metadata] -->|Lookup and validation| AR
 ```
 
-## Uma transação pode ter sua alocação efetuada das seguintes maneiras
+## Transaction allocation methods
 
-| ID | Regra | Descrição |
+| ID | Rule | Description |
 |---:|---|---|
-| 0 | Non-Dominant | Usa como base a alocação da transação dominante |
-| 1 | No Allocation | Não é alocado valores para os investidores |
-| 2 | User Provided | Usuário informa a alocação manualmente |
-| 3 | AR | Usuário seleciona a alocação que será utilizada para calcular automaticamente as alocações |
+| 0 | Non-Dominant | Uses the allocation of the dominant transaction. |
+| 1 | No Allocation | No values are allocated to investors. |
+| 2 | User Provided | The user enters the allocation manually. |
+| 3 | AR | The user selects the allocation to calculate investor allocations automatically. |
 
-Esses IDs aparecem no guia do ATM como constantes de exemplo. Antes de usá-los em qualquer ambiente, valide se o comportamento e os identificadores permanecem iguais na versão instalada.
+These IDs appear as example constants in the ATM guide. Confirm behavior and identifiers in the installed version before using them.
 
-## Permissões para utilização do ARM
+## ARM permissions
 
-O material conceitual distingue:
+- **ARM Admin:** Create, edit, run, and delete Allocation Rules in Allocation Rule Manager.
+- **ARM User:** Run Allocation Rules in Allocation Rule Manager.
 
-- **ARM Admin:** criar, editar, executar e excluir Allocation Rules no Allocation Rule Manager;
-- **ARM User:** executar Allocation Rules no Allocation Rule Manager.
+Without the right permissions, an access issue can look like a rule defect.
 
-Sem as permissões adequadas, uma falha de acesso pode ser confundida com defeito na regra.
+## Module documents
 
-## Documentos deste módulo
+- [ARM practical guide](guia-pratico-arm.md): navigation, components, creation, execution, validation, and publication with tool screenshots.
+- [ARM interface and lifecycle](arm-interface-and-lifecycle.md)
+- [Object model and technical contracts](object-model.md)
+- [Architecture and flow](architecture.md)
+- [Rule anatomy](anatomy.md)
+- [Types and methods](types-and-methods.md)
+- [Development and change](development.md)
+- [Maintenance guide](maintenance-guide.md)
+- [Troubleshooting and playbooks](troubleshooting.md)
+- [KT pending](KT-PENDENCIAS.md)
 
-- [Guia prático de uso do ARM](guia-pratico-arm.md): navegação, componentes, criação, execução, validação e publicação com telas da ferramenta.
-- [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md)
-- [Object model e contratos técnicos](object-model.md)
-- [Arquitetura e fluxo](architecture.md)
-- [Anatomia de uma regra](anatomy.md)
-- [Tipos e métodos](types-and-methods.md)
-- [Desenvolvimento e alteração](development.md)
-- [Guia de manutenção](maintenance-guide.md)
-- [Troubleshooting e playbooks](troubleshooting.md)
-- [Pendências de KT](KT-PENDENCIAS.md)
+## Support principle
 
-## Princípio de sustentação
+When receiving an incident, do not start by changing the rule. First confirm:
 
-Ao receber um incidente, não comece alterando a regra. Primeiro confirme:
+1. Which AR ran.
+2. Which Legal Entity and investors were in context.
+3. Which dates and values were used.
+4. Whether the error is in investor selection, ratio calculation, or result consumption.
+5. Whether AR is the cause or received incorrect data from an AT, Batch, Report Wizard, or configuration.
 
-1. qual AR foi executada;
-2. qual Legal Entity e quais investidores estavam no contexto;
-3. quais datas e valores foram usados;
-4. se o erro está na seleção dos investidores, no cálculo do ratio ou no consumo do resultado;
-5. se a AR é realmente a causa ou apenas recebeu dados incorretos de um AT, Batch, Report Wizard ou configuração.
+## Sources
 
-## Fontes utilizadas
+- *Investran 7 Developer's Guide to Allocation Rule Manager* (2014-10-17).
+- *Investran Conceptual Design Document*, section 3.6 — Investor Allocation Rules.
+- *Developer's Guide to Active Template Manager*, VBA, development, and troubleshooting sections.
+- *Accounting Supplemental Training Materials*, batch and investor-allocation sections.
 
-- *Investran 7 Developer's Guide to Allocation Rule Manager* (17/10/2014).
-- *Investran Conceptual Design Document*, seção 3.6 — Investor Allocation Rules.
-- *Developer's Guide to Active Template Manager*, seções de VBA, desenvolvimento e troubleshooting.
-- *Accounting Supplemental Training Materials*, seções de batch e investor allocations.
+## What the ARM manual confirms
 
-## O que o manual ARM confirma
+The ARM guide documents interface, attributes, properties, parameters, reports, states, simulation, simple and complex rules, VBA, `RWReport`/`InvestorSet`/`AllocationRule` objects, and Import-Export Console use.
 
-O guia de ARM documenta a interface, atributos, properties, parameters, reports, estados, simulação, regras simples e complexas, VBA, objetos `RWReport`/`InvestorSet`/`AllocationRule` e o uso do Import-Export Console.
-
-Ele não confirma o processo específico de cada organização para aprovação, promoção, rollback, regras customizadas, owners, baselines ou validação funcional. Esses pontos permanecem como KT obrigatório.
+It does not confirm each organization's approval, promotion, rollback, customized-rule, owner, baseline, or business-validation process. Those items remain mandatory KT.

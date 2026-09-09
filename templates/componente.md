@@ -1,35 +1,34 @@
-# Nome do componente
+# Component name
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | Rascunho / Em validação / Aprovado / KT pendente |
-| Owner técnico | Nome ou papel responsável |
-| Owner funcional | Nome ou papel responsável |
-| Escopo e ambiente | Produto/versão; ambiente validado |
-| Última validação | Data, ambiente e resultado da verificação |
-| Próxima revisão | Data ou gatilho de revisão |
-| Evidência | Fonte, ticket, teste ou artefato sanitizado |
+| Status | Draft / Under validation / Approved / KT pending |
+| Technical owner | Responsible person or role |
+| Functional owner | Responsible person or role |
+| Scope and environment | Product/version; validated environment |
+| Last validation | Date, environment, and verification result |
+| Next review | Date or review trigger |
+| Evidence | Source, ticket, test, or sanitized artifact |
 
-- **Objetivo funcional:**
-- **Criticidade/SLA:**
+- **Business purpose:**
+- **Criticality/SLA:**
 
-## Arquitetura e dependências
+## Architecture and dependencies
 
-## Configuração e artefatos
+## Configuration and artifacts
 
-## Fluxo normal
+## Normal flow
 
-## Monitoramento e logs
+## Monitoring and logs
 
-## Alteração, teste e publicação
+## Change, test, and publication
 
-## Falhas conhecidas e recuperação
+## Known failures and recovery
 
-## Segurança e acessos
+## Security and access
 
-## Fontes/evidências
+## Sources and evidence
 
-## KT pendente
-
+## KT pending

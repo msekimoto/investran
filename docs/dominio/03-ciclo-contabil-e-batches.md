@@ -1,167 +1,102 @@
-# Ciclo contábil e batches
+# Accounting cycle and batches
 
-## Hierarquia contábil
+## Accounting hierarchy
 
-O General Ledger Web Service documentado trata batches, journal entries, transactions e investor allocations como uma hierarquia. Journal Entry e Transaction usam índices para preservar a relação dentro do batch.
+The documented General Ledger Web Service treats batches, journal entries, transactions, and investor allocations as a hierarchy. Journal Entry and Transaction use indexes to preserve their relationship within a batch.
 
 ```mermaid
 flowchart TB
-    B["`**Batch**
-Legal Entity, tipo, status e datas
-*CA_Batch*`"]
-    JE1["`**Journal Entry 1**
-*CA_JournalEntry*`"]
+    B["`**Batch**<br/>Legal Entity, type, status, dates<br/>*CA_Batch*`"]
+    JE1["`**Journal Entry 1**<br/>*CA_JournalEntry*`"]
     JE2["`**Journal Entry 2**`"]
-    T11["`**Transaction 1**
-Account, Type, Valores local e LE
-*CA_Trans*`"]
-    T12["`**Transaction 2**`"]
+    T11["`**Transaction 1**<br/>Account, Type, local and LE values<br/>*CA_Trans*`"]
     T12["`**Transaction 2**`"]
     T21["`**Transaction 1**`"]
-    IA1["`**Investor Allocation A**
-*CA_Alloc*`"]
+    IA1["`**Investor Allocation A**<br/>*CA_Alloc*`"]
     IA2["`**Investor Allocation B**`"]
-
     B --> JE1 & JE2
     JE1 --> T11 & T12
     JE2 --> T21
     T11 --> IA1 & IA2
 ```
 
-## Como um batch nasce
+## How a batch is created
 
 ```mermaid
 flowchart LR
-    M[Entrada manual] --> B[Batch]
+    M[Manual entry] --> B[Batch]
     AT[Active Template] --> ST[Staging] --> B
     BE[Business Event] --> B
     DI[Data Import] --> B
     API[General Ledger API] --> B
-    B --> V[Validação]
-    V --> P[Posting/Finalização]
-    P --> RW[Reporting e interfaces downstream]
+    B --> V[Validation]
+    V --> P[Posting/finalization]
+    P --> RW[Reporting and downstream interfaces]
 ```
 
-Cada origem tem comportamento diferente de retry e evidência. Antes de reprocessar, confirme se o batch já foi criado, se existem writes parciais e se o mecanismo é idempotente.
+Every source has different retry behavior and evidence. Before reprocessing, confirm whether the batch already exists, whether partial writes occurred, and whether the mechanism is idempotent.
 
-## Elementos de uma transaction
+## Transaction elements
 
-Dependendo do processo, uma transaction pode referenciar:
+A transaction can reference GL Account, Transaction Type, local and Legal Entity values, currency and exchange rate, GL Date and Effective Date, Deal, Position, Lot, Pool, Income Security, investor allocations, UDFs, and lookups.
 
-- GL Account e Transaction Type;
-- valores local e Legal Entity;
-- moeda e exchange rate;
-- GL Date e Effective Date;
-- Deal, Position, Lot, Pool ou Income Security;
-- investor allocations;
-- UDFs e lookups.
+## Main tables
 
-## Principais tabelas
+Batch and transaction tables normally use the `CA_` prefix:
 
-Normalmente as tabelas relacionadas a batches e transações terão o prefixo "CA_".
+- **CA_Trans:** Transaction data; points to JE, LE, Batch, and related data.
+- **CA_Alloc:** Transaction values already allocated by investor; points to Trans and Investor.
+- **CA_Batch:** Batch data.
+- **CA_JournalEntry:** JE data; intermediary between Trans and Batches.
 
-**CA_Trans**: Dados de transações. Aponta para JE, LE, Batch...
+## States and controls
 
-**CA_Alloc**: Valores das trasações já alocados por investidor. Aponta para Trans, Investor...
+Exact states vary by configuration, but support should distinguish: created/generated; held in Staging/application; validated/rejected; held/approved when applicable; posted/final; exported/consumed downstream; and logically deleted or removed by maintenance.
 
-**CA_Batch**: Dados de batch.
+Examples: `Held`, `Draft`, `Posted`, `Exported`, and `Deleted`.
 
-**CA_JournalEntry**: Dados de JE. Intermediário entre Trans e Batches.
+## Technical versus business validation
 
-## Estados e controles
-
-Os estados exatos variam por configuração, mas o raciocínio de suporte deve distinguir:
-
-1. criado/gerado;
-2. mantido em staging ou aplicação;
-3. validado ou rejeitado;
-4. held/aprovado quando aplicável;
-5. postado/final;
-6. exportado/consumido downstream;
-7. excluído logicamente ou removido por manutenção.
-
-### Exemplos de estados
-
-1. Held
-2. Draft
-3. Posted
-4. Exported
-5. Deleted
-
-## Validação técnica versus funcional
-
-| Validação técnica | Validação funcional |
+| Technical validation | Business validation |
 |---|---|
-| status e ausência de exception | evento de negócio correto |
-| quantidade de JEs/transactions | contas, sinais e datas corretos |
-| batch balanceado | investors e deals corretos |
-| scheduler concluído | allocations reconciliadas |
-| registro persistido | report downstream consistente |
+| Status and no exception | Correct business event |
+| Number of JEs/transactions | Correct accounts, signs, and dates |
+| Balanced batch | Correct investors and deals |
+| Scheduler completed | Reconciled allocations |
+| Record persisted | Consistent downstream report |
 
-## Pontos comuns de falha
+## Common failure points
 
-- entidade contextual incorreta;
-- Transaction Type ou GL Account ou LE incompatível;
-- moeda/Deal ausente em journal entry multicurrency;
-- erro de vigência/data;
-- allocation que não fecha ou arredonda incorretamente;
-- batch gerado em staging, mas não commitado;
-- retry que cria duplicidade;
-- validação ou posting bloqueados por configuração/permissão.
+- Incorrect contextual entity.
+- Incompatible Transaction Type, GL Account, or Legal Entity.
+- Missing currency/Deal in a multicurrency journal entry.
+- Effective-date error.
+- Allocation that does not close or rounds incorrectly.
+- Batch created in Staging but not committed.
+- Retry that creates duplication.
+- Validation or posting blocked by configuration/permission.
 
-## Monitoramento
+## Monitoring and logs
 
-### Manipulação de 1 único batch
+For a single batch, verify the change in the database or CRM. For multiple-batch changes—Post, Unpost, create, or edit—originating from DIU, AT, BE, or CRM, `BatchSaveService` consumes the change queue. Check its Windows-service logs and Staging/Main processing tables, then confirm completion in the database, CRM, or BatchSaveService logs.
 
-Basicamente podemos verificar a modificação no banco ou diretamente no CRM.
+Log availability and location depend on input and configuration; they may be in FTP, a folder, or a database.
 
-### Manipulação de múltiplos batches
-
-Não importa a mudança de status
-
-- Post
-- Unpost
-- Criação
-- Edição
-
-Não importa a fonte da alteração
-
-- DIU
-- AT
-- BE
-- CRM
-
-Existe um serviço responsável por consumir a fila de alterações múltiplas em batches chamado BatchSaveService.
-
-Este serviço windows possui seus próprios logs e processos de stagin/main. Possíveis erros podem ser encontrados tanto nos logs quanto nas tabelas stagin.
-
-Ao final do processo a confirmação de que todas as alterações/manipulação dos batches foram executadas pode ser realizada tanto diretamente no banco como no CRM ou logs do BatchSaveService.
-
-## Logs
-
-Dependendo da entrada do batch ele poderá ou não gerar alguns logs.
-
-Dependendo da configuração o Investran pode ou não gerar alguns desses logs.
-
-A localização desses logs também depende de configuração, podendo ser FTP, pasta, banco...
-
-| Tipos de entradas | Logs |
+| Input type | Logs |
 |---|---|
-| Entrada manual (CRM) | BFF Cache, AR Service logs |
-| Active Template | AT Service logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
-| Business Event | BE Service logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
-| Data Import | DIU Service logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
-| Custom API | API logs, AR Service logs, Batch Save logs (caso sejam vários batches sendo salvos de uma só vez) |
+| Manual entry (CRM) | BFF Cache, AR Service logs |
+| Active Template | AT Service, AR Service, Batch Save logs for multi-batch saves |
+| Business Event | BE Service, AR Service, Batch Save logs for multi-batch saves |
+| Data Import | DIU Service, AR Service, Batch Save logs for multi-batch saves |
+| Custom API | API, AR Service, Batch Save logs for multi-batch saves |
 
 ## Batch Types
 
-Configurável para cada instalação do Investran.
+Batch Types are configurable for each Investran installation. The standard product has approximately 15 types; confirm the environment catalog.
 
-Por padrão o Investran possui aproximadamente 15 Batch Types.
-
-## Fontes
+## Sources
 
 - *INV_API_Training_Guide_7.pdf*, General Ledger Web Service.
-- *Internal_Inv7_INV_ATM_Dev_Guide_7.pdf*, AT Execution, Staging e Commit.
+- *Internal_Inv7_INV_ATM_Dev_Guide_7.pdf*, AT Execution, Staging, and Commit.
 - *Internal_Inv7_INV_Administrators_7.pdf*, Batch Validation.
-- *PT BE Guidebook_2018.06.29.docx*, batch structure e multicurrency troubleshooting.
+- *PT BE Guidebook_2018.06.29.docx*, batch structure and multicurrency troubleshooting.

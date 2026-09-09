@@ -1,41 +1,40 @@
-# Plano de Knowledge Transfer
+# Knowledge Transfer plan
 
-## Prioridade 1 - operar e recuperar
+## Priority 1 - operate and recover
 
-| Tópico | Evidência exigida | Status |
+| Topic | Required evidence | Status |
 |---|---|---|
-| Topologia PROD/UAT e acessos | diagrama validado + acesso testado | Pendente |
-| Calendário diário/fechamento | agenda, SLA, cutoff e owner | Pendente |
-| Jobs/schedulers/batches | inventário + execução assistida + falha simulada | Pendente |
-| Monitoramento e logs | dashboard/local/alerta para cada componente | Pendente |
-| Incidentes recorrentes | top 10 com sintomas, causa e recuperação | Pendente |
-| Escalonamento | contatos FIS/DBA/infra/funcional e horários | Pendente |
-| Backup/restore/DR | RPO/RTO + último teste | Pendente |
+| PROD/UAT topology and access | Validated diagram + tested access | Pending |
+| Daily/close calendar | Schedule, SLA, cutoff, and owner | Pending |
+| Jobs/schedulers/batches | Inventory + assisted execution + simulated failure | Pending |
+| Monitoring and logs | Dashboard/location/alert for each component | Pending |
+| Recurring incidents | Top 10 with symptoms, cause, and recovery | Pending |
+| Escalation | FIS/DBA/infrastructure/functional contacts and hours | Pending |
+| Backup/restore/DR | RPO/RTO + latest test | Pending |
 
-## Prioridade 2 - manter e mudar
+## Priority 2 - maintain and change
 
-| Tópico | Evidência exigida | Status |
+| Topic | Required evidence | Status |
 |---|---|---|
-| ATs customizados | catálogo, dependências, debug e promoção | Pendente |
-| ARs customizadas | regra funcional, casos e reconciliação | Pendente |
-| Reports/Crystal | catálogo, consumidores e baseline | Pendente |
-| APIs/interfaces/imports | contrato, idempotência, logs e reconciliação | Pendente |
-| Business Events | versões, reports, parâmetros e recovery | Pendente |
-| Deploy/rollback | execução em UAT e checklist assinado | Pendente |
-| Database | schema customizado, jobs e consultas aprovadas | Pendente |
+| Customized ATs | Catalog, dependencies, debug, and promotion | Pending |
+| Customized ARs | Business rule, cases, and reconciliation | Pending |
+| Reports/Crystal | Catalog, consumers, and baseline | Pending |
+| APIs/interfaces/imports | Contract, idempotency, logs, and reconciliation | Pending |
+| Business Events | Versions, reports, parameters, and recovery | Pending |
+| Deployment/rollback | UAT execution and signed checklist | Pending |
+| Database | Customized schema, jobs, and approved queries | Pending |
 
-## Perguntas obrigatórias em cada sessão
+## Required questions in every session
 
-1. Qual processo de negócio e cutoff este componente atende?
-2. Como reconheço sucesso funcional, não apenas técnico?
-3. Quais dependências e mudanças recentes mais causam falha?
-4. Onde estão logs, IDs, dashboards e evidências?
-5. O que posso repetir/reiniciar com segurança e o que duplica dados?
-6. Qual é o ponto de retorno e quando devo parar?
-7. Quem aprova, quem valida e quem é escalado?
-8. Qual foi o pior incidente e o que não está escrito?
+1. Which business process and cutoff does this component support?
+2. How do I recognize business success, not only technical success?
+3. Which dependencies and recent changes most often cause failure?
+4. Where are the logs, IDs, dashboards, and evidence?
+5. What can I safely repeat/restart and what duplicates data?
+6. What is the rollback point and when should I stop?
+7. Who approves, validates, and receives escalation?
+8. What was the worst incident and what is not written down?
 
-## Critério de conclusão
+## Completion criteria
 
-Para tópicos críticos: especialista demonstra → você executa em ambiente seguro → vocês simulam uma falha → você diagnostica e recupera → owner valida o documento. Gravação sem prática não conclui o KT.
-
+For critical topics: a specialist demonstrates → you execute in a safe environment → both simulate a failure → you diagnose and recover → the owner validates the document. A recording without hands-on practice does not complete KT.

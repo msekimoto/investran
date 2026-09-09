@@ -1,33 +1,32 @@
-# Runbook - Triagem de incidente
+# Runbook - Incident triage
 
-## Controle documental
+## Document control
 
-| Campo | Valor |
+| Field | Value |
 |---|---|
-| Status | KT pendente |
-| Owner técnico | A definir com a equipe de sustentação |
-| Owner funcional | A definir com a área de negócio |
-| Escopo e ambiente | Produto padrão; validar severidade, calendário e ambiente afetado |
-| Última validação | Não validado em ambiente atendido |
-| Próxima revisão | Após o primeiro incidente revisado ou mudança no processo de escalonamento |
-| Evidência | Ticket, linha do tempo, logs sanitizados, decisão e follow-up |
+| Status | KT pending |
+| Technical owner | To be confirmed with the support team |
+| Functional owner | To be confirmed with the business team |
+| Scope and environment | Standard product; validate severity, calendar, and affected environment |
+| Last validation | Not validated in a supported environment |
+| Next review | After the first reviewed incident or an escalation-process change |
+| Evidence | Ticket, timeline, sanitized logs, decision, and follow-up |
 
-## Entrada
+## Inputs
 
-Ticket, ambiente, início, impacto, usuários/entidades, mensagem, IDs e cutoff.
+Ticket, environment, start time, impact, affected users or entities, message, IDs, and cutoff.
 
-## Procedimento
+## Procedure
 
-1. Classificar severidade e acionar comunicação.
-2. Verificar indisponibilidade ampla versus caso isolado.
-3. Registrar última execução boa e mudanças recentes.
-4. Capturar logs/status antes de alterar estado.
-5. Localizar camada: cliente/web, autenticação, serviço/scheduler, banco ou integração.
-6. Aplicar teste reversível e de baixo risco.
-7. Usar runbook específico; não improvisar SQL/restart/retry.
-8. Validar funcionalmente e monitorar recorrência.
+1. Classify severity and start communication.
+2. Check whether the issue is widespread or isolated.
+3. Record the last successful execution and recent changes.
+4. Capture logs and status before changing state.
+5. Locate the layer: client/web, authentication, service/scheduler, database, or integration.
+6. Apply a reversible, low-risk test.
+7. Use the specific runbook; do not improvise SQL, restarts, or retries.
+8. Validate the business result and monitor for recurrence.
 
-## Saída
+## Output
 
-Causa ou hipótese, ação, evidência, resultado, impacto residual, owner e follow-up/RCA.
-
+Cause or hypothesis, action, evidence, result, remaining impact, owner, and follow-up/RCA.
