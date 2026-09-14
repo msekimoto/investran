@@ -34,6 +34,7 @@ A wiki é organizada por assunto e por ciclo de suporte, com busca e links cruza
 - [ATM](docs/active-templates/README.md)
 - [Allocation Rules](docs/allocation-rules/README.md)
 - [Report Wizard e Crystal](docs/07-report-wizard-e-crystal.md)
+- [STEP](docs/step/README.md)
 - [API, SDK e WRS](docs/08-apis-sdk-wrs.md)
 - [Data Import e interfaces](docs/10-data-import-e-interfaces.md)
 - [Application Server e Services](docs/application-services/README.md)

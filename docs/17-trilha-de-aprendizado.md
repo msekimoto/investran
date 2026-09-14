@@ -30,6 +30,7 @@ Esta trilha organiza a documentação na ordem mais útil para alguém que preci
 
 1. [Active Templates](active-templates/README.md)
 2. [Allocation Rules](allocation-rules/README.md)
-3. [Batches, jobs e scheduler](06-batches-jobs-scheduler.md)
-4. [Business Events](14-business-events.md)
-5. [Troubleshooting](13-troubleshooting.md)
+3. [STEP](step/README.md)
+4. [Batches, jobs e scheduler](06-batches-jobs-scheduler.md)
+5. [Business Events](14-business-events.md)
+6. [Troubleshooting](13-troubleshooting.md)
