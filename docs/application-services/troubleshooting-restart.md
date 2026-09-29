@@ -1,163 +1,165 @@
-# Application Services - troubleshooting e restart seguro
+# Application Services - troubleshooting and safe restart
 
-## Não comece pelo restart
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any service/restart change · Evidence: attach a sanitized ticket/change and test result.
 
-Restart pode apagar evidências, interromper jobs e criar duplicidade se o solicitante repetir a operação. Primeiro determine se o problema está no scheduler, dispatcher, worker, banco, fila ou recurso externo.
+## Do not start with a restart
 
-## Coleta inicial
+A restart can erase evidence, interrupt jobs, and create duplicates if the requester repeats the operation. First determine whether the problem is in the scheduler, dispatcher, worker, database, queue, or external resource.
 
-- ambiente e Application Server;
-- Service Name e Display Name;
-- módulo e database configurada;
-- state, start mode e conta de logon;
+## Initial evidence collection
+
+- environment and Application Server;
+- Service Name and Display Name;
+- module and configured database;
+- state, start mode, and logon account;
 - Job/Process/Execution ID;
-- status e horário da última transição;
-- processos Worker/Executor ativos;
-- jobs concorrentes;
-- Event Viewer Application/System;
-- logs do módulo;
-- Master/Staging, fila, porta e share envolvidos;
-- mudança recente de senha, certificado, DNS, firewall, banco ou deploy.
+- status and time of the last transition;
+- active Worker/Executor processes;
+- concurrent jobs;
+- Application/System Event Viewer logs;
+- module logs;
+- Master/Staging, queue, port, and share involved;
+- recent password, certificate, DNS, firewall, database, or deployment change.
 
-## Árvore de diagnóstico
+## Diagnostic tree
 
 ```mermaid
 flowchart TD
-    A[Job não avança] --> B{Windows service está Running?}
-    B -->|Não| C[Logon, startup, dependências e Event Viewer]
-    B -->|Sim| D{Scheduler consumiu o job?}
-    D -->|Não| E[Mapping, polling, database, fila e conta]
-    D -->|Sim| F{Dispatcher criou worker?}
-    F -->|Não| G[Dispatcher, executável, versão e permissões]
-    F -->|Sim| H{Worker produz progresso?}
-    H -->|Não| I[Lock, recurso externo, timeout e processo órfão]
-    H -->|Sim| J[Validar output e status final]
+    A[Job does not advance] --> B{Windows service is Running?}
+    B -->|No| C[Logon, startup, dependencies, and Event Viewer]
+    B -->|Yes| D{Did Scheduler consume the job?}
+    D -->|No| E[Mapping, polling, database, queue, and account]
+    D -->|Yes| F{Did Dispatcher create a worker?}
+    F -->|No| G[Dispatcher, executable, version, and permissions]
+    F -->|Yes| H{Is the worker making progress?}
+    H -->|No| I[Lock, external resource, timeout, and orphan process]
+    H -->|Yes| J[Validate output and final status]
 ```
 
-## Sintomas comuns
+## Common symptoms
 
-| Sintoma | Hipóteses iniciais |
+| Symptom | Initial hypotheses |
 |---|---|
-| Service não inicia | senha, Log on as a service, dependência, porta, config ou binário |
-| Inicia e para | exceção na inicialização, database/share inacessível ou config inválida |
-| Running sem consumir | Master/Staging incorreto, polling, mapping, fila, conta ou dispatcher |
-| Jobs presos em todos os módulos | componente compartilhado, SQL, fila ou Startup Account |
-| Só um módulo falha | configuração/worker/dependência específica do service |
-| Só commit falha | Staging/Master, permissão, lock ou business validation |
-| OLE DB não inicia | porta ocupada, grupo local, conta, SPN ou share |
-| RS Word trava | perfil da conta, Word/Office, popup, arquivo, printer ou worker órfão |
-| RW/Crystal falha | RW Service, OLE DB, Crystal runtime, report ou datasource |
-| Depois de restore aponta errado | Service Manager/Config.xml ainda mapeado para ambiente anterior |
+| Service does not start | password, Log on as a service, dependency, port, configuration, or binary |
+| Starts and stops | initialization exception, inaccessible database/share, or invalid configuration |
+| Running without processing work | incorrect Master/Staging, polling, mapping, queue, account, or dispatcher |
+| Jobs stuck in every module | shared component, SQL, queue, or Startup Account |
+| Only one module fails | service-specific configuration/worker/dependency |
+| Only commit fails | Staging/Master, permission, lock, or business validation |
+| OLE DB does not start | port in use, local group, account, SPN, or share |
+| RS Word hangs | account profile, Word/Office, popup, file, printer, or orphaned worker |
+| RW/Crystal fails | RW Service, OLE DB, Crystal runtime, report, or datasource |
+| Points to the wrong target after restore | Service Manager/Config.xml still mapped to the previous environment |
 
-## Conta e senha
+## Account and password
 
-Quando houver `logon failure`:
+When a `logon failure` occurs:
 
-1. identifique todas as instâncias que usam a conta;
-2. verifique bloqueio/expiração sem testar senha repetidamente;
-3. atualize a credencial pelo processo aprovado;
-4. confirme `Log on as a service` e permissões de banco/share;
-5. reinicie em ordem controlada;
-6. execute smoke tests em todos os módulos que compartilham a conta.
+1. identify all instances that use the account;
+2. check lockout/expiration without repeatedly testing the password;
+3. update the credential through the approved process;
+4. confirm `Log on as a service` and database/share permissions;
+5. restart in a controlled order;
+6. run smoke tests in all modules sharing the account.
 
-Uma mesma Startup/Scheduler Account pode afetar vários services simultaneamente.
+A single Startup/Scheduler Account can affect several services simultaneously.
 
-## Restart seguro
+## Safe restart
 
-### Pré-check
+### Pre-check
 
-- [ ] Incidente e hipótese registrados.
-- [ ] Service e servidor exatos confirmados.
-- [ ] Jobs ativos, scheduled e loading/commit identificados.
-- [ ] Output parcial pesquisado.
-- [ ] Dependências e impacto avaliados.
-- [ ] Aprovação/janela obtida quando necessária.
-- [ ] Logs e Event Viewer preservados.
-- [ ] Critério de sucesso e rollback definidos.
+- [ ] Incident and hypothesis recorded.
+- [ ] Exact service and server confirmed.
+- [ ] Active, scheduled, and loading/commit jobs identified.
+- [ ] Partial output checked.
+- [ ] Dependencies and impact assessed.
+- [ ] Approval/change window obtained when required.
+- [ ] Logs and Event Viewer evidence preserved.
+- [ ] Success and rollback criteria defined.
 
-### Sequência genérica
+### Generic sequence
 
-1. bloqueie novas submissões apenas se o procedimento permitir;
-2. aguarde jobs seguros terminarem ou documente a decisão de interromper;
-3. pare a instância específica pelo Service Manager;
-4. confirme no Windows que o processo realmente encerrou;
-5. não finalize Worker/Executor residual sem identificar o Job ID;
-6. corrija a causa ou configuração;
-7. inicie dependências antes do scheduler consumidor;
-8. inicie a instância;
-9. confirme Event Viewer e logs sem erro;
-10. observe backlog sendo consumido;
-11. execute smoke test funcional;
-12. reconcilie jobs interrompidos.
+1. block new submissions only if the procedure permits;
+2. wait for jobs that can safely finish, or document the decision to interrupt them;
+3. stop the specific instance through Service Manager;
+4. confirm in Windows that the process actually ended;
+5. do not terminate a remaining Worker/Executor without identifying the Job ID;
+6. correct the cause or configuration;
+7. start dependencies before the scheduler that uses them;
+8. start the instance;
+9. confirm there are no errors in Event Viewer or logs;
+10. observe the backlog being processed;
+11. run a functional smoke test;
+12. reconcile interrupted jobs.
 
-### Pós-check
+### Post-check
 
-- [ ] Service permanece Running.
-- [ ] Scheduler volta a consumir.
-- [ ] Dispatcher/worker são criados normalmente.
-- [ ] Backlog reduz sem duplicidade.
-- [ ] Output funcional validado.
-- [ ] Jobs interrompidos reconciliados.
-- [ ] Causa e prevenção documentadas.
+- [ ] Service remains Running.
+- [ ] Scheduler resumes processing work.
+- [ ] Dispatcher/workers are created normally.
+- [ ] Backlog decreases without duplicates.
+- [ ] Functional output validated.
+- [ ] Interrupted jobs reconciled.
+- [ ] Cause and prevention documented.
 
-## Processo órfão ou stalled
+## Orphaned or stalled process
 
-O Administrator's Guide possui procedimento específico para Reporting Services stalled e cita executors/workers compartilhados. Não generalize esse procedimento para ATM, DX ou outros módulos.
+The Administrator's Guide has a specific procedure for stalled Reporting Services and mentions shared executors/workers. Do not generalize this procedure to ATM, DX, or other modules.
 
-Antes de encerrar processo:
+Before terminating a process:
 
-- relacione PID a Job/Process ID;
-- confirme owner e módulo;
-- verifique gravação parcial;
-- preserve dump/log se aplicável;
-- confirme que não atende outro job;
-- use o runbook oficial da versão;
-- reconcilie após a recuperação.
+- map the PID to the Job/Process ID;
+- confirm the owner and module;
+- check for partial writes;
+- preserve dumps/logs if applicable;
+- confirm it is not serving another job;
+- use the official runbook for the version;
+- reconcile after recovery.
 
-## Start/stop por linha de comando
+## Command-line start/stop
 
-Os exemplos documentados são:
+The documented examples are:
 
 ```powershell
 net start "Scheduler Service Name"
 net stop "Scheduler Service Name"
 ```
 
-Prefira comandos que consultem o alvo antes de mudar estado. Nunca use filtro amplo para parar todos os services Investran de uma vez.
+Prefer commands that query the target before changing its state. Never use a broad filter to stop all Investran services at once.
 
-Exemplo read-only:
+Read-only example:
 
 ```powershell
 Get-Service -Name "NOME_EXATO" | Select-Object Name, DisplayName, Status, StartType
 ```
 
-## Quando escalar
+## When to escalate
 
-- jobs financeiros com output parcial;
-- worker órfão sem correlação confiável;
-- backlog crescente após restart;
-- service inicia e para repetidamente;
-- necessidade de editar database/configuração interna;
-- suspeita de incompatibilidade de binários;
-- OLE DB/Kerberos/SPN com risco de exposição indevida;
-- falha após restore/upgrade;
-- múltiplos Application Servers disputando ou não consumindo os mesmos jobs.
+- financial jobs with partial output;
+- orphaned worker without reliable correlation;
+- growing backlog after restart;
+- service repeatedly starts and stops;
+- need to edit the database/internal configuration;
+- suspected binary incompatibility;
+- OLE DB/Kerberos/SPN with a risk of unauthorized exposure;
+- failure after restore/upgrade;
+- multiple Application Servers competing for or failing to process the same jobs.
 
-## Evidências para escalonamento
+## Evidence for escalation
 
-- inventário da instância;
-- timeline e IDs;
-- Event Viewer exportado;
-- logs do módulo;
-- configuração sanitizada;
-- estado de processos/filas;
-- Master/Staging e versão/MR;
-- mudança recente;
-- smoke test executado;
-- outputs encontrados e reconciliação.
+- instance inventory;
+- timeline and IDs;
+- exported Event Viewer logs;
+- module logs;
+- sanitized configuration;
+- process/queue state;
+- Master/Staging and version/MR;
+- recent change;
+- smoke test performed;
+- outputs found and reconciliation.
 
-## Fontes
+## Sources
 
 - *Internal_Inv7_INV_Architecture_7.pdf*, Application Server.
-- *Internal_Inv7_INV_Implementation.pdf*, Application Server Setup e configuração dos scheduler services.
-- *Internal_Inv7_INV_Administrators_7.pdf*, Application Server Management, Service Manager e troubleshooting.
+- *Internal_Inv7_INV_Implementation.pdf*, Application Server Setup and scheduler service configuration.
+- *Internal_Inv7_INV_Administrators_7.pdf*, Application Server Management, Service Manager, and troubleshooting.

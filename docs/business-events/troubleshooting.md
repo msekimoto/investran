@@ -1,114 +1,116 @@
-# Business Events - troubleshooting e recuperação
+# Business Events - troubleshooting and recovery
 
-## Princípio
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any event/dependency change · Evidence: attach a sanitized ticket/change and execution result.
 
-Uma falha de BE pode ocorrer antes da execução, no transporte da requisição, na lógica do evento, em um engine dependente ou durante a persistência da saída. Primeiro determine **em qual camada** a execução parou. Não reexecute antes de saber se houve gravação parcial.
+## Principle
 
-## Coleta inicial
+A BE can fail before execution, during request transport, in the event logic, in a dependent engine, or while persisting the output. First determine **which layer** execution stopped in. Do not rerun until you know whether any partial writes occurred.
 
-Registre:
+## Initial evidence collection
 
-- nome e versão do BE;
-- ambiente, empresa/entidade e usuário;
-- data/hora e timezone;
-- parâmetros completos, sem credenciais;
-- execution ID, GUID ou identificador equivalente;
-- mensagem e captura do erro;
-- serviço e servidor que processaram a execução;
-- batches, lançamentos, arquivos ou registros já criados;
-- última execução bem-sucedida e mudança recente.
+Record:
 
-## Árvore de diagnóstico
+- BE name and version;
+- environment, company/entity, and user;
+- date/time and timezone;
+- complete parameters, without credentials;
+- execution ID, GUID, or equivalent identifier;
+- error message and screenshot;
+- service and server that processed the execution;
+- batches, entries, files, or records already created;
+- last successful execution and recent change.
+
+## Diagnostic tree
 
 ```mermaid
 flowchart TD
-    A[BE falhou ou não concluiu] --> B{Chegou a iniciar?}
-    B -->|Não| C[Permissão, template, configuração e dependências]
-    B -->|Sim| D{Há GUID/log de execução?}
-    D -->|Não| E[Web, IIS, Service Bus e filas]
-    D -->|Sim| F{Criou saída?}
-    F -->|Não| G[Reports, AR, API, dados e validações]
-    F -->|Parcial| H[Congelar reexecução e reconciliar]
+    A[BE failed or did not complete] --> B{Did it start?}
+    B -->|No| C[Permissions, template, configuration, and dependencies]
+    B -->|Yes| D{Is there an execution GUID/log?}
+    D -->|No| E[Web, IIS, Service Bus e filas]
+    D -->|Yes| F{Did it produce output?}
+    F -->|No| G[Reports, AR, API, data, and validations]
+    F -->|Parcial| H[Freeze reruns and reconcile]
     F -->|Completa| I[Validar erro tardio ou status inconsistente]
-    C --> J[Corrigir em ambiente seguro]
+    C --> J[Fix in a safe environment]
     E --> J
     G --> J
     H --> K[Definir recovery aprovado]
     I --> K
 ```
 
-## Sintoma por camada
+## Symptoms by layer
 
-| Sintoma | Verificações iniciais |
+| Symptom | Initial checks |
 |---|---|
-| BE não aparece | importação, versão, status, sessão reaberta e permissões |
-| Importação falha | `.ZIP`, compatibilidade da MR, permissão Add/Update e dependências |
-| Execução não inicia | configuração, conta de serviço, IIS, BE services, bus/filas |
-| Fica pendente | worker/serviço, mensagem presa, concorrência, timeout e dependência lenta |
-| Falha ao consultar dados | driver report, parâmetros, Report Wizard Engine, segurança e volume |
-| Falha em alocação | Allocation Rule, parâmetros, hierarquias e dados elegíveis |
-| Falha ao salvar | validação do batch, locks, banco, permissões e saída parcial |
-| Resultado incorreto | escopo, datas, exclusões, moeda, arredondamento e versão dos artefatos |
+| BE does not appear | Import, version, status, reopened session, and permissions |
+| Import fails | `.ZIP`, MR compatibility, Add/Update permission, and dependencies |
+| Execution does not start | Configuration, service account, IIS, BE services, bus/queues |
+| Remains pending | Worker/service, stuck message, concurrency, timeout, and slow dependency |
+| Data query fails | Driver report, parameters, Report Wizard Engine, security, and volume |
+| Allocation fails | Allocation Rule, parameters, hierarchies, and eligible data |
+| Save fails | Batch validation, locks, database, permissions, and partial output |
+| Incorrect result | Scope, dates, exclusions, currency, rounding, and artifact versions |
 
-## Correlação de logs
+## Log correlation
 
-Monte uma linha do tempo única:
+Build a single timeline:
 
-1. requisição no Investran Web/IIS;
-2. envio pelo Enterprise Service Bus/fila;
-3. recebimento pelo serviço de execução;
-4. chamadas a Investran API, Report Wizard e Allocation Rule Engine;
-5. validações e persistência no banco;
-6. criação de batch/output e retorno à interface.
+1. request in Investran Web/IIS;
+2. dispatch through the Enterprise Service Bus/queue;
+3. receipt by the execution service;
+4. calls to Investran API, Report Wizard, and Allocation Rule Engine;
+5. validation and database persistence;
+6. batch/output creation and response to the interface.
 
-Use horário, nome do BE, usuário e GUID para correlacionar. Se os relógios dos servidores não estiverem sincronizados, registre o desvio antes de interpretar a sequência.
+Use time, BE name, user, and GUID for correlation. If server clocks are not synchronized, record the offset before interpreting the sequence.
 
-## Reprocessamento seguro
+## Safe reprocessing
 
-Antes de repetir:
+Before retrying:
 
-- confirme se a execução anterior terminou no servidor apesar do erro da tela;
-- pesquise outputs pelo GUID, horário e escopo;
-- identifique batches em hold, incompletos ou já processados;
-- reconcilie os dados alterados;
-- confirme se o BE é idempotente ou possui proteção contra duplicidade;
-- obtenha aprovação funcional para remover/reverter qualquer saída;
-- preserve logs da primeira tentativa.
+- confirm whether the previous execution finished on the server despite the error on screen;
+- search for outputs by GUID, time, and scope;
+- identify batches that are on hold, incomplete, or already processed;
+- reconcile changed data;
+- confirm whether the BE is idempotent or protects against duplicates;
+- obtain functional approval to remove/reverse any output;
+- preserve logs from the first attempt.
 
-Excluir footprint diretamente por SQL aparece em notas antigas, mas não constitui autorização operacional. Mudanças diretas no banco exigem procedimento vigente, backup, aprovação e envolvimento de FIS/DBA quando aplicável.
+Deleting a footprint directly through SQL appears in older notes, but does not constitute operational authorization. Direct database changes require a current procedure, backup, approval, and FIS/DBA involvement where applicable.
 
-## Cancelamento, rollback e compensação
+## Cancellation, rollback, and compensation
 
-O diagrama de arquitetura mostra operações de `Cancel` e `Rollback`, mas isso não prova que todo BE ou toda fase possa ser revertida automaticamente. Para cada evento, confirme:
+The architecture diagram shows `Cancel` and `Rollback` operations, but this does not prove that every BE or every phase can be reversed automatically. For each event, confirm:
 
-- quando o botão/ação de cancelamento é seguro;
-- se cancelamento interrompe apenas a execução ou também desfaz saídas;
-- quais objetos suportam rollback;
-- quando é necessária reversão contábil ou compensação manual;
-- como tratar mensagens ainda presentes na fila;
-- como provar que o ambiente voltou a um estado consistente.
+- when the cancel button/action is safe;
+- whether cancellation only stops execution or also undoes outputs;
+- which objects support rollback;
+- when an accounting reversal or manual compensation is required;
+- how to handle messages still in the queue;
+- how to prove that the environment has returned to a consistent state.
 
-## Critérios de escalonamento
+## Escalation criteria
 
-Escalone quando houver:
+Escalate when there is:
 
-- saída parcial sem runbook aprovado;
-- possível duplicidade contábil;
-- mensagens presas ou repetidas no bus/fila;
-- falha recorrente após validação de configuração;
-- suspeita de incompatibilidade entre template e MR;
-- necessidade de alteração direta em banco;
-- divergência entre batches e saldos reconciliados;
-- impacto em múltiplas entidades ou fechamento.
+- partial output without an approved runbook;
+- possible duplicate accounting entries;
+- stuck or repeated messages in the bus/queue;
+- recurring failure after configuration validation;
+- suspected incompatibility between the template and MR;
+- a need for direct database changes;
+- a discrepancy between batches and reconciled balances;
+- impact on multiple entities or period closing.
 
-Envie no escalonamento a linha do tempo, GUID, parâmetros, versões, logs relevantes, outputs encontrados e tudo que já foi descartado.
+Include the timeline, GUID, parameters, versions, relevant logs, outputs found, and everything already ruled out in the escalation.
 
-## Checklist de encerramento
+## Closure checklist
 
-- [ ] Causa e camada da falha identificadas.
-- [ ] Saída parcial descartada ou reconciliada.
-- [ ] Correção validada com caso controlado.
-- [ ] Resultado funcional reconciliado.
-- [ ] Evidências anexadas ao incidente.
-- [ ] Runbook e inventário atualizados.
-- [ ] Ação preventiva e owner definidos.
+- [ ] Failure cause and layer identified.
+- [ ] Partial output ruled out or reconciled.
+- [ ] Fix validated with a controlled case.
+- [ ] Functional result reconciled.
+- [ ] Evidence attached to the incident.
+- [ ] Runbook and inventory updated.
+- [ ] Preventive action and owner defined.

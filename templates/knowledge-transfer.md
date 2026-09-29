@@ -1,31 +1,42 @@
-# Sessão de KT - Tópico
+# KT session - Topic
 
-- **Especialista:**
-- **Participantes:**
-- **Data:**
-- **Processo/SLA:**
-- **Documento/artefato relacionado:**
+## Document control
 
-## Objetivo e contexto funcional
+| Field | Value |
+|---|---|
+| Status | Planned / In progress / Complete / KT pending |
+| Technical owner | Specialist or responsible role |
+| Functional owner | Process owner |
+| Scope and environment | Process, version, and environment discussed |
+| Last validation | Date and result of the controlled practice |
+| Next review | Date or item requiring follow-up |
+| Evidence | Meeting notes, ticket, authorized recording, or sanitized execution record |
 
-## Demonstração do fluxo normal
+- **Specialist:**
+- **Participants:**
+- **Date:**
+- **Process/SLA:**
+- **Related document/artifact:**
 
-## Logs, monitoramento e critérios de sucesso
+## Purpose and business context
 
-## Falhas comuns e recuperação
+## Normal-flow demonstration
 
-## Riscos, exceções e conhecimento não documentado
+## Logs, monitoring, and success criteria
 
-## Prática executada pelo receptor
+## Common failures and recovery
 
-## Perguntas e pendências
+## Risks, exceptions, and undocumented knowledge
 
-## Critério de aceite
+## Practice completed by the recipient
 
-- [ ] Documento atualizado
-- [ ] Demonstração concluída
-- [ ] Execução prática concluída
-- [ ] Falha/recovery discutidos ou simulados
-- [ ] Acessos testados
-- [ ] Owner aprovou
+## Questions and open items
 
+## Acceptance criteria
+
+- [ ] Document updated
+- [ ] Demonstration completed
+- [ ] Hands-on practice completed
+- [ ] Failure/recovery discussed or simulated
+- [ ] Access tested
+- [ ] Owner approved

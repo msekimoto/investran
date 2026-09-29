@@ -1,78 +1,78 @@
-# Manutenção e limitações conhecidas
+# Maintenance and known limitations
 
-## Grupos de recursos suportados
+## Supported resource groups
 
-A superfície REST atual cobre:
+The current REST surface covers:
 
 - Legal Entities;
-- Investors e Specific Investors;
-- Direct/Fund Deals e Specific Deals;
-- Positions e Specific Positions;
+- Investors and Specific Investors;
+- Direct/Fund Deals and Specific Deals;
+- Positions and Specific Positions;
 - Specific Vehicles;
-- contatos Organization e Individual;
-- definições de UDF;
-- lookups comuns e dados de segurança;
-- batches, journal entries, transactions, alocações e transições de status.
+- Organization and Individual contacts;
+- UDF definitions;
+- common lookups and security data;
+- batches, journal entries, transactions, allocations, and status transitions.
 
-Ela não é uma exposição REST genérica de todos os serviços do SDK do Investran. Adicionar um DTO ou serviço nativo não cria automaticamente um endpoint REST.
+It is not a generic REST exposure of every Investran SDK service. Adding a native DTO or service does not automatically create a REST endpoint.
 
-## Limitações atuais identificadas no código
+## Current limitations identified in the code
 
-### Versionamento
+### Versioning
 
-As rotas são descritas no Swagger como `v1`, mas as URLs não incluem um segmento de versão. Alterações no contrato podem, portanto, quebrar clientes existentes se a compatibilidade não for administrada deliberadamente.
+Swagger describes routes as `v1`, but URLs do not include a version segment. Contract changes can therefore break existing clients unless compatibility is managed deliberately.
 
-### Contratos de resposta
+### Response contracts
 
-Diversos endpoints devolvem DTOs nativos do Investran, em vez de modelos de resposta estáveis da API. Atualizações do SDK/MR podem alterar a serialização ou a estrutura dos objetos internos.
+Several endpoints return native Investran DTOs instead of stable API response models. SDK/MR updates can change serialization or the structure of internal objects.
 
-### Contrato de erro
+### Error contract
 
-A maioria das falhas de validação subsequentes se transforma em HTTP 500 com texto simples da exceção. Os clientes não conseguem distinguir com segurança erros de validação, autorização, conflito, recurso inexistente e infraestrutura.
+Most downstream validation failures become HTTP 500 responses with plain exception text. Clients cannot safely distinguish validation, authorization, conflict, missing-resource, and infrastructure errors.
 
-### Métodos assíncronos
+### Asynchronous methods
 
-As actions dos controllers são declaradas como `async`, mas normalmente executam chamadas síncronas ao SDK. Elas não tornam o processamento subsequente assíncrono, exceto no endpoint específico da fila.
+Controller actions are declared as `async`, but normally execute synchronous SDK calls. They do not make downstream processing asynchronous, except for the dedicated queue endpoint.
 
-### Observabilidade da fila
+### Queue observability
 
-O endpoint da fila está oculto no Swagger, e este repositório não contém endpoint REST para consultar status, cancelar ou repetir uma solicitação.
+The queue endpoint is hidden from Swagger, and this repository contains no REST endpoint to query status, cancel, or retry a request.
 
-### Ambiguidade de rotas
+### Route ambiguity
 
-A pesquisa de Investor por nome e por vehicle usa templates de rota equivalentes e sem constraints.
+Investor searches by name and by vehicle use equivalent route templates without constraints.
 
-### Divergência na documentação de autenticação
+### Authentication documentation drift
 
-O código contém uma mistura de gerações de IdentityServer e hospedagem. Antes de alterar autenticação ou inicialização, valide qual pacote é realmente implantado.
+The code contains a mix of IdentityServer and hosting generations. Before changing authentication or startup, verify which package is actually deployed.
 
-### Exposição de segurança
+### Security exposure
 
-Há segredos e dados de infraestrutura interna em configurações versionadas. Rotacione-os e mova-os para configuração externa; não os copie para documentação nem exemplos.
+Versioned configuration contains secrets and internal infrastructure data. Rotate them and move them to external configuration; do not copy them into documentation or examples.
 
-## Checklist para alterações seguras
+## Checklist for safe changes
 
-1. Identifique a rota REST, o modelo de requisição, o domínio e o contrato do serviço nativo.
-2. Confirme a compatibilidade das versões do SDK e do Investran.
-3. Sempre que possível, adicione contratos próprios de request e response.
-4. Defina os status HTTP e o schema de erro.
-5. Teste autorização e Team Security.
-6. Teste o CRUD ou ciclo de vida do batch em ambiente descartável.
-7. Valide transacionalidade, retry e idempotência.
-8. Atualize os comentários XML do Swagger e este catálogo de endpoints.
-9. Adicione logs sem segredos nem payloads sensíveis.
-10. Execute testes de regressão com dados representativos do Investran.
+1. Identify the REST route, request model, domain, and native service contract.
+2. Confirm SDK and Investran version compatibility.
+3. Add dedicated request and response contracts whenever possible.
+4. Define HTTP statuses and the error schema.
+5. Test authorization and Team Security.
+6. Test CRUD or the batch lifecycle in a disposable environment.
+7. Validate transactionality, retry behavior, and idempotency.
+8. Update Swagger XML comments and this endpoint catalog.
+9. Add logs without secrets or sensitive payloads.
+10. Run regression tests with representative Investran data.
 
-## Melhorias recomendadas
+## Recommended improvements
 
-- contrato OpenAPI versionado no repositório;
-- versionamento da API;
-- respostas de erro tipadas usando Problem Details;
-- constraints de rota e nomenclatura consistente dos recursos;
-- semântica consistente para `201 Created`, `204 No Content` e `404 Not Found`;
-- validação das requisições antes das chamadas ao SDK;
-- correlation IDs propagados pela fila e pelo WCF;
-- endpoints de health/readiness para API, cofre e Investran Web Services;
-- endpoint de consulta de status da solicitação na fila;
-- testes de integração automatizados;
-- verificação de segredos e configuração externa dos clientes OAuth.
+- versioned OpenAPI contract in the repository;
+- API versioning;
+- typed error responses using Problem Details;
+- route constraints and consistent resource naming;
+- consistent semantics for `201 Created`, `204 No Content`, and `404 Not Found`;
+- request validation before SDK calls;
+- correlation IDs propagated through the queue and WCF;
+- health/readiness endpoints for the API, vault, and Investran Web Services;
+- endpoint to query queue-request status;
+- automated integration tests;
+- secret scanning and external configuration for OAuth clients.

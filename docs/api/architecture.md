@@ -1,90 +1,90 @@
-# Arquitetura e fluxo das requisições
+# Architecture and request flow
 
-## Objetivo
+## Purpose
 
-A interface nativa do Investran é baseada nos assemblies do SDK e em contratos de serviço WCF. Esta API adiciona uma camada REST/JSON mais simples, evitando que os consumidores precisem referenciar o SDK proprietário, configurar bindings WCF ou manipular diretamente os DTOs do Investran em cada caso de uso.
+Investran's native interface is based on SDK assemblies and WCF service contracts. This API adds a simpler REST/JSON layer, so consumers do not need to reference the proprietary SDK, configure WCF bindings, or handle Investran DTOs directly for every use case.
 
 ```mermaid
 flowchart LR
-    C[Cliente REST] -->|HTTPS + JSON + Bearer token| API[Web API REST]
-    API --> AUTH[Validação do token OAuth2]
-    API --> CTRL[Controller da Web API]
-    CTRL --> DOM[Camada de domínio]
-    DOM --> INT[Camada de integração]
-    INT --> SDK[SDK do Investran / InvestranApplication]
+    C[REST client] -->|HTTPS + JSON + Bearer token| API[REST Web API]
+    API --> AUTH[OAuth2 token validation]
+    API --> CTRL[Web API controller]
+    CTRL --> DOM[Domain layer]
+    DOM --> INT[Integration layer]
+    INT --> SDK[Investran SDK / InvestranApplication]
     SDK -->|WCF SOAP / net.tcp| INV[Investran Web Services]
-    INV --> DB[(Banco de dados do Investran)]
-    VAULT[Cofre de credenciais] --> AUTHN[Contexto de autenticação do Investran]
+    INV --> DB[(Investran database)]
+    VAULT[Credential vault] --> AUTHN[Investran authentication context]
     AUTHN --> SDK
 ```
 
-## Duas fronteiras de autenticação
+## Two authentication boundaries
 
-O serviço utiliza duas identidades distintas:
+The service uses two separate identities:
 
-1. **Identidade do cliente REST:** token bearer OAuth2 com o escopo `investran-api`.
-2. **Identidade de serviço do Investran:** credenciais carregadas do cofre — ou da configuração de bypass em desenvolvimento —, validadas por `ApplicationScope.ValidateUser` e atribuídas a `Thread.CurrentPrincipal`.
+1. **REST client identity:** OAuth2 bearer token with the `investran-api` scope.
+2. **Investran service identity:** credentials loaded from the vault — or from bypass configuration in development — validated by `ApplicationScope.ValidateUser` and assigned to `Thread.CurrentPrincipal`.
 
-O token bearer protege a fachada REST. O principal interno do Investran determina o que a chamada subsequente ao SDK/Web Services pode acessar.
+The bearer token protects the REST facade. The internal Investran principal determines what the downstream SDK/Web Services call can access.
 
-## Responsabilidades das camadas
+## Layer responsibilities
 
-### Camada de API
+### API layer
 
-Os controllers definem as rotas, autorizam os consumidores, convertem os modelos de requisição em DTOs do SDK e devolvem JSON. Um filtro global de exceções registra falhas inesperadas e responde com HTTP 500.
+Controllers define routes, authorize consumers, convert request models into SDK DTOs, and return JSON. A global exception filter logs unexpected failures and returns HTTP 500.
 
-### Camada Core
+### Core layer
 
-As classes de domínio oferecem operações como `Load`, `Find`, `Create`, `Update` e `Delete`. Domínios especializados tratam batches, transações, UDFs, segurança e entidades contextuais.
+Domain classes provide operations such as `Load`, `Find`, `Create`, `Update`, and `Delete`. Specialized domains handle batches, transactions, UDFs, security, and contextual entities.
 
-### Camada de integração
+### Integration layer
 
-As implementações dos serviços resolvem os contratos nativos por meio de `InvestranApplication.Current`, incluindo:
+Service implementations resolve native contracts through `InvestranApplication.Current`, including:
 
-- `IEntityWebService`, para entidades de portfólio;
-- `IGeneralLedgerWebService`, para batches;
-- serviços de lookup, UDF, segurança e alocação.
+- `IEntityWebService` for portfolio entities;
+- `IGeneralLedgerWebService` for batches;
+- lookup, UDF, security, and allocation services.
 
-Elas convertem `FaultException<ResultFaultDto>` em exceções .NET e envolvem as gravações em um `TransactionScope` com timeout de 60 segundos.
+They convert `FaultException<ResultFaultDto>` into .NET exceptions and wrap writes in a `TransactionScope` with a 60-second timeout.
 
-### Camada de extensões
+### Extension layer
 
-As extensões de alocação determinam se um batch exige processamento de alocação e aplicam o comportamento de alocação de sistema ou customizado antes da publicação.
+Allocation extensions determine whether a batch requires allocation processing and apply system or custom allocation behavior before publishing.
 
-## Fluxo de requisição de entidade
+## Entity request flow
 
 ```mermaid
 sequenceDiagram
-    participant Cliente
+    participant Client
     participant Controller
-    participant Dominio as Domínio
-    participant Servico as Serviço de entidade
+    participant Domain
+    participant Service as Entity service
     participant Investran
 
-    Cliente->>Controller: Requisição HTTP + bearer token
-    Controller->>Dominio: Load/Create/Update/Delete
-    Dominio->>Servico: Operação com DTO da entidade
-    Servico->>Investran: WCF Load/Publish/Remove
-    Investran-->>Servico: DTO, IDs ou falha tipada
-    Servico-->>Dominio: Entidade ou exceção
-    Dominio-->>Controller: Resultado
-    Controller-->>Cliente: JSON ou erro HTTP
+    Client->>Controller: HTTP request + bearer token
+    Controller->>Domain: Load/Create/Update/Delete
+    Domain->>Service: Operation with entity DTO
+    Service->>Investran: WCF Load/Publish/Remove
+    Investran-->>Service: DTO, IDs, or typed fault
+    Service-->>Domain: Entity or exception
+    Domain-->>Controller: Result
+    Controller-->>Client: JSON or HTTP error
 ```
 
-## Fluxo de requisição de batch
+## Batch request flow
 
-Para `POST /api/batch`, a API:
+For `POST /api/batch`, the API:
 
-1. carrega a Legal Entity;
-2. monta um `BatchDto` com status Held;
-3. cria índices sequenciais para Journal Entries e Transactions;
-4. resolve os tipos de batch, journal entry e transaction;
-5. resolve contas, deals, positions, moedas e regras de alocação;
-6. mapeia UDFs e alocações explícitas opcionais por investidor;
-7. aplica a extensão de alocação;
-8. publica o batch por meio de `IGeneralLedgerWebService`;
-9. devolve o DTO criado, incluindo o ID atribuído.
+1. loads the Legal Entity;
+2. builds a `BatchDto` with Held status;
+3. creates sequential indexes for Journal Entries and Transactions;
+4. resolves batch, journal entry, and transaction types;
+5. resolves accounts, deals, positions, currencies, and allocation rules;
+6. maps UDFs and optional explicit investor allocations;
+7. applies the allocation extension;
+8. publishes the batch through `IGeneralLedgerWebService`;
+9. returns the created DTO, including its assigned ID.
 
-## Contratos de dados
+## Data contracts
 
-Os corpos das requisições usam modelos pertencentes à API, como `LegalEntityModel`, `InvestorModel`, `DealModel`, `PositionModel` e `BatchModel`. Diversas respostas utilizam DTOs nativos do Investran. Portanto, os consumidores devem considerar que o schema dessas respostas está acoplado à versão instalada do SDK, a menos que a API introduza contratos de resposta próprios.
+Request bodies use API-owned models such as `LegalEntityModel`, `InvestorModel`, `DealModel`, `PositionModel`, and `BatchModel`. Several responses use native Investran DTOs. Consumers should therefore treat those response schemas as coupled to the installed SDK version unless the API introduces its own response contracts.

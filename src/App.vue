@@ -22,7 +22,7 @@ const renderedContent = computed(() => DOMPurify.sanitize(marked.parse(currentDo
 
 const searchResults = computed(() => {
   const terms = query.value
-    .toLocaleLowerCase('pt-BR')
+    .toLocaleLowerCase('en-US')
     .trim()
     .split(/\s+/)
     .filter(Boolean)
@@ -31,7 +31,7 @@ const searchResults = computed(() => {
 
   return documents
     .map((document) => {
-      const title = document.title.toLocaleLowerCase('pt-BR')
+      const title = document.title.toLocaleLowerCase('en-US')
       const score = terms.reduce((total, term) => {
         if (title.includes(term)) return total + 8
         if (document.searchText.includes(term)) return total + 1
@@ -40,7 +40,7 @@ const searchResults = computed(() => {
       return { ...document, score }
     })
     .filter((document) => document.score > 0)
-    .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'pt-BR'))
+    .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title, 'en-US'))
     .slice(0, 12)
 })
 
@@ -148,7 +148,7 @@ async function renderEnhancements(requestedHeading = '') {
       }
       await mermaidInstance.run({ nodes: contentElement.value.querySelectorAll('.mermaid') })
     } catch (error) {
-      console.error('Não foi possível renderizar um diagrama Mermaid.', error)
+      console.error('Could not render a Mermaid diagram.', error)
     }
   }
 
@@ -176,16 +176,16 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', parseHash))
 <template>
   <div class="app-shell">
     <header class="topbar">
-      <button class="menu-button" aria-label="Abrir navegação" @click="menuOpen = !menuOpen">☰</button>
+      <button class="menu-button" aria-label="Open navigation" @click="menuOpen = !menuOpen">☰</button>
       <button class="brand" @click="navigate(DEFAULT_DOCUMENT)">
         <span class="brand-mark">I</span>
-        <span><strong>Investran</strong><small>Base de conhecimento</small></span>
+        <span><strong>Investran</strong><small>Knowledge base</small></span>
       </button>
       <div class="search-wrap">
         <span aria-hidden="true">⌕</span>
-        <input v-model="query" type="search" placeholder="Buscar na documentação…" aria-label="Buscar na documentação" />
+        <input v-model="query" type="search" placeholder="Search documentation…" aria-label="Search documentation" />
         <div v-if="query" class="search-results">
-          <p v-if="!searchResults.length">Nenhum documento encontrado.</p>
+          <p v-if="!searchResults.length">No documents found.</p>
           <button v-for="result in searchResults" :key="result.path" @click="navigate(result.path)">
             <strong>{{ result.title }}</strong>
             <small>{{ result.groupLabel }}</small>
@@ -197,7 +197,7 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', parseHash))
 
     <div class="workspace">
       <aside class="sidebar" :class="{ open: menuOpen }">
-        <nav aria-label="Documentação">
+        <nav aria-label="Documentation">
           <section v-for="group in navigationGroups" :key="group.id" class="nav-group">
             <h2>{{ group.label }}</h2>
             <button
@@ -211,22 +211,22 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', parseHash))
           </section>
         </nav>
       </aside>
-      <button v-if="menuOpen" class="backdrop" aria-label="Fechar navegação" @click="menuOpen = false"></button>
+      <button v-if="menuOpen" class="backdrop" aria-label="Close navigation" @click="menuOpen = false"></button>
 
       <main class="main-content">
         <div class="document-meta">
           <span>{{ currentDocument.groupLabel }}</span>
-          <button @click="openSource">Editar no GitHub ↗</button>
+          <button @click="openSource">Edit on GitHub ↗</button>
         </div>
         <article ref="contentElement" class="markdown-body" @click="handleContentClick" v-html="renderedContent"></article>
         <footer class="document-footer">
-          <p>Encontrou algo desatualizado? Edite o arquivo Markdown correspondente; a wiki será reconstruída automaticamente.</p>
-          <button @click="openSource">Abrir arquivo-fonte</button>
+          <p>Found something outdated? Edit the related Markdown file; the wiki rebuilds automatically.</p>
+          <button @click="openSource">Open source file</button>
         </footer>
       </main>
 
       <aside v-if="outline.length" class="outline">
-        <strong>Nesta página</strong>
+        <strong>On this page</strong>
         <a
           v-for="item in outline"
           :key="item.id"

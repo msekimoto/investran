@@ -1,62 +1,62 @@
-# Configuração e implantação
+# Configuration and deployment
 
-## Configurações obrigatórias
+## Required settings
 
-| Chave | Finalidade | Segredo? |
+| Key | Purpose | Secret? |
 |---|---|---:|
-| `BaseUrl` | URL pública/raiz usada pelo OAuth e Swagger | Não |
-| `WebServicesUri` | endpoint do Investran Web Services | Específica do ambiente |
-| `ServicePrincipalName` | SPN para autenticação Windows | Específica do ambiente |
-| `EndPointIdentity` | identidade DNS do endpoint WCF | Específica do ambiente |
-| `Server` | servidor do banco do Investran fornecido ao ApplicationScope | Específica do ambiente |
-| `Database` | nome do banco de dados do Investran | Específica do ambiente |
-| `WindowsCredentialKey` | chave do gerenciador de credenciais exigida pelo construtor atual | Referência sensível |
-| `ByPassCredentialManager` | habilita credenciais em texto puro somente para desenvolvimento | Não, mas é perigosa |
-| `InvestranVaultCredentials` | referência no cofre para a identidade normal de serviço | Referência sensível |
-| `InvestranVaultImpersonateCredentials` | referência no cofre para a identidade de impersonation | Referência sensível |
-| `investran-username-bypass` | usuário de bypass para desenvolvimento | Sim |
-| `investran-password-bypass` | senha de bypass para desenvolvimento | Sim |
+| `BaseUrl` | Public/root URL used by OAuth and Swagger | No |
+| `WebServicesUri` | Investran Web Services endpoint | Environment-specific |
+| `ServicePrincipalName` | SPN for Windows authentication | Environment-specific |
+| `EndPointIdentity` | DNS identity of the WCF endpoint | Environment-specific |
+| `Server` | Investran database server supplied to ApplicationScope | Environment-specific |
+| `Database` | Investran database name | Environment-specific |
+| `WindowsCredentialKey` | Credential Manager key required by the current constructor | Sensitive reference |
+| `ByPassCredentialManager` | Enables plain-text credentials for development only | No, but dangerous |
+| `InvestranVaultCredentials` | Vault reference for the standard service identity | Sensitive reference |
+| `InvestranVaultImpersonateCredentials` | Vault reference for the impersonation identity | Sensitive reference |
+| `investran-username-bypass` | Development bypass user | Yes |
+| `investran-password-bypass` | Development bypass password | Yes |
 
-Também existem configurações relacionadas ao RabbitMQ para envio de batches: servidor, porta, usuário, senha, nomes da fila e do exchange.
+RabbitMQ settings are also required to submit batches: server, port, user, password, queue names, and exchange names.
 
-## Inicialização do serviço
+## Service startup
 
-O componente de autenticação registra o Investran Web Services em `WebServicesUri`, configura as identidades de endpoint DNS/SPN e habilita os métodos de autenticação por usuário/senha e Windows. Em seguida, cria um escopo de aplicação para `Server` e `Database`.
+The authentication component registers Investran Web Services at `WebServicesUri`, configures DNS/SPN endpoint identities, and enables user/password and Windows authentication. It then creates an application scope for `Server` and `Database`.
 
-Se qualquer configuração obrigatória de conexão estiver vazia, a inicialização lança `Missing WebConfig Parameters`.
+If any required connection setting is empty, startup throws `Missing WebConfig Parameters`.
 
-## Swagger e OAuth
+## Swagger and OAuth
 
-O Swagger publica a versão `v1`, inclui os comentários XML gerados e configura um fluxo OAuth2 do tipo application apontando para:
+Swagger publishes version `v1`, includes generated XML comments, and configures an application OAuth2 flow pointing to:
 
 ```text
 ${BaseUrl}/auth/connect/token
 ```
 
-Garanta que `BaseUrl` represente a URL HTTPS acessível externamente quando a API estiver atrás de proxy ou load balancer.
+Ensure that `BaseUrl` is the externally reachable HTTPS URL when the API is behind a proxy or load balancer.
 
-## Observações sobre IIS e hospedagem
+## IIS and hosting notes
 
-O repositório contém artefatos tanto da Web API/OWIN clássica do ASP.NET quanto de gerações mais recentes de projeto e hospedagem. Antes do deploy, confirme qual caminho de inicialização e qual target framework são usados pelo build/pacote real. O código inclui:
+The repository contains artifacts from both classic ASP.NET Web API/OWIN and more recent project and hosting generations. Before deployment, confirm which startup path and target framework are used by the actual build/package. The code includes:
 
-- `Global.asax` e controllers de `System.Web.Http`;
-- inicialização OWIN e integração com IdentityServer;
-- referências de hospedagem/`Program` no estilo ASP.NET Core;
-- empacotamento com instalador WiX.
+- `Global.asax` and `System.Web.Http` controllers;
+- OWIN startup and IdentityServer integration;
+- ASP.NET Core-style hosting/`Program` references;
+- WiX installer packaging.
 
-Documente o processo de build e implantação suportado em cada ambiente, em vez de assumir que todos os arquivos de inicialização estão ativos.
+Document the supported build and deployment process for each environment instead of assuming that every startup file is active.
 
-## Higiene de configuração
+## Configuration hygiene
 
-O repositório contém valores de configuração que devem ser tratados como segredos ou dados de infraestrutura interna. Antes do uso em produção:
+The repository contains configuration values that must be treated as secrets or internal infrastructure data. Before production use:
 
-1. rotacione credenciais e client secrets expostos;
-2. remova segredos do histórico do Git quando exigido pela política;
-3. substitua client secrets e referências de certificados do IdentityServer gravados no código por configuração externa;
-4. mantenha `ByPassCredentialManager=false` fora do desenvolvimento;
-5. restrinja o CORS, evitando combinar origem curinga com credenciais;
-6. exija HTTPS para emissão de tokens;
-7. não versione certificados de assinatura nem chaves privadas;
-8. adicione verificação automatizada de segredos.
+1. rotate exposed credentials and client secrets;
+2. remove secrets from Git history when required by policy;
+3. replace IdentityServer client secrets and certificate references stored in code with external configuration;
+4. keep `ByPassCredentialManager=false` outside development;
+5. restrict CORS; do not combine a wildcard origin with credentials;
+6. require HTTPS for token issuance;
+7. do not version signing certificates or private keys;
+8. add automated secret scanning.
 
-Este guia não reproduz credenciais nem valores específicos de ambiente encontrados no código-fonte.
+This guide does not reproduce credentials or environment-specific values found in the source code.

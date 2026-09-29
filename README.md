@@ -1,52 +1,59 @@
-# Investran - Base de conhecimento de manutenção e suporte
+# Investran - Maintenance and Support Knowledge Base
 
-Base operacional para sustentação do Investran 7. O conteúdo foi consolidado a partir dos manuais FIS/SunGard disponíveis, sem incluir cópias desses documentos, credenciais ou dados de produção.
+This is an operational knowledge base for supporting Investran 7. It summarizes the available FIS/SunGard manuals without copying those documents or including credentials or production data.
 
-## Wiki navegável
+## 1. Learn Investran
 
-A wiki é organizada por assunto e por ciclo de suporte, com busca e links cruzados entre os documentos. Novos arquivos em `docs/`, `runbooks/` e `templates/` entram automaticamente na navegação da aplicação.
+Start with the [guided learning path](docs/17-learning-path.md), then read the [overview and component map](docs/01-overview.md) and [architecture and environments](docs/02-architecture-and-environments.md). Use [entities and relationships](docs/domain/01-entities-and-relationships.md) and the [operational glossary](docs/19-glossary.md) as reference while learning.
 
-- Local: execute `npm install` e `npm run dev`.
-- Build: execute `npm run build`.
-- Preview: execute `npm run preview`.
+## 2. Resolve a support issue
 
-## Comece pelo caminho certo
+1. Start with [Quick operations and on-call](docs/18-quick-operations.md) to assess impact and preserve evidence.
+2. Use [Troubleshooting](docs/13-troubleshooting.md) to route by symptom and system layer.
+3. Follow the relevant runbook below.
+4. Record the cause, action, evidence, and follow-up in the ticket, then update the related guide.
 
-1. [Trilha de aprendizado](docs/17-trilha-de-aprendizado.md)
-2. [Visão geral e mapa de componentes](docs/01-visao-geral.md)
-3. [Arquitetura e ambientes](docs/02-arquitetura-e-ambientes.md)
-4. [Entidades e relacionamentos](docs/dominio/01-entidades-e-relacionamentos.md)
-5. [Arquitetura lógica e componentes](docs/arquitetura/01-arquitetura-logica.md)
-6. [Operação, criticidade e calendário](docs/03-operacao-e-calendario.md)
-7. [Troubleshooting](docs/13-troubleshooting.md)
-8. [Plano de KT e lacunas](docs/16-plano-de-kt.md)
+| Situation | Runbook |
+|---|---|
+| Unknown impact or multiple layers | [Incident triage](runbooks/incident.md) |
+| Batch, scheduler, or job failure | [Batch or job failure](runbooks/batch-job-failure.md) |
+| Report Wizard, Crystal, WRS, or export | [Reporting failure](runbooks/reporting-failure.md) |
+| Business Event or Partner Transfer | [Business Event failure](runbooks/business-event-failure.md) |
+| Planned deployment, upgrade, or maintenance | [Deployment and maintenance](runbooks/deployment-maintenance.md) |
 
-## Navegação por área
+## 3. Work on a module
 
-### Fundamentos e operação
-- [Visão geral](docs/01-visao-geral.md)
-- [Arquitetura e ambientes](docs/02-arquitetura-e-ambientes.md)
-- [Operação, criticidade e calendário](docs/03-operacao-e-calendario.md)
-- [Batches, jobs e scheduler](docs/06-batches-jobs-scheduler.md)
-- [Banco de dados](docs/09-database.md)
+Use the module guide as the entry point, then follow its detailed procedures and troubleshooting links.
 
-### Módulos principais
-- [ATM](docs/active-templates/README.md)
-- [Allocation Rules](docs/allocation-rules/README.md)
-- [Report Wizard e Crystal](docs/07-report-wizard-e-crystal.md)
-- [STEP](docs/step/README.md)
-- [API, SDK e WRS](docs/08-apis-sdk-wrs.md)
-- [Data Import e interfaces](docs/10-data-import-e-interfaces.md)
-- [Application Server e Services](docs/application-services/README.md)
-- [Business Events](docs/14-business-events.md)
+| Module | Start here |
+|---|---|
+| Application Server and services | [Module guide](docs/application-services/README.md) |
+| Active Templates | [Module guide](docs/active-templates/README.md) |
+| Allocation Rules | [Module guide](docs/allocation-rules/README.md) |
+| Business Events | [Module guide](docs/business-events/README.md) |
+| Data Import | [Module guide](docs/data-import/README.md) |
+| Reporting and Web Reporting Services | [Reporting architecture](docs/reporting/01-reporting-architecture.md) |
+| REST API and SDK | [API and SDK overview](docs/08-apis-sdk-wrs.md) |
+| STEP | [Module guide](docs/step/README.md) |
 
-### Diagnóstico e governança
-- [Troubleshooting](docs/13-troubleshooting.md)
-- [Runbooks](runbooks/incidente.md)
-- [Catálogo de fontes](docs/15-catalogo-de-fontes.md)
-- [Regras de contribuição](CONTRIBUTING.md)
-- [Tratamento de informação sensível](SECURITY.md)
+## 4. Find technical reference
 
-## Estado da documentação
+- [Operations, criticality, and calendar](docs/03-operations-and-calendar.md)
+- [Batches, jobs, and scheduler](docs/06-batches-jobs-scheduler.md)
+- [Database](docs/09-database.md)
+- [Data Import and interfaces](docs/10-data-import-and-interfaces.md)
+- [Configuration, security, and SSO](docs/11-configuration-security-sso.md)
+- [Deployment and upgrade](docs/12-deploy-upgrade.md)
+- [End-to-end architecture](docs/architecture/01-logical-architecture.md)
+- [Source catalog and traceability](docs/15-source-catalog.md)
 
-A base atual traz o produto padrão e os padrões de operação documentados, mas não substitui o conhecimento do ambiente atendido. As informações que ainda dependem de KT ficam marcadas como `KT pendente` e devem ser validadas antes de qualquer ação em produção.
+## 5. Keep the knowledge current
+
+Treat `KT pending` as an open knowledge gap. Confirm operational details with the responsible technical and functional owners, record the source and validation evidence, and update the relevant guide after incidents, releases, or process changes.
+
+- [KT plan and open gaps](docs/16-kt-plan.md)
+- [How to contribute](CONTRIBUTING.md)
+- [Information security policy](SECURITY.md)
+- [Runbook template](templates/runbook.md) and [knowledge transfer template](templates/knowledge-transfer.md)
+
+The wiki covers standard product behavior and documented practices. Validate environment-specific procedures before production use. New Markdown files in `docs/`, `runbooks/`, and `templates/` appear in the wiki automatically. To work locally, run `npm install` and `npm run dev`; use `npm run check` to validate links, runbook controls, and the production build, then `npm run preview` to serve the built site.

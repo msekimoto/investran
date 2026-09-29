@@ -1,30 +1,30 @@
 # Microsoft SQL Server Reporting Services (SSRS)
 
-Este documento diferencia o **Microsoft SQL Server Reporting Services (SSRS)** do **Investran Web Reporting Services (WRS)** e descreve possibilidades seguras de uso no ecossistema Investran.
+This document distinguishes **Microsoft SQL Server Reporting Services (SSRS)** from **Investran Web Reporting Services (WRS)** and describes safe ways to use it in the Investran ecosystem.
 
-> Nenhum dos manuais Investran fornecidos confirma uma integração oficial direta com SSRS. Os padrões abaixo são opções arquiteturais que precisam ser validadas com FIS, arquitetura, DBA e segurança antes de implementação.
+> None of the supplied Investran manuals confirms an official direct integration with SSRS. The patterns below are architectural options that must be validated with FIS, architecture, DBA, and security teams before implementation.
 
-## O que é SSRS
+## What SSRS is
 
-SSRS é a plataforma de reporting da Microsoft para criar, publicar, administrar e distribuir relatórios paginados. Uma definição `.rdl` descreve data sources, datasets/queries, parameters, expressions e layout.
+SSRS is Microsoft's reporting platform for creating, publishing, administering, and distributing paginated reports. An `.rdl` definition describes data sources, datasets/queries, parameters, expressions, and layout.
 
-Em Native Mode, o Report Server armazena reports, shared data sources, datasets, schedules e subscriptions. Usuários podem acessar conteúdo pelo web portal, URL access ou aplicações integradas. A plataforma também oferece SOAP Web Service e REST APIs para administração e integração.
+In Native Mode, Report Server stores reports, shared data sources, datasets, schedules, and subscriptions. Users can access content through the web portal, URL access, or integrated applications. The platform also provides SOAP Web Service and REST APIs for administration and integration.
 
-## WRS não é SSRS
+## WRS is not SSRS
 
-| Tema | Investran WRS | Microsoft SSRS |
+| Topic | Investran WRS | Microsoft SSRS |
 |---|---|---|
-| fornecedor | FIS/SunGard | Microsoft |
-| fonte principal | Report Wizard Engine | datasets/data sources configurados no SSRS |
-| definição do report | report RW e possível Crystal `.rpt` | Report Definition Language `.rdl` |
-| endpoint | WRS SOAP `FTIRWWS` | Report Server portal, URL access, SOAP e REST |
-| segurança funcional | Contact, Relationship, Security Level e Report Filter | roles/policies do Report Server e credenciais do data source |
-| distribuição | XML, HTML e PDF via serviço/consumidor | portal, exportação, subscriptions, email e file share |
-| uso típico | expor reports Investran com segurança funcional | plataforma corporativa de reports paginados |
+| vendor | FIS/SunGard | Microsoft |
+| main source | Report Wizard Engine | datasets/data sources configured in SSRS |
+| report definition | RW report and possibly a Crystal `.rpt` | Report Definition Language `.rdl` |
+| endpoint | WRS SOAP `FTIRWWS` | Report Server portal, URL access, SOAP, and REST |
+| functional security | Contact, Relationship, Security Level, and Report Filter | Report Server roles/policies and data source credentials |
+| distribution | XML, HTML, and PDF through the service/consumer | portal, export, subscriptions, email, and file share |
+| typical use | exposing Investran reports with functional security | enterprise platform for paginated reports |
 
-Não aplique configurações, logs ou runbooks de um produto ao outro. Ambos podem usar conceitos como parameters, web service e PDF, mas são stacks independentes.
+Do not apply one product's settings, logs, or runbooks to the other. Both may use concepts such as parameters, web services, and PDF, but they are independent stacks.
 
-## Arquitetura do SSRS
+## SSRS architecture
 
 ```mermaid
 flowchart LR
@@ -32,27 +32,27 @@ flowchart LR
     SERVER --> CATALOG[(ReportServer catalog)]
     SERVER --> DS[Data Sources]
     DS --> SQL[(SQL Server)]
-    DS --> OTHER[Outras fontes/extensões]
-    USER[Usuário / aplicação] --> PORTAL[Web Portal / URL / API]
+    DS --> OTHER[Other sources/extensions]
+    USER[User / application] --> PORTAL[Web Portal / URL / API]
     PORTAL --> SERVER
     SERVER --> RENDER[PDF / Excel / Word / HTML]
     SERVER --> SUB[Schedules / Subscriptions]
 ```
 
-Componentes principais:
+Main components:
 
-- **Report Server:** processa e renderiza reports;
-- **Web Portal:** organiza e permite executar conteúdo;
-- **Report Builder/SSDT:** autoria de `.rdl`;
-- **Data Source:** conexão e credenciais;
-- **Dataset:** query e fields;
-- **ReportServer database:** catálogo, configuração e histórico operacional;
-- **Schedules/Subscriptions:** execução e entrega automatizada;
-- **Web Service/REST/URL access:** interfaces programáticas.
+- **Report Server:** processes and renders reports;
+- **Web Portal:** organizes content and allows it to be executed;
+- **Report Builder/SSDT:** `.rdl` authoring;
+- **Data Source:** connection and credentials;
+- **Dataset:** query and fields;
+- **ReportServer database:** catalog, configuration, and operational history;
+- **Schedules/Subscriptions:** automated execution and delivery;
+- **Web Service/REST/URL access:** programmatic interfaces.
 
-## Possíveis padrões com Investran
+## Possible patterns with Investran
 
-### Padrão A - SSRS sobre data mart ou camada de reporting
+### Pattern A - SSRS over a data mart or reporting layer
 
 ```mermaid
 flowchart LR
@@ -61,18 +61,18 @@ flowchart LR
     SSRS[SSRS] --> MART
 ```
 
-É o padrão mais isolado para analytics e distribuição corporativa. Reduz o acoplamento do SSRS ao schema transacional do produto.
+This is the most isolated pattern for analytics and enterprise distribution. It reduces SSRS coupling to the product's transactional schema.
 
-Valide:
+Validate:
 
-- latência e frequência de carga;
-- reconciliação com Investran;
-- lineage e ownership;
-- segurança/mascaramento;
-- reprocessamento;
-- retenção e histórico.
+- latency and load frequency;
+- reconciliation with Investran;
+- lineage and ownership;
+- security/masking;
+- reprocessing;
+- retention and history.
 
-### Padrão B - SSRS sobre views ou procedures aprovadas
+### Pattern B - SSRS over approved views or procedures
 
 ```mermaid
 flowchart LR
@@ -80,183 +80,183 @@ flowchart LR
     VIEW --> INV[(Investran DB)]
 ```
 
-Só utilize se a FIS e os owners do ambiente aprovarem os objetos e o contrato. Consultar tabelas internas diretamente cria risco de mudança de schema, leitura inconsistente, contenção e interpretação incorreta do domínio.
+Use this only if FIS and the environment owners approve the objects and contract. Querying internal tables directly creates risks from schema changes, inconsistent reads, contention, and incorrect domain interpretation.
 
-Requisitos mínimos:
+Minimum requirements:
 
-- usuário read-only dedicado;
-- objetos estáveis e documentados;
-- parâmetros obrigatórios para limitar escopo;
-- timeout e volume controlados;
-- testes após upgrades/MRs;
-- monitoramento de bloqueio e duração.
+- a dedicated read-only user;
+- stable, documented objects;
+- required parameters to limit scope;
+- controlled timeout and volume;
+- testing after upgrades/MRs;
+- monitoring of blocking and duration.
 
-### Padrão C - Aplicação intermediária consumindo WRS
+### Pattern C - Intermediary application consuming WRS
 
 ```mermaid
 flowchart LR
-    WRS[Investran WRS SOAP] --> APP[Serviço / ETL intermediário]
+    WRS[Investran WRS SOAP] --> APP[Service / intermediate ETL]
     APP --> STAGE[(Dataset / staging)]
     SSRS[SSRS] --> STAGE
 ```
 
-Uma camada intermediária pode executar reports autorizados no WRS, transformar XML e persistir um dataset consumível pelo SSRS. Isso preserva a lógica de publicação/segurança do WRS, mas cria responsabilidades de cache, identidade, auditoria e atualização.
+An intermediary layer can execute authorized reports in WRS, transform XML, and persist a dataset that SSRS can consume. This preserves WRS publishing/security logic, but creates responsibilities for caching, identity, auditing, and refreshes.
 
-Não assuma que SSRS consome diretamente o endpoint WRS sem adaptação. Valide formato, autenticação, paginação, volume, timeout e tratamento de falhas.
+Do not assume SSRS consumes the WRS endpoint directly without adaptation. Validate format, authentication, pagination, volume, timeout, and failure handling.
 
-### Padrão D - SSRS como distribuição de um dataset existente
+### Pattern D - SSRS for distributing an existing dataset
 
-Quando outro processo já produz dados reconciliados, SSRS pode cuidar apenas de layout, parâmetros, exportação e subscriptions.
+When another process already produces reconciled data, SSRS can handle only layout, parameters, export, and subscriptions.
 
-Esse padrão é útil quando o cálculo permanece no Investran/RW e a distribuição corporativa precisa de recursos do SSRS.
+This pattern is useful when calculations remain in Investran/RW and enterprise distribution needs SSRS capabilities.
 
-## Como escolher
+## How to choose
 
-| Necessidade | Componente preferencial |
+| Need | Preferred component |
 |---|---|
-| executar report RW preservando Contact/Relationship/Report Filter | WRS |
-| layout Crystal já associado ao RW | RW + Crystal/WRS |
-| portal corporativo de `.rdl` | SSRS |
-| subscriptions por email/file share | SSRS |
-| integração online com segurança funcional Investran | WRS |
-| relatório corporativo sobre data mart governado | SSRS |
-| Active Template ou Allocation Rule consumindo report | Report Wizard |
+| execute an RW report while preserving Contact/Relationship/Report Filter | WRS |
+| Crystal layout already associated with RW | RW + Crystal/WRS |
+| enterprise `.rdl` portal | SSRS |
+| email/file share subscriptions | SSRS |
+| online integration with Investran functional security | WRS |
+| enterprise report over a governed data mart | SSRS |
+| Active Template or Allocation Rule consuming a report | Report Wizard |
 
-WRS e SSRS podem coexistir. A escolha depende de onde vivem cálculo, autorização, dados e distribuição.
+WRS and SSRS can coexist. The choice depends on where calculations, authorization, data, and distribution reside.
 
-## Desenvolver um report SSRS
+## Develop an SSRS report
 
-### 1. Definir contrato
+### 1. Define the contract
 
-Registre finalidade, audiência, fonte, granularidade, parameters, SLA, formato e owner.
+Record purpose, audience, source, granularity, parameters, SLA, format, and owner.
 
-### 2. Criar Data Source
+### 2. Create the Data Source
 
-Prefira shared data source quando múltiplos reports usam a mesma conexão. Separe conexão de definição `.rdl` para permitir manutenção centralizada.
+Prefer a shared data source when multiple reports use the same connection. Separate the connection from the `.rdl` definition to allow centralized maintenance.
 
-Não coloque senha no repositório. Use o mecanismo aprovado de credenciais do Report Server.
+Do not put passwords in the repository. Use the approved Report Server credential mechanism.
 
-### 3. Criar Dataset
+### 3. Create the Dataset
 
-Use query parametrizada e retorne somente columns necessárias. Evite `SELECT *`. Confirme tipos, cardinalidade e tempo.
+Use a parameterized query and return only required columns. Avoid `SELECT *`. Confirm types, cardinality, and duration.
 
-### 4. Criar Parameters
+### 4. Create Parameters
 
-Defina tipo, defaults, available values, dependências e tratamento de múltiplos valores. Parameters devem restringir dados no dataset, não apenas ocultar linhas no layout.
+Define types, defaults, available values, dependencies, and handling of multiple values. Parameters must restrict data in the dataset, not merely hide rows in the layout.
 
-### 5. Montar layout paginado
+### 5. Build the paginated layout
 
-Use tablix, grupos, headers/footers, expressions e page breaks. Teste PDF e Excel separadamente.
+Use tablix, groups, headers/footers, expressions, and page breaks. Test PDF and Excel separately.
 
-### 6. Publicar
+### 6. Publish
 
-Publique `.rdl`, shared data sources e datasets no folder correto. Configure permissões e teste com usuário não administrativo.
+Publish `.rdl`, shared data sources, and datasets to the correct folder. Configure permissions and test with a non-administrative user.
 
-### 7. Configurar subscription
+### 7. Configure the subscription
 
-Subscriptions executam e entregam reports em agenda. Data-driven subscriptions podem obter destinatários, parameter values, formato e opções de entrega de uma fonte externa, conforme edição/licenciamento.
+Subscriptions execute and deliver reports on a schedule. Data-driven subscriptions can obtain recipients, parameter values, format, and delivery options from an external source, depending on edition/licensing.
 
-### 8. Validar
+### 8. Validate
 
-- parâmetros e segurança;
-- dados e totais;
+- parameters and security;
+- data and totals;
 - PDF/Excel;
-- timezone e agenda;
-- entrega e destinatários;
-- volume e concorrência;
-- logs de execução.
+- timezone and schedule;
+- delivery and recipients;
+- volume and concurrency;
+- execution logs.
 
-## Interfaces programáticas
+## Programmatic interfaces
 
 ### URL access
 
-Permite executar/navegar reports por URL com path e parameters. Use para integração simples e controlada; não coloque segredos em query strings.
+Allows reports to be executed/browsed through a URL with a path and parameters. Use it for simple, controlled integration; do not put secrets in query strings.
 
 ### SOAP Web Service
 
-Expõe funcionalidades do Report Server para aplicações e ferramentas administrativas. É diferente do SOAP do Investran WRS.
+Exposes Report Server functionality to applications and administrative tools. It is different from Investran WRS SOAP.
 
 ### REST API
 
-Permite navegar pelo catálogo e criar, atualizar, baixar ou excluir objetos do Report Server. Controle permissões e evite automações destrutivas sem versionamento.
+Allows browsing the catalog and creating, updating, downloading, or deleting Report Server objects. Control permissions and avoid destructive automation without versioning.
 
-## Segurança
+## Security
 
-Avalie separadamente:
+Assess separately:
 
-- acesso ao portal/folders/reports;
-- credencial usada pelo Data Source;
-- segurança na própria query/view;
-- parameters e filtros;
-- subscriptions e destinos;
-- arquivos exportados;
-- service accounts e encryption keys;
-- TLS e URLs do Report Server.
+- access to the portal/folders/reports;
+- credentials used by the Data Source;
+- security in the query/view itself;
+- parameters and filters;
+- subscriptions and destinations;
+- exported files;
+- service accounts and encryption keys;
+- TLS and Report Server URLs.
 
-Permissão para abrir um report não significa automaticamente que a fonte aplica segurança por entidade como o WRS. Se o requisito é limitar Legal Entity/Investor por usuário, implemente e teste esse controle explicitamente.
+Permission to open a report does not automatically mean the source applies entity-level security like WRS. If the requirement is to restrict Legal Entity/Investor by user, explicitly implement and test that control.
 
-## Operação e monitoramento
+## Operations and monitoring
 
-Inventarie:
+Inventory:
 
-- servidor/instância e versão;
-- URLs do Web Service e Web Portal;
+- server/instance and version;
+- Web Service and Web Portal URLs;
 - ReportServer databases;
 - service account;
 - encryption key backup;
-- folders, roles e owners;
+- folders, roles, and owners;
 - shared data sources;
 - schedules/subscriptions;
 - SMTP/file shares;
-- retenção de logs;
-- backup/restore e disaster recovery.
+- log retention;
+- backup/restore and disaster recovery.
 
-Monitore disponibilidade, falhas de execução, duração, filas, subscriptions, entrega, database, disco, memória, CPU e certificados.
+Monitor availability, execution failures, duration, queues, subscriptions, delivery, database, disk, memory, CPU, and certificates.
 
 ## Troubleshooting
 
-| Sintoma | Verificar |
+| Symptom | Check |
 |---|---|
-| portal indisponível | serviço, URLs, certificado, HTTP.SYS e logs |
-| report abre, mas falha ao executar | Data Source, credenciais, query e parameters |
-| usuário vê report indevido | folder/item permissions e herança |
-| usuário vê dados indevidos | query, row-level security e identidade do Data Source |
-| subscription não entrega | schedule, SQL Agent aplicável, SMTP/share e credenciais |
-| PDF correto, Excel ruim | layout, merged cells, widths e renderer |
-| report lento | query, dataset, parameters, volume, expressions e concorrência |
-| funciona no designer, falha no servidor | versão/extensões, Data Source e permissões do Report Server |
-| diverge do Investran | data mart/carga, data de corte, regra e reconciliação |
+| portal unavailable | service, URLs, certificate, HTTP.SYS, and logs |
+| report opens but fails to execute | Data Source, credentials, query, and parameters |
+| user sees an unauthorized report | folder/item permissions and inheritance |
+| user sees unauthorized data | query, row-level security, and Data Source identity |
+| subscription does not deliver | schedule, applicable SQL Agent, SMTP/share, and credentials |
+| PDF is correct, Excel is poor | layout, merged cells, widths, and renderer |
+| slow report | query, dataset, parameters, volume, expressions, and concurrency |
+| works in the designer, fails on the server | version/extensions, Data Source, and Report Server permissions |
+| differs from Investran | data mart/load, cutoff date, rules, and reconciliation |
 
-## Publicação e rollback
+## Publishing and rollback
 
-Versione `.rdl`, queries/procedures, shared datasets e instruções de Data Source sem credenciais.
+Version `.rdl`, queries/procedures, shared datasets, and Data Source instructions without credentials.
 
-Antes do deploy:
+Before deployment:
 
-- exporte a versão publicada;
-- preserve configuração anterior;
-- valide dependências;
-- publique em ambiente inferior;
-- teste usuários/roles;
-- teste subscriptions;
-- defina restauração de `.rdl` e objetos de dados.
+- export the published version;
+- preserve the previous configuration;
+- validate dependencies;
+- publish to a lower environment;
+- test users/roles;
+- test subscriptions;
+- define how to restore `.rdl` and data objects.
 
-Uma reversão de `.rdl` não corrige automaticamente uma procedure, view, Data Source ou subscription alterada no mesmo release.
+Reverting an `.rdl` does not automatically fix a procedure, view, Data Source, or subscription changed in the same release.
 
-## Perguntas de KT
+## KT questions
 
-- SSRS existe no ambiente? Qual versão/edição?
-- Quais reports estão relacionados ao Investran?
-- Qual padrão de integração é utilizado?
-- A fonte é database, data mart, WRS ou outra interface?
-- Quais users/service accounts e cofres?
-- Onde estão `.rdl`, queries e pipelines versionados?
-- Quais subscriptions são críticas?
-- Como são aplicadas segurança por Legal Entity/Investor e reconciliação?
-- Quais SLAs, volumes, janelas e runbooks?
-- Como executar backup, restore e rollback?
+- Is SSRS present in the environment? Which version/edition?
+- Which reports are related to Investran?
+- Which integration pattern is used?
+- Is the source a database, data mart, WRS, or another interface?
+- Which users/service accounts and vaults are used?
+- Where are `.rdl`, queries, and pipelines versioned?
+- Which subscriptions are critical?
+- How are Legal Entity/Investor security and reconciliation applied?
+- What are the SLAs, volumes, windows, and runbooks?
+- How are backup, restore, and rollback performed?
 
-## Referências
+## References
 
 - [Microsoft Learn - Reporting Services concepts](https://learn.microsoft.com/en-us/sql/reporting-services/reporting-services-concepts-ssrs?view=sql-server-ver17)
 - [Microsoft Learn - Reporting Services reports](https://learn.microsoft.com/en-us/sql/reporting-services/reports/reporting-services-reports-ssrs?view=sql-server-ver17)

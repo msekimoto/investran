@@ -1,366 +1,366 @@
-# Desenvolvimento e Alteração de Allocation Rules
+# Developing and Changing Allocation Rules
 
-> Este guia é orientado à sustentação. Ele consolida apenas o que os documentos recebidos suportam. Onde o material não descreve a interface exata do Allocation Rule Manager, o procedimento é marcado como **TODO (KT)**.
+> This guide focuses on application support. It consolidates only what the supplied documents support. Where the material does not describe the exact Allocation Rule Manager interface, the procedure is marked **TODO (KT)**.
 
-## Objetivo
+## Purpose
 
-Fornecer um roteiro seguro para criar ou alterar uma Allocation Rule sem perder rastreabilidade, sem misturar defeitos de origem e sem promover uma regra não validada.
+Provide a safe roadmap for creating or changing an Allocation Rule while preserving traceability, distinguishing upstream defects, and avoiding promotion of an unvalidated rule.
 
-## Quando uma alteração de AR é realmente necessária
+## When an AR change is actually needed
 
-Antes de alterar a regra, confirme se o defeito está nela. Em incidentes de alocação, a AR pode apenas estar recebendo um contexto incorreto de outro componente.
+Before changing the rule, confirm that it contains the defect. In allocation incidents, the AR may simply be receiving incorrect context from another component.
 
-Verifique primeiro:
+Check first:
 
-- Legal Entity incorreta;
-- investidores fora do escopo esperado;
-- datas contábeis ou efetivas incorretas;
-- compromisso, closing date, saldo, custo ou unfunded commitment desatualizado;
-- Allocation Rule ID incorreto informado por Active Template ou Batch;
-- transação dominante/non-dominant configurada incorretamente;
-- arredondamento ou rebalancing posterior ao cálculo;
-- Report Wizard ou automação retornando dados diferentes do esperado.
+- incorrect Legal Entity;
+- investors outside the expected scope;
+- incorrect accounting or effective dates;
+- outdated commitment, closing date, balance, cost, or unfunded commitment;
+- incorrect Allocation Rule ID supplied by an Active Template or Batch;
+- incorrectly configured dominant/non-dominant transaction;
+- rounding or rebalancing after calculation;
+- Report Wizard or automation returning unexpected data.
 
-## Fluxo recomendado
+## Recommended workflow
 
 ```mermaid
 flowchart TD
-    A[Receber incidente ou solicitação] --> B[Identificar AR executada]
-    B --> C[Capturar contexto e resultado atual]
-    C --> D{A causa está na AR?}
-    D -- Não --> E[Corrigir componente de origem]
-    D -- Sim --> F[Duplicar ou preservar versão atual]
-    F --> G[Alterar em ambiente não produtivo]
-    G --> H[Executar casos de teste]
+    A[Receive incident or request] --> B[Identify the executed AR]
+    B --> C[Capture context and current result]
+    C --> D{Is the cause in the AR?}
+    D -- No --> E[Fix the source component]
+    D -- Yes --> F[Duplicate or preserve the current version]
+    F --> G[Change in a non-production environment]
+    G --> H[Run test cases]
     H --> I[Comparar antes e depois]
-    I --> J{Resultado aprovado?}
-    J -- Não --> G
-    J -- Sim --> K[Promover conforme processo do ambiente]
-    K --> L[Validar após publicação]
+    I --> J{Result approved?}
+    J -- No --> G
+    J -- Yes --> K[Promote according to the environment process]
+    K --> L[Validate after publication]
 ```
 
-## 1. Preparação
+## 1. Preparation
 
-Registre antes da mudança:
+Record before the change:
 
-- nome e ID da Allocation Rule;
-- tipo: static ou dynamic;
-- direção: top-down ou bottom-up;
-- Legal Entity ou conjunto de entidades impactado;
-- componente que chama a regra;
-- transação ou Batch de referência;
-- parâmetros e datas usados;
-- investidores esperados;
-- percentuais, valores ou quantidades atuais;
-- resultado esperado pelo cliente;
-- evidência do erro;
-- versão e ambiente onde o erro foi reproduzido.
+- Allocation Rule name and ID;
+- type: static or dynamic;
+- direction: top-down or bottom-up;
+- affected Legal Entity or set of entities;
+- component that calls the rule;
+- reference transaction or Batch;
+- parameters and dates used;
+- expected investors;
+- current percentages, values, or quantities;
+- result expected by the client;
+- evidence of the error;
+- version and environment where the error was reproduced.
 
-## 2. Permissões
+## 2. Permissions
 
-Os documentos distinguem dois níveis de acesso:
+The documents distinguish two access levels:
 
-- **ARM Admin**: criar, editar, executar e excluir Allocation Rules;
-- **ARM User**: executar Allocation Rules.
+- **ARM Admin**: create, edit, run, and delete Allocation Rules;
+- **ARM User**: run Allocation Rules.
 
-Confirme a permissão antes de diagnosticar uma falha de interface como defeito da aplicação.
+Confirm permissions before diagnosing an interface failure as an application defect.
 
-## 3. Localização e inventário
+## 3. Location and inventory
 
-### Informações confirmadas
+### Confirmed information
 
-- regras dinâmicas são administradas pelo Allocation Rule Manager;
-- regras estáticas são mantidas pela utility **Static Allocation Rules**, no Portfolio & Investor Manager;
-- o ARM permite localizar, adicionar, editar, excluir, duplicar e simular regras;
-- regras em uso por pelo menos uma transação não podem ser editadas nem excluídas;
-- `Run` simula a execução com properties e parameters e não modifica o banco;
-- regras começam em `Draft` e somente ficam disponíveis ao Accounting em `Normal`;
-- o guia do ATM informa que existe metadata do Investran que pode ser consultada por Report Wizard para localizar IDs de Allocation Rules por nome;
-- Active Templates podem definir a regra por ID no `Application.Context.AllocationRule`.
+- dynamic rules are administered through Allocation Rule Manager;
+- static rules are maintained through the **Static Allocation Rules** utility in Portfolio & Investor Manager;
+- ARM allows users to find, add, edit, delete, duplicate, and simulate rules;
+- rules used by at least one transaction cannot be edited or deleted;
+- `Run` simulates execution with properties and parameters without changing the database;
+- rules start in `Draft` and become available to Accounting only in `Normal`;
+- the ATM guide states that Investran metadata can be queried through Report Wizard to find Allocation Rule IDs by name;
+- Active Templates can set the rule by ID in `Application.Context.AllocationRule`.
 
-### Dependências do ambiente que ainda exigem KT
+### Environment dependencies still requiring KT
 
-Documentar no ambiente atendido:
+Document in the supported environment:
 
-- caminho exato para abrir o ARM;
-- filtros de pesquisa disponíveis;
-- owners funcionais e técnicos;
-- convenção para Notes, locks e nomes;
-- política de duplicação e preservação da versão anterior;
-- inventário de regras customizadas e consumidores.
+- exact path for opening ARM;
+- available search filters;
+- functional and technical owners;
+- conventions for Notes, locks, and names;
+- policy for duplication and preservation of the previous version;
+- inventory of custom rules and consumers.
 
-Para a operação detalhada da ferramenta, consulte [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md). Para as classes VBA, consulte [Object model e contratos técnicos](object-model.md).
+For detailed tool operation, see [ARM interface and lifecycle](arm-interface-and-lifecycle.md). For VBA classes, see [Object model and technical contracts](object-model.md).
 
-## 4. Entender a regra antes de editar
+## 4. Understand the rule before editing
 
-Classifique a regra usando as perguntas abaixo.
+Classify the rule using the questions below.
 
-### Base de alocação
+### Allocation base
 
-A regra usa:
+Does the rule use:
 
-- compromisso;
-- compromisso e closing date;
-- saldo médio de caixa;
+- commitment;
+- commitment and closing date;
+- average cash balance;
 - unfunded commitment;
 - investment cost;
 - capital account;
 - management fee rate;
-- valores fornecidos pelo usuário;
-- outra base customizada.
+- user-provided values;
+- another custom base.
 
-### Universo de investidores
+### Investor universe
 
-Confirme:
+Confirm:
 
-- quem pode participar;
-- quais datas determinam elegibilidade;
-- se existem investidores excluídos;
-- se há side letters ou overrides;
-- se a regra trabalha com GP, LP ou ambos;
-- se investidores sem saldo ou compromisso devem receber zero;
-- como novos closings entram no cálculo.
+- who can participate;
+- which dates determine eligibility;
+- whether any investors are excluded;
+- whether side letters or overrides exist;
+- whether the rule handles GP, LP, or both;
+- whether investors without a balance or commitment should receive zero;
+- how new closings enter the calculation.
 
-### Resultado
+### Result
 
-A saída deve representar:
+The output should represent:
 
-- percentuais;
-- valores;
-- número de shares;
-- um `InvestorSet` preenchido pelo código chamador;
-- totais agregados para Vehicle e Legal Entity.
+- percentages;
+- values;
+- number of shares;
+- an `InvestorSet` populated by the calling code;
+- aggregated totals for Vehicle and Legal Entity.
 
-### Invariantes mínimas
+### Minimum invariants
 
-Na maioria dos cenários, valide:
+In most scenarios, validate:
 
-- soma dos percentuais esperada;
-- soma dos valores alocados igual ao total de entrada;
-- ausência de valores `NULL` para investidores válidos;
-- tratamento consistente de zeros;
-- comportamento de arredondamento;
-- geração correta da parcela non-dominant ou de balancing.
+- expected sum of percentages;
+- sum of allocated values equals the input total;
+- no `NULL` values for valid investors;
+- consistent zero handling;
+- rounding behavior;
+- correct generation of the non-dominant or balancing portion.
 
-> A soma esperada nem sempre será 100% em etapas intermediárias. Confirme o contrato funcional da regra antes de tratar qualquer diferença como erro.
+> The expected sum is not always 100% at intermediate stages. Confirm the rule's functional contract before treating any difference as an error.
 
-## 5. Estratégia de alteração
+## 5. Change strategy
 
-### Prefira a menor mudança possível
+### Prefer the smallest possible change
 
-Evite reescrever a regra durante uma correção emergencial. Altere apenas a condição, fonte ou cálculo comprovadamente defeituoso.
+Avoid rewriting the rule during an emergency fix. Change only the condition, source, or calculation proven to be defective.
 
-### Não use IDs desconhecidos sem validação
+### Do not use unknown IDs without validation
 
-O manual de ATM cita como exemplo:
+The ATM manual provides the following example:
 
-| ID | Regra de sistema |
+| ID | System rule |
 |---:|---|
 | 0 | Non-Dominant |
 | 1 | No Allocation |
 | 2 | User Provided |
 
-Esses IDs devem ser validados na versão instalada antes do uso. Para regras customizadas, prefira resolver o ID por metadata ou configuração, em vez de espalhar números sem documentação.
+Validate these IDs in the installed version before use. For custom rules, prefer resolving the ID through metadata or configuration instead of scattering undocumented numbers throughout the code.
 
-### Evite valores de negócio hard-coded
+### Avoid hard-coded business values
 
-O guia de desenvolvimento de Active Templates recomenda armazenar valores mutáveis em User Defined Fields e recuperá-los por Report Wizard, em vez de fixá-los no VBA. O mesmo princípio deve ser aplicado quando uma AR ou seu consumidor depende de percentuais, datas ou limites de negócio configuráveis.
+The Active Templates development guide recommends storing mutable values in User Defined Fields and retrieving them through Report Wizard instead of embedding them in VBA. Apply the same principle when an AR or its consumer depends on configurable business percentages, dates, or limits.
 
-### Preserve compatibilidade
+### Preserve compatibility
 
-Antes de remover campos, parâmetros ou dependências, identifique todos os consumidores:
+Before removing fields, parameters, or dependencies, identify all consumers:
 
 - Active Templates;
 - Batch templates;
 - Business Events;
-- processos de equalization/rebook;
+- equalization/rebook processes;
 - Report Wizard reports;
-- jobs e integrações;
-- processos manuais.
+- jobs and integrations;
+- manual processes.
 
-## 6. Alteração por tipo
+## 6. Changes by type
 
 ### Static Allocation Rule
 
-A documentação descreve regras estáticas como uma tabela de percentuais fixos por investidor.
+The documentation describes static rules as a table of fixed percentages per investor.
 
-Ao alterar:
+When making changes:
 
-1. valide a Legal Entity correta;
-2. confirme a vigência ou data relevante, caso exista no ambiente;
-3. compare a lista de investidores antes e depois;
-4. confirme que os percentuais refletem o acordo de negócio;
-5. verifique investidores adicionados, removidos ou inativos;
-6. valide a soma;
-7. execute uma transação de teste.
+1. validate the correct Legal Entity;
+2. confirm the validity period or relevant date, if available in the environment;
+3. compare the investor list before and after;
+4. confirm that percentages reflect the business agreement;
+5. check added, removed, or inactive investors;
+6. validate the sum;
+7. run a test transaction.
 
 ### Dynamic Allocation Rule
 
-Regras dinâmicas recalculam os ratios conforme os dados mudam.
+Dynamic rules recalculate ratios as data changes.
 
-Ao alterar:
+When making changes:
 
-1. identifique a fonte de cada dado;
-2. confirme datas de corte;
-3. confirme filtros de investidores;
-4. valide regras para zero, null e valores negativos;
-5. teste com dados antigos e atuais;
-6. teste investidores com closing dates diferentes;
-7. verifique overrides e exceções;
-8. compare o resultado por investidor.
+1. identify the source of each data item;
+2. confirm cutoff dates;
+3. confirm investor filters;
+4. validate rules for zero, null, and negative values;
+5. test with historical and current data;
+6. test investors with different closing dates;
+7. check overrides and exceptions;
+8. compare results per investor.
 
 ### Top-Down
 
-O valor nasce no nível da Legal Entity e é distribuído aos investidores.
+The value originates at Legal Entity level and is distributed to investors.
 
-Valide:
+Validate:
 
-- total de entrada;
-- população elegível;
-- ratio por investidor;
-- soma das alocações;
-- diferença de arredondamento;
+- input total;
+- eligible population;
+- ratio per investor;
+- sum of allocations;
+- rounding difference;
 - balancing/non-dominant.
 
 ### Bottom-Up
 
-O valor nasce ou é calculado no nível do investidor e depois agregado.
+The value originates or is calculated at investor level and is then aggregated.
 
-Valide:
+Validate:
 
-- valor individual de cada investidor;
-- total agregado por Vehicle;
-- total agregado por Legal Entity;
-- duplicidade de investidores;
-- perda de precisão durante agregação.
+- individual value for each investor;
+- aggregated total per Vehicle;
+- aggregated total per Legal Entity;
+- duplicate investors;
+- precision loss during aggregation.
 
-## 7. Interação com Active Templates
+## 7. Interaction with Active Templates
 
-O manual de ATM mostra que a Allocation Rule é definida no contexto da transação. A execução ocorre entre os eventos `BeforeTransaction` e `AfterTransaction`.
+The ATM manual shows that the Allocation Rule is set in the transaction context. Execution occurs between the `BeforeTransaction` and `AfterTransaction` events.
 
-Dois padrões são relevantes:
+Two patterns are relevant:
 
-### Regra executada pelo engine
+### Rule executed by the engine
 
-O código define `Application.Context.AllocationRule` com o ID da regra. O engine calcula a alocação.
+The code sets `Application.Context.AllocationRule` to the rule ID. The engine calculates the allocation.
 
 ### User Provided
 
-O código define a regra como User Provided e preenche o `InvestorSet` no evento `AfterTransaction`.
+The code sets the rule to User Provided and populates the `InvestorSet` in the `AfterTransaction` event.
 
-Ao alterar uma AR consumida por AT, valide também:
+When changing an AR consumed by an AT, also validate:
 
-- onde o ID é atribuído;
-- se a atribuição muda conforme `JEIndex` ou `TXIndex`;
-- se o `AfterTransaction` substitui ou ajusta o resultado;
-- se existe rebalancing por arredondamento;
-- se a última transação é convertida em non-dominant;
-- se o AT usa uma regra para dominant e outra para balancing.
+- where the ID is assigned;
+- whether the assignment changes by `JEIndex` or `TXIndex`;
+- whether `AfterTransaction` replaces or adjusts the result;
+- whether rounding rebalancing exists;
+- whether the last transaction is converted to non-dominant;
+- whether the AT uses one rule for dominant and another for balancing.
 
-## 8. Testes mínimos
+## 8. Minimum tests
 
-Crie pelo menos estes cenários:
+Create at least these scenarios:
 
-| Cenário | Objetivo |
+| Scenario | Purpose |
 |---|---|
-| Caso nominal | Validar o fluxo mais comum |
-| Um único investidor | Confirmar 100% ou comportamento equivalente |
-| Vários investidores | Validar divisão e soma |
-| Investidor sem compromisso/saldo | Confirmar exclusão ou zero |
-| Closing dates diferentes | Validar elegibilidade temporal |
-| Valor zero | Confirmar tratamento de zeros |
-| Valor negativo | Validar reversões/ajustes |
-| Arredondamento | Confirmar balancing |
-| GP Legal Entity | Evitar alocações nulas ou inválidas |
-| Reprocessamento | Confirmar determinismo |
+| Nominal case | Validate the most common workflow |
+| One investor | Confirm 100% or equivalent behavior |
+| Multiple investors | Validate distribution and sum |
+| Investor without commitment/balance | Confirm exclusion or zero |
+| Different closing dates | Validate eligibility over time |
+| Zero value | Confirm zero handling |
+| Negative value | Validate reversals/adjustments |
+| Rounding | Confirm balancing |
+| GP Legal Entity | Avoid null or invalid allocations |
+| Reprocessing | Confirm determinism |
 
-Para cada teste, guarde:
+For each test, save:
 
-- entrada;
-- resultado anterior;
-- resultado novo;
-- diferença por investidor;
-- soma total;
-- evidência da aprovação.
+- input;
+- previous result;
+- new result;
+- difference per investor;
+- total sum;
+- approval evidence.
 
-## 9. Validação funcional
+## 9. Functional validation
 
-Não aprove apenas porque a execução terminou sem erro.
+Do not approve solely because execution finished without an error.
 
-Confirme:
+Confirm:
 
-- investidores corretos;
-- base de cálculo correta;
-- percentuais corretos;
-- valores corretos;
-- datas corretas;
-- tratamento de GP/LP;
-- fechamento com o valor da transação;
-- impacto em PCAP, management fees, equalization ou reporting, quando aplicável.
+- correct investors;
+- correct calculation base;
+- correct percentages;
+- correct values;
+- correct dates;
+- GP/LP treatment;
+- reconciliation to the transaction value;
+- impact on PCAP, management fees, equalization, or reporting, where applicable.
 
-## 10. Publicação e rollback
+## 10. Publication and rollback
 
-O guia do ARM confirma que o **Import-Export Console** transfere Allocation Rules e reports relacionados entre databases. Os materiais não fornecem o procedimento completo de promoção específico de cada ambiente.
+The ARM guide confirms that the **Import-Export Console** transfers Allocation Rules and related reports between databases. The materials do not provide the complete promotion procedure specific to each environment.
 
 ### TODO (KT)
 
-Documentar:
+Document:
 
-- formato do pacote;
-- ordem de promoção das dependências;
-- aprovação necessária;
-- backup anterior;
-- validação pós-deploy;
-- procedimento de rollback;
-- possibilidade de restaurar versão anterior;
-- impacto de cache ou restart.
+- package format;
+- dependency promotion order;
+- required approval;
+- prior backup;
+- post-deployment validation;
+- rollback procedure;
+- ability to restore the previous version;
+- cache or restart impact.
 
-Até isso ser confirmado, não trate alteração direta em produção como processo padrão.
+Until this is confirmed, do not treat direct production changes as the standard process.
 
-## 11. Checklist antes de salvar
+## 11. Checklist before saving
 
-- [ ] Defeito reproduzido.
-- [ ] AR correta identificada.
-- [ ] Contexto de entrada registrado.
-- [ ] Consumidores identificados.
-- [ ] Versão atual preservada.
-- [ ] Alteração mínima aplicada.
-- [ ] Casos de borda testados.
-- [ ] Totais conciliados.
-- [ ] Resultado por investidor revisado.
-- [ ] Evidências anexadas.
+- [ ] Defect reproduced.
+- [ ] Correct AR identified.
+- [ ] Input context recorded.
+- [ ] Consumers identified.
+- [ ] Current version preserved.
+- [ ] Minimal change applied.
+- [ ] Edge cases tested.
+- [ ] Totals reconciled.
+- [ ] Result per investor reviewed.
+- [ ] Evidence attached.
 
-## 12. Checklist antes de publicar
+## 12. Checklist before publication
 
-- [ ] Aprovação funcional obtida.
-- [ ] Processo de promoção confirmado.
-- [ ] Dependências disponíveis no destino.
-- [ ] Identificadores validados no destino.
-- [ ] Plano de rollback preparado.
-- [ ] Janela e comunicação confirmadas.
-- [ ] Teste pós-deploy definido.
+- [ ] Functional approval obtained.
+- [ ] Promotion process confirmed.
+- [ ] Dependencies available at the destination.
+- [ ] Identifiers validated at the destination.
+- [ ] Rollback plan prepared.
+- [ ] Maintenance window and communication confirmed.
+- [ ] Post-deployment test defined.
 
-## 13. Erros a evitar
+## 13. Errors to avoid
 
-- alterar a primeira regra com nome semelhante sem confirmar o ID;
-- assumir que o problema está na AR sem validar a entrada;
-- testar apenas o total e ignorar a divisão por investidor;
-- usar IDs hard-coded sem documentação;
-- publicar sem guardar a versão anterior;
-- ignorar arredondamento e balancing;
-- testar no ARM, mas não no fluxo real que consome a regra;
-- alterar static percentages sem aprovação de negócio;
-- confundir falha de permissão com falha da regra.
+- changing the first rule with a similar name without confirming the ID;
+- assuming the problem is in the AR without validating the input;
+- testing only the total and ignoring distribution per investor;
+- using hard-coded IDs without documentation;
+- publishing without saving the previous version;
+- ignoring rounding and balancing;
+- testing in ARM but not in the actual workflow that consumes the rule;
+- changing static percentages without business approval;
+- confusing a permission failure with a rule failure.
 
-## Pendências obrigatórias de KT
+## Required KT follow-ups
 
-- [ ] Demonstração de criação de AR customizada.
-- [ ] Demonstração de edição segura.
-- [ ] Forma de visualizar a implementação interna.
-- [ ] Forma de executar uma AR isoladamente.
-- [ ] Forma de fornecer contexto e parâmetros de teste.
-- [ ] Ferramenta e processo de debugging.
-- [ ] Exportação/importação entre ambientes.
-- [ ] Versionamento e rollback.
-- [ ] Logs e tabelas de execução.
-- [ ] Convenções internas de nomenclatura.
+- [ ] Demonstration of custom AR creation.
+- [ ] Demonstration of safe editing.
+- [ ] How to view the internal implementation.
+- [ ] How to run an AR independently.
+- [ ] How to supply test context and parameters.
+- [ ] Debugging tool and process.
+- [ ] Export/import between environments.
+- [ ] Versioning and rollback.
+- [ ] Execution logs and tables.
+- [ ] Internal naming conventions.

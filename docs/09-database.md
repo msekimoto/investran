@@ -1,41 +1,40 @@
-# Banco de dados
+# Database
 
-## Escopo
+## Scope
 
-As fontes descrevem SQL Server, bases Master e Staging, contas do Investran, segurança, criptografia, maintenance jobs, backup/restore, validações, limpeza, reindexação e ferramentas de performance. O schema é produto FIS: alterações diretas devem ser exceção aprovada.
+The sources describe SQL Server, Master and Staging databases, Investran accounts, security, encryption, maintenance jobs, backup/restore, validation, cleanup, reindexing, and performance tools. The schema is a FIS product: direct changes must be an approved exception.
 
-## Operação segura
+## Safe operations
 
-- usar acesso mínimo e consultas read-only para diagnóstico;
-- sempre indicar ambiente e database no ticket/script;
-- validar estimativa/plano antes de consulta pesada;
-- não executar DML/DDL ou stored procedure mutável em produção sem aprovação, backup e rollback;
-- não limpar staging enquanto ATM/BE/import estiver ativo;
-- após restore, revisar usuários, serviços, nomes, URLs e integrações.
+- Use least-privilege access and read-only queries for diagnosis.
+- Always state the environment and database in the ticket or script.
+- Validate estimates and execution plans before a heavy query.
+- Do not run DML, DDL, or a state-changing stored procedure in production without approval, backup, and rollback.
+- Do not clean Staging while ATM, BE, or import processing is active.
+- After a restore, review users, services, names, URLs, and integrations.
 
-## Manutenção documentada
+## Documented maintenance
 
-O Administrator's Guide cita agenda diária/semanal/mensal para Investran Maintenance Job, limpeza de staging/audit/common repository/web reporting logs, batch/contact/portfolio validation, reindexação/defragmentação e remoção permanente. A agenda real e os parâmetros devem ser confirmados com DBA.
+The Administrator's Guide describes daily, weekly, and monthly schedules for the Investran Maintenance Job, Staging/audit/common-repository/web-reporting log cleanup, batch/contact/portfolio validation, reindexing/defragmentation, and permanent removal. Confirm the actual schedule and parameters with the DBA.
 
 ## Performance
 
-Coletar janela, sintomas, duração, bloqueios, wait types, CPU, memória, I/O, crescimento, concorrência e plano de execução. Correlacionar SQL Server com workstation/application server. O guia cita SQLdiag, Performance Monitor e SQL Profiler; use ferramentas aprovadas atualmente.
+Collect the time window, symptoms, duration, blocking, wait types, CPU, memory, I/O, growth, concurrency, and execution plan. Correlate SQL Server behavior with the workstation and Application Server. The guide mentions SQLdiag, Performance Monitor, and SQL Profiler; use currently approved tools.
 
-## Backup/restore
+## Backup and restore
 
-Documentar frequência, retenção, criptografia, local, owner e último teste de restore. Backup existente não prova recuperabilidade. Em mudança, registrar ponto de retorno de Master e Staging coerentes.
+Document frequency, retention, encryption, location, owner, and the latest restore test. An existing backup does not prove recoverability. For a change, record a coherent Master and Staging rollback point.
 
-## KT pendente
+## KT pending
 
-- diagrama de bases, replicação e reporting DBs;
-- jobs SQL e owners;
-- consultas aprovadas e tabelas customizadas;
-- política de backup/restore, RPO/RTO e último teste;
-- runbooks de blocking, growth, corruption e failover.
+- Database, replication, and reporting-DB diagram.
+- SQL jobs and owners.
+- Approved queries and customized tables.
+- Backup/restore policy, RPO/RTO, and latest test.
+- Runbooks for blocking, growth, corruption, and failover.
 
-## Fontes
+## Sources
 
-- *Internal_Inv7_INV_Administrators_7.pdf*, páginas 3-5 e capítulos SQL/backup/performance.
-- *Internal_Inv7_INV_Implementation.pdf*, páginas 3-4 e Database Setup.
-- *Internal_Inv7_INV_Maint_Process.pdf*, páginas 5-6.
-
+- *Internal_Inv7_INV_Administrators_7.pdf*, pages 3-5 and SQL/backup/performance chapters.
+- *Internal_Inv7_INV_Implementation.pdf*, pages 3-4 and Database Setup.
+- *Internal_Inv7_INV_Maint_Process.pdf*, pages 5-6.

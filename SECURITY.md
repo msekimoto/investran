@@ -1,19 +1,22 @@
-# Segurança da informação
+# Information security
 
-Este repositório deve permanecer privado e sujeito às políticas corporativas aplicáveis.
+This repository must remain private and follow the applicable corporate policies.
 
-## Não versionar
+## Check before publishing
 
-- senhas, tokens, chaves privadas, connection strings ou certificados com chave privada;
-- nomes de usuário privilegiados e segredos de contas de serviço;
-- dumps de banco, arquivos de produção ou dados financeiros/pessoais;
-- logs sem sanitização;
-- documentos originais da FIS/SunGard ou do cliente sem autorização expressa;
-- URLs internas, IPs e nomes de servidores quando a política exigir classificação superior.
+Before approving a change or publishing the wiki, confirm that the repository visibility is still **Private** on GitHub. Markdown and the workflow cannot enforce this rule. If visibility is incorrect, stop the publication and ask the repository owner to correct the classification before continuing.
 
-Documente **onde** o segredo é gerenciado e quem pode conceder acesso, nunca o valor. Antes de anexar evidências, remova IDs, nomes, e-mails, valores, caminhos sensíveis e dados de clientes.
+## Do not commit
 
-## Mudanças críticas
+- Passwords, tokens, private keys, connection strings, or certificates that contain a private key.
+- Privileged user names or service-account secrets.
+- Database dumps, production files, or financial or personal data.
+- Unsanitized logs.
+- Original FIS/SunGard or customer documents without explicit authorization.
+- Internal URLs, IP addresses, and server names when policy requires a higher classification.
 
-Procedimentos SQL, reinícios, reprocessamentos, deploys e alterações de segurança exigem ticket, aprovação, backup/evidência e plano de retorno conforme o processo vigente. Exemplos nesta base são orientação; não constituem autorização de execução.
+Document **where** a secret is managed and who can grant access, never its value. Before attaching evidence, remove IDs, names, email addresses, values, sensitive paths, and customer data.
 
+## Critical changes
+
+SQL procedures, restarts, reprocessing, deployments, and security changes require a ticket, approval, backup or evidence, and a rollback plan under the current process. Examples in this knowledge base are guidance; they do not authorize execution.

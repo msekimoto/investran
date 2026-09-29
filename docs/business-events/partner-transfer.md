@@ -1,140 +1,142 @@
-# Partner Transfer em profundidade
+# Partner Transfer in depth
 
-## Objetivo
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version, configuration, and each environment · Last validation: not validated locally · Next review: after controlled reconciliation or any rule/process change · Evidence: attach a sanitized ticket/change and approved before/after reconciliation.
 
-Partner Transfer automatiza a transferência total ou parcial da participação de um **transferor** para um ou mais **transferees**. O processo pode movimentar saldos contábeis, commitment e unfunded commitment e, quando configurado, realocar atividade do período entre a data efetiva da transferência e a data de processamento.
+## Purpose
 
-O PDF disponível descreve uma implementação antiga chamada Partner Transfer Active Template (PTAT), versão 5.x. O manual de manutenção do Investran 7 também lista Partner Transfer como Business Event. Use a lógica abaixo para entendimento do domínio, mas confirme nomes, telas e comportamento na versão atual.
+Partner Transfer automates the full or partial transfer of a **transferor**'s interest to one or more **transferees**. The process can move accounting balances, commitment, and unfunded commitment and, when configured, reallocate activity from the period between the transfer's effective date and its processing date.
 
-## Termos
+The available PDF describes an older implementation called Partner Transfer Active Template (PTAT), version 5.x. The Investran 7 maintenance manual also lists Partner Transfer as a Business Event. Use the logic below to understand the domain, but confirm names, screens, and behavior in the current version.
 
-| Termo | Significado operacional |
+## Terms
+
+| Term | Operational meaning |
 |---|---|
-| Transferor | investor que transfere total ou parte de seus saldos e compromissos |
-| Transferee | investor que recebe a participação transferida |
-| Transfer Date | data contábil usada para registrar a transferência |
-| Stub Period | intervalo entre a data efetiva e o momento em que a transferência é processada |
-| Input Batch | batch que descreve transferor, transferees e percentuais |
-| Partner Transfer G/L Account | conta usada para isolar a movimentação de capital/P&L no fluxo legado |
+| Transferor | Investor transferring all or part of their balances and commitments |
+| Transferee | Investor receiving the transferred interest |
+| Transfer Date | Accounting date used to record the transfer |
+| Stub Period | Interval between the effective date and the time the transfer is processed |
+| Input Batch | Batch describing the transferor, transferees, and percentages |
+| Partner Transfer G/L Account | Account used to isolate capital/P&L movements in the legacy workflow |
 
-## Configuração documentada
+## Documented configuration
 
-O processo legado depende de:
+The legacy process depends on:
 
-- Account Types corretamente classificados como `Capital`, `Revenue` ou `Expense`;
+- Account Types correctly classified as `Capital`, `Revenue`, or `Expense`;
 - Batch Type `Partner Transfer`;
-- transaction types `Percent Transfer Out` e `Percent Transfer In`;
-- journal entry template com débito de Percent Transfer Out e crédito de Percent Transfer In;
-- Journal Entry Types para transferência, stub period e inputs;
+- transaction types `Percent Transfer Out` and `Percent Transfer In`;
+- a journal entry template with a debit to Percent Transfer Out and a credit to Percent Transfer In;
+- Journal Entry Types for the transfer, stub period, and inputs;
 - hierarchy node `PTAT Excluded Transaction Types`;
 - hierarchy node `PTAT Excluded Accounts`;
-- driver report capaz de recuperar os saldos elegíveis.
+- a driver report capable of retrieving eligible balances.
 
-## Montagem da entrada
+## Preparing the input
 
-![Exemplo de Partner Transfer Input Batch](../assets/business-events/03-partner-transfer-input-batch.png)
+![Example of a Partner Transfer Input Batch](../assets/business-events/03-partner-transfer-input-batch.png)
 
-*Fonte: Internal_Inv7_Partner.Transfer.Instructions.pdf, exemplo de caso e input batch, página 8.*
+*Source: Internal_Inv7_Partner.Transfer.Instructions.pdf, example case and input batch, page 8.*
 
-No exemplo documentado:
+In the documented example:
 
-- cada transferência distinta é representada por um journal entry;
-- o percentual transferido é informado em `Percent Transfer Out`;
-- a distribuição entre os recebedores é informada em `Percent Transfer In`;
-- os percentuais são preenchidos no campo de quantidade;
-- várias transferências podem ser processadas na mesma execução quando pertencem ao input batch informado.
+- each distinct transfer is represented by a journal entry;
+- the percentage transferred is entered in `Percent Transfer Out`;
+- the distribution among recipients is entered in `Percent Transfer In`;
+- percentages are entered in the quantity field;
+- multiple transfers can be processed in the same execution when they belong to the specified input batch.
 
-![Detalhe de alocação entre transferor e transferees](../assets/business-events/04-partner-transfer-alocacoes.png)
+![Allocation details for the transferor and transferees](../assets/business-events/04-partner-transfer-allocations.png)
 
-*Fonte: Internal_Inv7_Partner.Transfer.Instructions.pdf, Investor Details, página 9.*
+*Source: Internal_Inv7_Partner.Transfer.Instructions.pdf, Investor Details, page 9.*
 
-Validações descritas no fluxo legado:
+Validations described in the legacy workflow:
 
-- `Percent Transfer Out` deve ser negativo, maior que zero em valor absoluto e menor ou igual a 100%;
-- o total de `Percent Transfer In` deve ser positivo e igual a 100%;
-- a GL Date do input batch deve corresponder à Transfer Date;
-- accounts e transaction types presentes nas hierarquias de exclusão não são transferidos.
+- `Percent Transfer Out` must be negative, with an absolute value greater than zero and less than or equal to 100%;
+- the total `Percent Transfer In` must be positive and equal to 100%;
+- the input batch GL Date must match the Transfer Date;
+- accounts and transaction types in the exclusion hierarchies are not transferred.
 
-## Parâmetros documentados
+## Documented parameters
 
-| Parâmetro | Uso |
+| Parameter | Use |
 |---|---|
-| Batch ID - Transfer Inputs | identifica o batch de entrada |
-| Legal Entity Name | define a entidade onde a transferência ocorre |
-| Transfer Date | define a GL Date do batch de transferência |
-| Partner Transfer Account | conta usada para itens de P&L/capital conforme o modelo legado |
-| Non-Dominant TransType | transaction type de balanceamento quando há exclusões |
-| Partner Transfer JE Type | tipo do lançamento da transferência |
-| Stub Period JE Type | tipo dos lançamentos de realocação |
-| Include Stub Period Transfers | determina se a atividade do stub period será realocada |
+| Batch ID - Transfer Inputs | Identifies the input batch |
+| Legal Entity Name | Defines the entity where the transfer occurs |
+| Transfer Date | Defines the GL Date of the transfer batch |
+| Partner Transfer Account | Account used for P&L/capital items under the legacy model |
+| Non-Dominant TransType | Balancing transaction type when exclusions apply |
+| Partner Transfer JE Type | Entry type for the transfer |
+| Stub Period JE Type | Entry type for reallocations |
+| Include Stub Period Transfers | Determines whether stub period activity is reallocated |
 
-Os parâmetros reais podem ser diferentes na implementação Business Event mais recente.
+The actual parameters may differ in the more recent Business Event implementation.
 
-## Lógica de saída
+## Output logic
 
 ```mermaid
 flowchart TD
-    A[Input batch] --> B[Identificar transferors e percentuais]
-    B --> C[Driver report recupera saldos elegíveis]
-    C --> D[Aplicar exclusões de accounts e transaction types]
-    D --> E[Calcular transferência por saldo]
-    E --> F[JE 1: reversão do transferor]
+    A[Input batch] --> B[Identify transferors and percentages]
+    B --> C[Driver report retrieves eligible balances]
+    C --> D[Apply account and transaction type exclusions]
+    D --> E[Calculate transfer based on balances]
+    E --> F[JE 1: reversion do transferor]
     E --> G[JE 2: rebooking nos transferees]
     F --> H[Partner Transfer batch]
     G --> H
     H --> I{Incluir stub period?}
-    I -->|Sim| J[Gerar batches por GL Date da atividade]
-    I -->|Não| K[Encerrar]
+    I -->|Yes| J[Gerar batches por GL Date da atividade]
+    I -->|No| K[Encerrar]
     J --> K
 ```
 
-O fluxo preserva atributos como transaction type, Deal e Position segundo o documento. Para contas de capital, receita e despesa, a implementação antiga passa pela Partner Transfer G/L Account. A saída contém reversão do transferor e rebooking para os transferees.
+According to the document, the workflow preserves attributes such as transaction type, Deal, and Position. For capital, revenue, and expense accounts, the older implementation routes movements through the Partner Transfer G/L Account. The output includes a reversal for the transferor and rebooking to the transferees.
 
 ## Stub period
 
-Quando a transferência é registrada depois da data em que passou a valer, a atividade posterior pode ter sido atribuída ao transferor. Com `Include Stub Period Transfers` habilitado, o processo realoca essa atividade.
+When the transfer is recorded after its effective date, subsequent activity may have been attributed to the transferor. With `Include Stub Period Transfers` enabled, the process reallocates this activity.
 
-- o período começa na própria Transfer Date;
-- o batch principal recebe a Transfer Date;
-- batches de realocação recebem as GL Dates originais das atividades;
-- pode haver mais de um batch de stub period;
-- o comportamento exato de effective date deve ser validado na versão instalada.
+- the period starts on the Transfer Date itself;
+- the main batch receives the Transfer Date;
+- reallocation batches receive the original GL Dates of the activities;
+- there may be more than one stub period batch;
+- the exact effective date behavior must be validated in the installed version.
 
-## Reconciliação obrigatória
+## Required reconciliation
 
-Compare antes e depois por:
+Compare before and after by:
 
-- Legal Entity e Vehicle;
-- transferor e cada transferee;
-- Deal e Position;
-- account e transaction type;
-- moeda e quantidade;
-- original commitment e unfunded commitment;
-- GL Date e effective date;
-- valores excluídos pelas hierarquias;
-- batch principal e batches de stub period.
+- Legal Entity and Vehicle;
+- transferor and each transferee;
+- Deal and Position;
+- account and transaction type;
+- currency and quantity;
+- original commitment and unfunded commitment;
+- GL Date and effective date;
+- values excluded by the hierarchies;
+- main batch and stub period batches.
 
-O total líquido deve respeitar a lógica aprovada: o que sai do transferor precisa ser explicado pelo que entra nos transferees, considerando exclusões, arredondamento e tratamento contábil configurado.
+The net total must follow the approved logic: what leaves the transferor must be explained by what enters the transferees, taking exclusions, rounding, and the configured accounting treatment into account.
 
-## Riscos principais
+## Main risks
 
-- percentuais inconsistentes;
-- input batch com data incorreta;
-- account types classificados incorretamente;
-- hierarquias de exclusão incompletas;
-- alteração do driver report sem avaliação do BE;
-- repetição após saída parcial;
-- confusão entre transfer date, effective date e stub period;
-- reconciliação apenas pelo total geral, ocultando erro por Deal/Position.
+- inconsistent percentages;
+- an input batch with an incorrect date;
+- incorrectly classified account types;
+- incomplete exclusion hierarchies;
+- changing the driver report without assessing the BE;
+- repeating execution after partial output;
+- confusion between transfer date, effective date, and stub period;
+- reconciling only the grand total, concealing errors by Deal/Position.
 
-## KT específico de Partner Transfer
+## Partner Transfer-specific KT
 
-- qual implementação está ativa: AT legado, BE ou customização;
-- onde o input é montado e aprovado;
-- como transferor e transferees são selecionados;
-- como commitment e unfunded commitment são tratados;
-- quais UDFs e memo transaction types participam;
-- quais reports e hierarquias dirigem/excluem saldos;
-- como funcionam arredondamento, moedas e múltiplos transferees;
-- como reconciliar stub period;
-- procedimento aprovado quando existe batch parcial ou footprint.
+- which implementation is active: legacy AT, BE, or customization;
+- where input is prepared and approved;
+- how the transferor and transferees are selected;
+- how commitment and unfunded commitment are handled;
+- which UDFs and memo transaction types are involved;
+- which reports and hierarchies drive/exclude balances;
+- how rounding, currencies, and multiple transferees work;
+- how to reconcile the stub period;
+- the approved procedure when a partial batch or footprint exists.

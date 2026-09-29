@@ -1,98 +1,98 @@
-# Allocation Rules — Guia de Manutenção
+# Allocation Rules — Maintenance Guide
 
-## 1. Objetivo operacional
+## 1. Operational purpose
 
-Este guia descreve como abordar uma Allocation Rule com comportamento incorreto sem depender de conhecer previamente todas as regras do ambiente.
+This guide describes how to approach an Allocation Rule that behaves incorrectly without having to know all the rules in the environment beforehand.
 
-O processo recomendado é:
+The recommended process is:
 
 ```mermaid
 flowchart TD
-    A[Receber incidente] --> B[Identificar a AR executada]
+    A[Receive incident] --> B[Identify the executed AR]
     B --> C[Reproduzir com mesma entidade, datas e valores]
-    C --> D[Capturar resultado por investidor]
-    D --> E[Validar universo de investidores]
-    E --> F[Validar base de cálculo]
-    F --> G[Validar percentuais e arredondamento]
+    C --> D[Capture the result by investor]
+    D --> E[Validate the investor universe]
+    E --> F[Validate the calculation base]
+    F --> G[Validate percentages and rounding]
     G --> H[Isolar regra ou componente chamador]
-    H --> I[Alterar em ambiente controlado]
+    H --> I[Change in a controlled environment]
     I --> J[Testar antes e depois]
     J --> K[Promover conforme processo do cliente]
 ```
 
-## 2. Informações mínimas do chamado
+## 2. Minimum incident information
 
-Antes de investigar, registre:
+Before investigating, record:
 
-- nome ou ID da Allocation Rule;
-- ambiente;
+- Allocation Rule name or ID;
+- environment;
 - Legal Entity;
-- Vehicle/Fund, quando aplicável;
-- Batch, Journal Entry e Transaction envolvidos;
-- Effective Date e GL Date;
-- moeda local e moeda da Legal Entity;
-- valor total esperado e valor total obtido;
-- investidores esperados e investidores retornados;
-- percentuais ou valores esperados por investidor;
-- origem da execução: usuário, Batch, Active Template, Business Event ou outro processo;
-- evidência: relatório, tela, arquivo ou log.
+- Vehicle/Fund, where applicable;
+- Batch, Journal Entry, and Transaction involved;
+- Effective Date and GL Date;
+- local currency and Legal Entity currency;
+- expected total and actual total;
+- expected investors and returned investors;
+- expected percentages or amounts per investor;
+- execution origin: user, Batch, Active Template, Business Event, or another process;
+- evidence: report, screen, file, or log.
 
-Sem essas informações, o risco de reproduzir um cenário diferente é alto.
+Without this information, the risk of reproducing a different scenario is high.
 
-## 3. Identificar qual regra foi executada
+## 3. Identify which rule was executed
 
-### Quando a chamada vem de Active Template
+### When called by an Active Template
 
-O guia de ATM mostra que a regra pode ser atribuída via VBA pela propriedade:
+The ATM guide shows that the rule can be assigned through VBA using the property:
 
 ```vb
 Application.Context.AllocationRule = <AllocationRuleID>
 ```
 
-Também há casos em que o AT usa `User Provided` e preenche o `InvestorSet` no evento `Application_AfterTransaction`.
+There are also cases where the AT uses `User Provided` and populates the `InvestorSet` in the `Application_AfterTransaction` event.
 
-Ao analisar um AT:
+When analyzing an AT:
 
-1. pesquise por `AllocationRule` no módulo VBA;
-2. localize constantes `cstAR_*`;
-3. confirme se o código troca a regra em `BeforeTransaction` ou `AfterTransaction`;
-4. verifique se a regra varia conforme `JEIndex`, `TXIndex`, última linha do Driver Report ou outra condição;
-5. confirme o ID por metadata/report, e não apenas pelo nome da constante.
+1. search for `AllocationRule` in the VBA module;
+2. locate `cstAR_*` constants;
+3. confirm whether the code changes the rule in `BeforeTransaction` or `AfterTransaction`;
+4. check whether the rule varies by `JEIndex`, `TXIndex`, the last Driver Report row, or another condition;
+5. confirm the ID through metadata/a report, not just the constant name.
 
-### Quando a chamada vem de Batch ou tela
+### When called by a Batch or screen
 
-Confirme no detalhe da transação qual regra foi selecionada e se a transação é dominante, não dominante ou sem alocação.
+Check the transaction details to confirm which rule was selected and whether the transaction is dominant, non-dominant, or unallocated.
 
-### Quando o ID é conhecido, mas o nome não
+### When the ID is known but the name is not
 
-O manual de ATM informa que há metadata do Investran que permite criar relatórios para recuperar Allocation Rule IDs por nome. Mantenha um Report Wizard de lookup no projeto, se o cliente permitir.
+The ATM manual states that Investran metadata can be used to create reports that retrieve Allocation Rule IDs by name. Maintain a Report Wizard lookup report in the project if the client permits it.
 
-## 4. Entender uma AR desconhecida
+## 4. Understand an unfamiliar AR
 
-Use a sequência abaixo.
+Use the sequence below.
 
-### 4.1 Propósito
+### 4.1 Purpose
 
-- Qual item financeiro ela aloca?
-- É usada para receitas, despesas, ganhos, perdas, management fee, investment cost ou rebook?
-- É genérica ou específica de um fundo/processo?
+- Which financial item does it allocate?
+- Is it used for revenue, expenses, gains, losses, management fee, investment cost, or rebook?
+- Is it generic or specific to a fund/process?
 
-### 4.2 Direção
+### 4.2 Direction
 
-- **Top Down:** recebe total no nível da Legal Entity e divide entre investidores.
-- **Bottom Up:** recebe/calcula valores de investidores e agrega para níveis superiores.
+- **Top Down:** receives a total at Legal Entity level and distributes it among investors.
+- **Bottom Up:** receives/calculates investor values and aggregates them to higher levels.
 
-### 4.3 Natureza
+### 4.3 Nature
 
-- **Static:** percentuais fixos cadastrados.
-- **Dynamic:** percentuais recalculados a partir dos dados.
-- **User Provided:** o componente chamador entrega os valores por investidor.
-- **Non-Dominant:** usada para a transação de contrapartida/balanceamento.
-- **No Allocation:** mantém o valor sem distribuição aos investidores.
+- **Static:** predefined fixed percentages.
+- **Dynamic:** percentages recalculated from data.
+- **User Provided:** the calling component supplies values per investor.
+- **Non-Dominant:** used for the offsetting/balancing transaction.
+- **No Allocation:** retains the value without distributing it to investors.
 
-### 4.4 Entradas
+### 4.4 Inputs
 
-Identifique todas as entradas efetivas:
+Identify all actual inputs:
 
 - Legal Entity;
 - investor population;
@@ -102,137 +102,137 @@ Identifique todas as entradas efetivas:
 - unfunded commitment;
 - investment cost;
 - invested capital;
-- management fee rates e overrides;
+- management fee rates and overrides;
 - Effective Date/GL Date;
-- Deal, Position, Transaction Type ou GL Account;
-- parâmetros fornecidos pelo processo chamador.
+- Deal, Position, Transaction Type, or GL Account;
+- parameters supplied by the calling process.
 
-### 4.5 Saídas e invariantes
+### 4.5 Outputs and invariants
 
-Valide, conforme o tipo de regra:
+Validate according to the rule type:
 
-- soma dos percentuais = 100%;
-- soma dos valores alocados = valor total da transação;
-- investidores não elegíveis = zero ou ausentes;
-- nenhum valor `NULL` inesperado;
-- sinais de débito/crédito preservados;
-- local amount e LE amount coerentes;
-- diferenças apenas dentro da tolerância de arredondamento;
-- transação não dominante fecha o journal entry.
+- sum of percentages = 100%;
+- sum of allocated values = total transaction value;
+- ineligible investors = zero or absent;
+- no unexpected `NULL` values;
+- debit/credit signs preserved;
+- consistent local amount and LE amount;
+- differences only within rounding tolerance;
+- non-dominant transaction balances the journal entry.
 
-## 5. Diagnóstico por camada
+## 5. Diagnosis by layer
 
-### Camada 1 — Contexto
+### Layer 1 — Context
 
-Confirme se a AR recebeu Legal Entity, datas, moeda, transaction type, deal e position corretos.
+Confirm that the AR received the correct Legal Entity, dates, currency, transaction type, deal, and position.
 
-### Camada 2 — Universo de investidores
+### Layer 2 — Investor universe
 
-Confirme:
+Confirm:
 
-- investors ativos na data;
-- commitments válidos;
+- investors active on the date;
+- valid commitments;
 - closing dates;
 - ownership/participation;
-- permissões e domínio dos investidores;
-- investidores de GP versus LP.
+- investor permissions and domain;
+- GP versus LP investors.
 
-### Camada 3 — Base de cálculo
+### Layer 3 — Calculation base
 
-Exemplos documentados de bases dinâmicas:
+Documented examples of dynamic bases:
 
 - average cash balance;
-- commitment com ou sem closing date;
+- commitment with or without closing date;
 - unfunded commitment;
-- investment cost na GL Date;
+- investment cost as of the GL Date;
 - invested capital;
-- commitment durante investment period.
+- commitment during the investment period.
 
-### Camada 4 — Cálculo e arredondamento
+### Layer 4 — Calculation and rounding
 
-Registre os valores intermediários. Compare o ratio bruto, o ratio arredondado e o valor final alocado.
+Record intermediate values. Compare the raw ratio, rounded ratio, and final allocated value.
 
-### Camada 5 — Consumidor
+### Layer 5 — Consumer
 
-Mesmo que a AR esteja correta, o AT ou Batch pode:
+Even if the AR is correct, the AT or Batch may:
 
-- sobrescrever a Allocation Rule;
-- alterar Amount/LEAmount após o cálculo;
-- preencher manualmente o InvestorSet;
-- usar a regra errada em apenas uma transaction template;
-- executar uma regra de rebook diferente da regra original.
+- overwrite the Allocation Rule;
+- change Amount/LEAmount after calculation;
+- populate the InvestorSet manually;
+- use the wrong rule in just one transaction template;
+- run a rebook rule that differs from the original rule.
 
-## 6. Alteração segura
+## 6. Safe changes
 
-Os PDFs recebidos não documentam o passo a passo da interface do ARM. Até que o KT confirme o processo, use este controle mínimo:
+The supplied PDFs do not document the ARM interface step by step. Until KT confirms the process, use these minimum controls:
 
-1. não altere diretamente em produção;
-2. registre nome, ID e estado atual;
-3. exporte ou documente a versão anterior;
-4. identifique todos os consumidores conhecidos;
-5. crie casos de teste com resultados esperados;
-6. altere no ambiente de desenvolvimento;
-7. execute casos positivos, negativos e de fronteira;
-8. compare resultado antes/depois por investidor;
-9. valide totais, rounding e non-dominant entry;
-10. promova usando o mecanismo aprovado;
-11. execute smoke test no ambiente de destino;
-12. mantenha plano de rollback.
+1. do not change production directly;
+2. record the name, ID, and current state;
+3. export or document the previous version;
+4. identify all known consumers;
+5. create test cases with expected results;
+6. make the change in the development environment;
+7. run positive, negative, and boundary cases;
+8. compare before/after results per investor;
+9. validate totals, rounding, and the non-dominant entry;
+10. promote using the approved mechanism;
+11. run a smoke test in the target environment;
+12. maintain a rollback plan.
 
-## 7. Matriz mínima de testes
+## 7. Minimum test matrix
 
-| Cenário | Validação |
+| Scenario | Validation |
 |---|---|
-| Um único investidor | recebe 100% |
-| Vários investidores iguais | divisão proporcional e total fechado |
-| Investidor com zero base | não recebe alocação indevida |
-| Closing dates diferentes | elegibilidade conforme data |
-| Effective Date no limite | comportamento consistente |
-| Valores negativos | sinal e total preservados |
-| Duas moedas | local e LE amounts coerentes |
-| Valor com muitas casas decimais | rounding e residual controlados |
-| GP Legal Entity | investidores corretos, sem NULL inesperado |
-| Rebook | reversão e nova alocação fecham o total |
+| One investor | Receives 100% |
+| Multiple equal investors | Proportional distribution and reconciled total |
+| Investor with a zero base | Receives no inappropriate allocation |
+| Different closing dates | Eligibility according to date |
+| Effective Date at the boundary | Consistent behavior |
+| Negative values | Sign and total preserved |
+| Two currencies | Consistent local and LE amounts |
+| Value with many decimal places | Controlled rounding and residual |
+| GP Legal Entity | Correct investors, without unexpected NULL |
+| Rebook | Reversal and new allocation reconcile to the total |
 
-## 8. Teste integrado com Active Template
+## 8. Integrated test with an Active Template
 
-Quando a AR é usada por AT:
+When an AT uses the AR:
 
-1. execute o AT em Simulation Mode;
-2. coloque breakpoint antes da atribuição de `Application.Context.AllocationRule`;
-3. capture contexto, rule ID e valores;
-4. avance até `AfterTransaction`;
-5. inspecione o `InvestorSet` retornado;
-6. confirme a transação dominante e a non-dominant;
-7. execute pelo Scheduler Engine em ambiente de teste;
-8. use Preview antes do Commit;
-9. compare o batch gerado com o esperado.
+1. run the AT in Simulation Mode;
+2. place a breakpoint before the assignment to `Application.Context.AllocationRule`;
+3. capture context, rule ID, and values;
+4. advance to `AfterTransaction`;
+5. inspect the returned `InvestorSet`;
+6. confirm the dominant and non-dominant transactions;
+7. run through the Scheduler Engine in a test environment;
+8. use Preview before Commit;
+9. compare the generated batch with the expected result.
 
-## 9. Publicação e rollback
+## 9. Publication and rollback
 
-O manual de ATM cita o utilitário **ARM & ATM Export-Import Console** para transferência de Active Templates e itens relacionados entre bancos. O procedimento específico de promoção de Allocation Rules precisa ser confirmado no ambiente.
+The ATM manual mentions the **ARM & ATM Export-Import Console** utility for transferring Active Templates and related items between databases. The specific procedure for promoting Allocation Rules must be confirmed in the environment.
 
-Até confirmação, documente para cada release:
+Until confirmed, document the following for each release:
 
-- origem e destino;
-- regra, ID e versão;
-- dependências;
-- export/backup anterior;
-- evidências de teste;
-- responsável pela aprovação;
-- horário da promoção;
-- validação pós-deploy;
-- procedimento exato de rollback.
+- source and destination;
+- rule, ID, and version;
+- dependencies;
+- previous export/backup;
+- test evidence;
+- person responsible for approval;
+- promotion time;
+- post-deployment validation;
+- exact rollback procedure.
 
-## 10. Critério de conclusão
+## 10. Completion criterion
 
-Uma correção só deve ser considerada concluída quando:
+A fix should be considered complete only when:
 
-- a causa raiz estiver identificada;
-- o cenário original for reproduzido;
-- o teste falhar antes e passar depois;
-- a soma por investidor fechar com o total;
-- consumidores impactados forem testados;
-- o processo de publicação tiver evidência;
-- o rollback estiver disponível;
-- a documentação da regra for atualizada.
+- the root cause has been identified;
+- the original scenario has been reproduced;
+- the test fails before and passes after the change;
+- the sum across investors reconciles to the total;
+- affected consumers have been tested;
+- the publication process has supporting evidence;
+- rollback is available;
+- the rule documentation has been updated.

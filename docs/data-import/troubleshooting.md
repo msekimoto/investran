@@ -1,137 +1,139 @@
-# Data Import - troubleshooting e recuperação
+# Data Import - troubleshooting and recovery
 
-## Primeiro: Validation ou Load?
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any import/mapping change · Evidence: attach a sanitized ticket/change and reconciliation result.
 
-Separe a falha em duas fases:
+## First: Validation or Load?
 
-- **Validation:** mapping, tipo, formato, referências, permissões e business rules;
-- **Load:** persistência, locks, serviço, Staging/Master, concorrência e regras acionadas durante gravação.
+Separate the failure into two phases:
 
-O link `Feedback` da execução é a primeira evidência. Preserve-o antes de editar ou duplicar o job.
+- **Validation:** mapping, type, format, references, permissions, and business rules;
+- **Load:** persistence, locks, service, Staging/Master, concurrency, and rules triggered during writes.
 
-## Coleta inicial
+The execution's `Feedback` link is the first piece of evidence. Preserve it before editing or duplicating the job.
 
-- Job Name e Process ID;
-- usuário, domínio, template e arquivo;
-- checksum e tamanho do `.XLSX`;
-- horário, timezone e Application Server;
-- fase, status e duração;
-- Feedback, Summary e mensagem completa;
-- opções do job;
-- worksheets e mappings afetados;
-- contagem esperada e observada;
-- alteração recente em template, entidade, UDF, lookup, licença ou serviço.
+## Initial collection
 
-## Diagnóstico por sintoma
+- Job Name and Process ID;
+- user, domain, template, and file;
+- `.XLSX` checksum and size;
+- time, timezone, and Application Server;
+- phase, status, and duration;
+- Feedback, Summary, and complete message;
+- job options;
+- affected worksheets and mappings;
+- expected and observed counts;
+- recent changes to the template, entity, UDF, lookup, license, or service.
 
-| Sintoma | Verificações |
+## Diagnosis by symptom
+
+| Symptom | Checks |
 |---|---|
-| Job fica Draft | mandatory/required fields e worksheets sem Mapped Entity |
-| Falha no upload | `.XLSX`, tamanho, acesso ao arquivo, sessão e servidor web |
-| Failed to validate | Feedback, tipos, datas, IDs, referências, entitlements e business rules |
-| Failed to load | serviço, Staging/Master, locks, permissões, espaço e concorrência |
-| Loaded with warnings | revisar todos os warnings e impacto antes de aprovar |
-| Fica Validating/Loading | Data Import Service, polling, processos paralelos, fila e banco |
-| Entidades duplicadas | chave por nome, Investran ID ausente e configuração de nomes duplicados por domínio |
-| Referência não encontrada | ordem, Import ID, Investran ID, domínio e Allow Related Entries |
-| Batch/transação incorreto | BatchIndex, JEIndex, TransactionIndex e allocations |
-| Campo não foi limpo | célula vazia é ignorada; confirmar uso intencional de `NULL` |
-| UDF rejeitada | UDF não existe, tipo/lookup incompatível ou referência de Contact incorreta |
+| Job remains Draft | mandatory/required fields and worksheets without a Mapped Entity |
+| Upload failure | `.XLSX`, size, file access, session, and web server |
+| Failed to validate | Feedback, types, dates, IDs, references, entitlements, and business rules |
+| Failed to load | service, Staging/Master, locks, permissions, space, and concurrency |
+| Loaded with warnings | review all warnings and their impact before approving |
+| Stuck in Validating/Loading | Data Import Service, polling, parallel processes, queue, and database |
+| Duplicate entities | name-based key, missing Investran ID, and duplicate-name settings per domain |
+| Reference not found | order, Import ID, Investran ID, domain, and Allow Related Entries |
+| Incorrect batch/transaction | BatchIndex, JEIndex, TransactionIndex, and allocations |
+| Field was not cleared | blank cells are ignored; confirm intentional use of `NULL` |
+| UDF rejected | UDF does not exist, incompatible type/lookup, or incorrect Contact reference |
 
-## Árvore de diagnóstico
+## Diagnostic tree
 
 ```mermaid
 flowchart TD
     A[Job com problema] --> B{Chegou à Validation?}
-    B -->|Não| C[Arquivo, licença, entitlement e serviço]
-    B -->|Sim| D{Validation passou?}
-    D -->|Não| E[Feedback, mapping, formato, IDs e regras]
-    D -->|Sim| F{Load iniciou?}
-    F -->|Não| G[Schedule, serviço, fila e conta]
-    F -->|Sim| H{Load concluiu?}
-    H -->|Não| I[Feedback, Staging, Master, lock e output parcial]
-    H -->|Sim| J[Reconciliação funcional]
+    B -->|No| C[File, license, entitlement, and service]
+    B -->|Yes| D{Validation passou?}
+    D -->|No| E[Feedback, mapping, format, IDs, and rules]
+    D -->|Yes| F{Did Load start?}
+    F -->|No| G[Schedule, service, queue, and account]
+    F -->|Yes| H{Did Load complete?}
+    H -->|No| I[Feedback, Staging, Master, lock e output parcial]
+    H -->|Yes| J[Functional reconciliation]
 ```
 
-## Serviço e infraestrutura
+## Service and infrastructure
 
-Confirme no Application Server:
+Confirm on the Application Server:
 
-- Data Import Service iniciado;
-- configuração apontando para o Master e Staging corretos;
-- conta do Scheduler válida e não bloqueada;
-- polling interval coerente;
-- limite de Validation/Commit não saturado;
-- conectividade e permissões de banco;
-- espaço, crescimento de log e bloqueios;
-- trace desabilitado fora de uma análise controlada.
+- Data Import Service is started;
+- configuration points to the correct Master and Staging;
+- Scheduler account is valid and not locked;
+- polling interval is appropriate;
+- Validation/Commit limit is not saturated;
+- database connectivity and permissions;
+- space, log growth, and blocking;
+- tracing is disabled outside a controlled investigation.
 
-Não reinicie o serviço sem verificar jobs em andamento e impacto em outras cargas.
+Do not restart the service without checking running jobs and the impact on other loads.
 
-## Retry seguro
+## Safe retry
 
-1. preserve o arquivo original, Feedback e Process ID;
-2. determine se a falha ocorreu antes ou durante o load;
-3. consulte os dados por IDs e critérios de reconciliação;
-4. confirme se houve insert/update parcial;
-5. corrija uma cópia versionada do arquivo ou mapping;
-6. valide novamente sem load;
-7. compare os resultados da validação;
-8. carregue somente após aprovação;
-9. reconcilie novamente.
+1. preserve the original file, Feedback, and Process ID;
+2. determine whether the failure occurred before or during loading;
+3. query the data using IDs and reconciliation criteria;
+4. confirm whether partial inserts/updates occurred;
+5. correct a versioned copy of the file or mapping;
+6. validate again without loading;
+7. compare validation results;
+8. load only after approval;
+9. reconcile again.
 
-Para transações, retry merece cuidado adicional porque o fluxo documentado inclui novas transações, não update. Uma repetição pode duplicar efeito contábil se a execução anterior tiver persistido dados.
+For transactions, retries require additional care because the documented flow includes new transactions, not updates. Repeating an execution may duplicate the accounting impact if the previous execution persisted data.
 
-## Cancelamento
+## Cancellation
 
-O guia afirma que cancelamento nos estados suportados executa rollback e não efetiva mudanças no banco. Trate isso como comportamento da versão documentada, não como substituto da reconciliação.
+The guide states that cancellation in supported states performs a rollback and does not commit database changes. Treat this as the documented version's behavior, not a substitute for reconciliation.
 
-Após cancelar:
+After cancellation:
 
-- confirme `Canceled` no job e no processo;
-- verifique se não existe processo filho ativo;
-- consulte entidades e batches potencialmente afetados;
-- preserve logs do serviço;
-- documente por que o cancelamento ocorreu;
-- só então decida se é seguro repetir.
+- confirm `Canceled` on both the job and the process;
+- check that no child process remains active;
+- query potentially affected entities and batches;
+- preserve service logs;
+- document why cancellation occurred;
+- only then decide whether it is safe to retry.
 
-## Reconciliation como diagnóstico
+## Reconciliation as a diagnostic tool
 
-Use reports do Report Wizard ou consultas aprovadas para responder:
+Use Report Wizard reports or approved queries to determine:
 
-- quantas linhas foram efetivamente criadas/alteradas;
-- quais IDs foram envolvidos;
-- quais campos diferem do arquivo;
-- se todos os relacionamentos foram formados;
-- se batches, JEs, transactions e allocations batem com os índices;
-- se warnings correspondem a diferenças funcionais.
+- how many rows were actually created/changed;
+- which IDs were involved;
+- which fields differ from the file;
+- whether all relationships were established;
+- whether batches, JEs, transactions, and allocations match the indexes;
+- whether warnings correspond to functional differences.
 
-Os reports padrão não cobrem todos os campos. Para interfaces críticas, mantenha report customizado alinhado ao template.
+Standard reports do not cover every field. For critical interfaces, maintain a custom report aligned with the template.
 
-## Escalonamento
+## Escalation
 
-Escalone com:
+Escalate with:
 
-- arquivo sanitizado ou amostra reproduzível;
-- template e mapping exportado/documentado;
-- Process ID e linha do tempo;
-- Feedback completo;
-- versão do Investran e do template;
-- status do serviço;
-- entidades/IDs afetados;
-- evidência de reconciliação;
-- confirmação sobre possível carga parcial.
+- a sanitized file or reproducible sample;
+- exported/documented template and mapping;
+- Process ID and timeline;
+- complete Feedback;
+- Investran and template versions;
+- service status;
+- affected entities/IDs;
+- reconciliation evidence;
+- confirmation of any possible partial load.
 
-Não envie arquivo com dados sensíveis sem canal autorizado.
+Do not send files containing sensitive data without an authorized channel.
 
-## KT de troubleshooting
+## Troubleshooting KT
 
-- onde ficam os logs do Data Import Service em cada ambiente;
-- como correlacionar Process ID com logs e banco;
-- como identificar mensagem/processo preso;
-- quais erros são recorrentes por interface;
-- quando cancelar versus aguardar;
-- como provar rollback;
-- quais consultas read-only são aprovadas;
-- quando envolver DBA, infraestrutura, funcional ou FIS;
-- qual é o runbook para transação carregada incorretamente.
+- where Data Import Service logs are located in each environment;
+- how to correlate Process ID with logs and the database;
+- how to identify a stuck message/process;
+- which errors recur for each interface;
+- when to cancel versus wait;
+- how to prove rollback;
+- which read-only queries are approved;
+- when to involve DBA, infrastructure, functional teams, or FIS;
+- what the runbook is for an incorrectly loaded transaction.

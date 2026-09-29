@@ -1,159 +1,159 @@
-# STEP - guia de usuários do Investran
+# STEP: Investran User Guide
 
-Esta sessão consolida o guia operacional da funcionalidade STEP no Investran para usuários finais, analistas e time de suporte. O foco é orientar a execução do processo com segurança, validação de resultados e acompanhamento de eventos críticos.
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: source material only; validate the installed version and environment · Last validation: not validated locally · Next review: after controlled validation or any STEP process change · Evidence: sanitized ticket/change and reconciled result.
 
-> O conteúdo abaixo foi organizado em linguagem em português do Brasil e serve como referência de uso e sustentação operacional. Sempre valide nomes, permissões, parâmetros e caminhos do ambiente atual antes de executar em produção.
+This section brings together the operational guide for the STEP functionality in Investran, for end users, analysts, and support teams. It focuses on safe execution, result validation, and monitoring critical events.
 
-## O que é a funcionalidade STEP
+> This material is a practical reference for operating and supporting STEP. Always confirm names, permissions, parameters, and paths in the current environment before running anything in production.
 
-A funcionalidade STEP no Investran é usada para conduzir etapas de processamento, validação e acompanhamento dentro do fluxo de negócio. Em termos práticos, ela centraliza a preparação da execução, a revisão dos parâmetros, a geração do resultado e a confirmação de consistência antes da consolidação final.
+## What STEP does
 
-A utilização correta do STEP reduz riscos de:
+STEP is used to carry out, validate, and monitor stages of a business process. In practical terms, it brings together execution preparation, parameter review, result generation, and consistency checks before final consolidation.
 
-- processamento incompleto;
-- dados inconsistentes entre registros e relatórios;
-- retrabalho em áreas críticas do negócio;
-- pendências de acompanhamento em ambientes de produção.
+Using STEP correctly helps reduce the risk of:
 
-## Quando utilizar o STEP
+- incomplete processing;
+- inconsistencies between records and reports;
+- rework in critical business areas;
+- unmonitored work in production environments.
 
-Use o STEP quando for necessário:
+## When to use STEP
 
-- executar uma etapa de processamento específica do negócio;
-- validar regras parametrizadas antes do fechamento ou consolidação;
-- revisar resultados de forma controlada antes de publicar ou aprovar;
-- acompanhar o status da execução junto a relatórios, logs e controles de processamento.
+Use STEP when you need to:
 
-## Acesso e pré-requisitos
+- run a specific business-processing step;
+- validate configured rules before close or consolidation;
+- review results in a controlled way before publishing or approval;
+- monitor execution status alongside reports, logs, and processing controls.
 
-Antes de iniciar, confirme:
+## Access and prerequisites
 
-1. acesso ao ambiente correto do Investran;
-2. perfil ou permissão para executar a funcionalidade STEP;
-3. parâmetros e filtros do processo definidos pelo responsável funcional;
-4. data, cenário e universo de processamento previamente alinhados;
-5. existência de backup, controle de execução e rotina de validação do resultado.
+Before starting, confirm:
 
-## Fluxo básico de uso
+1. You have access to the correct Investran environment.
+2. Your profile has permission to run STEP.
+3. The functional owner has defined the process parameters and filters.
+4. The reference date, scenario, and processing population have been agreed.
+5. A backup, execution control, and result-validation routine are in place.
 
-### 1. Acesso ao processo
+## Basic workflow
 
-- entre no módulo do Investran para o processo STEP;
-- confirme o ambiente, sistema e contexto de execução;
-- selecione a operação ou etapa relevante para o caso em análise.
+### 1. Open the process
 
-### 2. Definição dos parâmetros
+- Open the Investran module used for the STEP process.
+- Confirm the environment, system, and execution context.
+- Select the operation or stage relevant to the case.
 
-Antes de executar, confira:
+### 2. Set the parameters
 
-- período de referência;
-- universo de registros ou entidades envolvidas;
-- regras de filtro, exclusão ou hierarquia;
-- flags ou opções de processamento que afetem o resultado;
-- permissões de acesso e status dos dados relacionados.
+Before running, review:
 
-Se o caso tiver regras de negócio específicas, verifique se o parâmetro foi validado por quem responde pela operação.
+- reference period;
+- records or entities in scope;
+- filters, exclusions, or hierarchy rules;
+- flags or processing options that affect the result;
+- access permissions and the status of related data.
 
-### 3. Validação pré-execução
+If the case has business-specific rules, confirm that the person responsible for the operation has validated the parameters.
 
-Antes de confirmar a execução, faça uma verificação simples:
+### 3. Validate before execution
 
-- dados e filtros estão coerentes com o período solicitado;
-- não há pendências em outros processos que possam interferir;
-- o responsável funcional está ciente do impacto esperado;
-- o resultado desejado está claramente definido.
+Before confirming the run, check that:
 
-### 4. Execução do STEP
+- the data and filters match the requested period;
+- no pending process could interfere with the result;
+- the functional owner understands the expected impact;
+- the intended result is clearly defined.
 
-- inicie a rotina de processamento;
-- acompanhe a mensagem de status, progresso e logs do sistema;
-- determine se há alertas, mensagens de warning ou erro que exijam interrupção ou ajuste.
+### 4. Run STEP
 
-### 5. Acompanhamento do resultado
+- Start the processing routine.
+- Monitor the status message, progress, and system logs.
+- Stop and investigate any alert, warning, or error that requires intervention.
 
-Após a execução:
+### 5. Review the result
 
-- revise os registros gerados ou atualizados;
-- compare o resultado com o esperado;
-- valide totais, quantidades, valores e consistência da regra aplicada;
-- confirme se o processo foi concluído com sucesso ou se houve falha parcial.
+After execution:
 
-## Checklist de validação
+- review the records created or updated;
+- compare the result with what was expected;
+- validate totals, counts, values, and rule consistency;
+- confirm whether processing completed successfully or partially failed.
 
-Use esta checklist como referência antes de encerrar a execução:
+## Validation checklist
 
-- processo executado no ambiente correto;
-- filtros e parâmetros conferidos;
-- resultado compatível com período e cenário;
-- registros revisados com amostragem ou reconciliação;
-- logs consultados;
-- divergências avaliadas e tratadas;
-- aprovação funcional registrada, quando exigido.
+Use this checklist before closing the execution:
 
-## Erros comuns e como tratar
+- the process ran in the correct environment;
+- filters and parameters were checked;
+- the result matches the period and scenario;
+- records were reviewed through sampling or reconciliation;
+- logs were reviewed;
+- discrepancies were assessed and addressed;
+- functional approval was recorded when required.
 
-### Processo não inicia
+## Common issues
 
-Verifique:
+### The process will not start
 
-- perfil e permissão de acesso;
-- ambiente selecionado;
-- dependências do processo ou do módulo relacionado;
-- status da integração ou serviço envolvido.
+Check:
 
-### Resultado inesperado
+- profile and access permissions;
+- selected environment;
+- dependencies in the process or related module;
+- status of the integration or service involved.
 
-Verifique:
+### The result is unexpected
 
-- parâmetros do passo executado;
-- filtros aplicados;
-- reconciliação de dados de origem;
-- registros que podem ter sido excluídos, ignorados ou duplicados.
+Check:
 
-### Falha parcial
+- parameters for the step that ran;
+- applied filters;
+- reconciliation of source data;
+- records that may have been excluded, skipped, or duplicated.
 
-Em casos de processamento incompleto:
+### Processing failed partway through
 
-- identifique qual etapa falhou;
-- confirme se houve rollback ou processamento residual;
-- revalide o estado anterior e os registros afetados;
-- o reprocessamento deve ser realizado apenas com aprovação da área responsável.
+For incomplete processing:
 
-## Boas práticas de uso
+- identify the failed stage;
+- confirm whether rollback occurred or residual processing remains;
+- recheck the prior state and affected records;
+- reprocess only with approval from the responsible business team.
 
-- nunca execute o STEP em produção sem validação do cenário;
-- mantenha registro do parâmetro e do resultado obtido;
-- documente ajustes e desvios de regra;
-- revise logs e relatórios após cada execução;
-- evite mudanças ad hoc sem aprovação funcional;
-- preserve o histórico de execução para auditoria e suporte.
+## Operating practices
 
-## Governança e suporte
+- Never run STEP in production before validating the scenario.
+- Keep a record of the parameters and result.
+- Document adjustments and rule exceptions.
+- Review logs and reports after each run.
+- Avoid ad hoc changes without functional approval.
+- Preserve execution history for audit and support.
 
-A funcionalidade STEP deve ser operada conforme o padrão do ambiente e o processo de negócio da organização. Quando houver dúvida sobre regra de cálculo, impacto de dados ou comportamento em produção, sempre siga o procedimento oficial do time responsável e, se necessário, consulte a área de suporte ou manutenção.
+## Support and governance
 
-## Pendências de KT
+Operate STEP according to the environment's standards and business process. If the calculation rule, data impact, or production behavior is unclear, follow the official procedure of the responsible team and consult support or maintenance as needed.
 
-Algumas informações dependem de conhecimento específico do ambiente atendido e devem ser confirmadas antes de operar em produção:
+## Knowledge-transfer items to confirm
 
-- padrão de execução do STEP no ambiente da organização;
-- conjunto de parâmetros utilizados por processo e por cenário;
-- regras de negócio específicas e exceções;
-- responsáveis funcionais por cada etapa;
-- procedimento de reprocessamento e rollback.
+The following details depend on environment-specific knowledge and must be confirmed before production use:
 
-## Documentos relacionados
+- the organization's STEP execution standard;
+- parameters used for each process and scenario;
+- business rules and exceptions;
+- functional owners for each stage;
+- approved reprocessing and rollback procedures.
 
-- [Guia prático do STEP](guia-usuario-step.md)
-- [Trilha de aprendizado](../17-trilha-de-aprendizado.md)
+## Related documents
+
+- [STEP practical user guide](practical-user-guide.md)
+- [Learning path](../17-learning-path.md)
 - [Troubleshooting](../13-troubleshooting.md)
 
-## Fonte
+## Source
 
-Este guia foi estruturado como referência interna de operação e suporte, com foco em uso prático e validação do processo STEP no Investran.
+This guide was compiled as an internal operational and support reference from available STEP materials. It has not been validated in a supported environment.
 
-## Referência de origem
+The content was consolidated from internal materials, operating procedures, and support guidance related to STEP. It has been adapted for practical use and must be confirmed against the standards and rules of the target environment.
 
-As informações desta página foram consolidadas a partir de materiais internos, procedimentos operacionais e orientações de suporte relacionadas à funcionalidade STEP do Investran. O conteúdo foi adaptado para uso prático e deve ser confirmado com o padrão e as regras específicas do ambiente em que será executado.
-
-FIS-STEP Generic - User Guide.pdf
+Source document: *FIS-STEP Generic - User Guide.pdf*.

@@ -1,102 +1,71 @@
-# Anatomia de uma Allocation Rule
+# Anatomy of an Allocation Rule
 
-> Este documento descreve os elementos que devem ser identificados durante a análise de uma Allocation Rule. Os nomes de telas, propriedades e procedimentos específicos do ambiente devem ser confirmados no KT.
+> This document describes elements that must be identified when analyzing an Allocation Rule. Confirm environment-specific screen names, properties, and procedures during KT.
 
-## Visão funcional
+## Functional view
 
-Uma Allocation Rule recebe um contexto de transação e produz uma distribuição entre investidores.
+An Allocation Rule receives a transaction context and produces a distribution across investors.
 
 ```mermaid
 flowchart LR
-    C[Contexto da transação] --> R[Allocation Rule]
+    C[Transaction context] --> R[Allocation Rule]
     R --> S[Investor Set]
-    S --> A[Valores / percentuais / quantidades por investidor]
+    S --> A[Values / percentages / quantities by investor]
 ```
 
-## Entradas que devem ser levantadas
+## Inputs to capture
 
-Ao analisar uma regra, registre no mínimo:
+Record at least Legal Entity, Vehicle, eligible Investor Set, GL Date, Effective Date, transaction value/quantity, currency and rounding scale, selected rule and identifier, call origin (manual entry, Active Template, Business Event, or other process), and additional calculation attributes such as commitment, closing date, balance, cost, or investment period.
 
-- Legal Entity;
-- Vehicle;
-- Investor Set elegível;
-- GL Date;
-- Effective Date;
-- valor ou quantidade da transação;
-- moeda e escalas de arredondamento;
-- regra selecionada e respectivo identificador;
-- origem da chamada: entrada manual, Active Template, Business Event ou outro processo;
-- atributos adicionais usados no cálculo, como compromisso, closing date, saldo, custo ou período de investimento.
+## Logical processing
 
-## Processamento lógico
+Analyze the rule in four stages:
 
-A análise deve separar a regra em quatro etapas:
-
-1. **Seleção de investidores** — define quem pode participar.
-2. **Cálculo da base** — compromisso, saldo, custo, unfunded commitment ou outra métrica.
-3. **Normalização** — converte bases em percentuais ou fatores de rateio.
-4. **Distribuição** — aplica o rateio ao valor ou quantidade da transação.
+1. **Investor selection** — defines who can participate.
+2. **Base calculation** — commitment, balance, cost, unfunded commitment, or another metric.
+3. **Normalization** — converts bases into percentages or allocation factors.
+4. **Distribution** — applies allocation to the transaction value or quantity.
 
 ```mermaid
 flowchart TD
-    I[Investidores candidatos] --> F[Filtros de elegibilidade]
-    F --> B[Cálculo da base]
-    B --> N[Normalização]
-    N --> D[Distribuição]
-    D --> V[Validação de total e arredondamento]
+    I[Candidate investors] --> F[Eligibility filters]
+    F --> B[Base calculation]
+    B --> N[Normalization]
+    N --> D[Distribution]
+    D --> V[Total and rounding validation]
 ```
 
-## Saídas esperadas
+## Expected outputs
 
-Uma execução válida deve permitir confirmar:
+A valid execution must confirm included/excluded investors, percentage/factor per investor, allocated value/quantity, allocated total, rounding difference, dominant/non-dominant transaction treatment, and errors or warnings.
 
-- investidores incluídos e excluídos;
-- percentual ou fator por investidor;
-- valor ou quantidade alocada;
-- total alocado;
-- eventual diferença de arredondamento;
-- tratamento da transação dominante e não dominante;
-- mensagens de erro ou warning.
+## System rules observed in the Active Templates manual
 
-## Regras de sistema observadas no manual de Active Templates
-
-O guia de Active Templates apresenta os seguintes identificadores em exemplos de VBA:
-
-| ID | Nome | Uso observado |
+| ID | Name | Observed use |
 |---:|---|---|
-| 0 | Non-Dominant | Transação de balanceamento ou lado não dominante |
-| 1 | No Allocation | Não executa alocação entre investidores |
-| 2 | User Provided | A alocação é preenchida pelo código no `InvestorSet` |
+| 0 | Non-Dominant | Balancing transaction or non-dominant side |
+| 1 | No Allocation | Does not allocate across investors |
+| 2 | User Provided | Code fills allocation in `InvestorSet` |
 
-Esses identificadores devem ser validados na versão instalada antes de qualquer uso em código.
+Validate these identifiers in the installed version before using them in code.
 
-## Relação com Active Templates
+## Relationship with Active Templates
 
-No fluxo documentado do ATM:
+In the documented ATM flow, an Allocation Rule can be set before a transaction; it runs between `BeforeTransaction` and `AfterTransaction`; `User Provided` lets code fill investor results in the later event; and rounding differences can require adjustment of the non-dominant transaction.
 
-- a Allocation Rule pode ser definida antes da transação;
-- a regra é executada entre os eventos `BeforeTransaction` e `AfterTransaction`;
-- quando `User Provided` é usada, o código pode preencher o resultado de investidores no evento posterior;
-- diferenças de arredondamento podem exigir ajuste da transação não dominante.
+## Checklist for an unknown rule
 
-## Checklist de leitura de uma regra desconhecida
+- [ ] Identify rule name, ID, type, and status.
+- [ ] Confirm whether it is static or dynamic.
+- [ ] Confirm Top Down or Bottom Up flow.
+- [ ] Identify every data source, filter, date, inclusion/exclusion rule, rounding rule, and consumer.
+- [ ] Run a known case and reconcile the total.
 
-- [ ] Identificar nome, ID, tipo e status da regra.
-- [ ] Confirmar se é estática ou dinâmica.
-- [ ] Confirmar se o fluxo é Top Down ou Bottom Up.
-- [ ] Identificar todas as fontes de dados utilizadas.
-- [ ] Identificar filtros de Legal Entity, Vehicle e Investor.
-- [ ] Identificar campos de data utilizados.
-- [ ] Identificar regras de inclusão e exclusão.
-- [ ] Identificar arredondamento e tratamento do residual.
-- [ ] Identificar consumidores da regra.
-- [ ] Executar cenário conhecido e reconciliar o total.
+## Items requiring KT
 
-## Pontos que exigem KT
+- Allocation Rule Manager path and version in each environment.
+- Logs and debugging features in the installed version.
+- Internal export, import, approval, and rollback process.
+- Naming and ID conventions in the supported environment.
 
-- Caminho e versão do Allocation Rule Manager em cada ambiente.
-- Logs e recursos de debug disponíveis na versão instalada.
-- Processo interno para exportação, importação, aprovação e rollback.
-- Convenções de nomes e IDs usadas no ambiente atendido.
-
-Para os componentes confirmados pelo manual, consulte [Interface do ARM e ciclo de vida](arm-interface-and-lifecycle.md) e [Object model e contratos técnicos](object-model.md).
+For manual-confirmed components, see [ARM interface and lifecycle](arm-interface-and-lifecycle.md) and [Object model and technical contracts](object-model.md).

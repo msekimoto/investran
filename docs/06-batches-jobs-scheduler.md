@@ -1,43 +1,45 @@
-# Batches, jobs e scheduler
+# Batches, jobs, and scheduler
 
-Para uma introdução visual à hierarquia Batch → Journal Entry → Transaction → Investor Allocation, consulte [Ciclo contábil e batches](dominio/03-ciclo-contabil-e-batches.md).
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against installed version, job inventory, and environment · Last validation: not validated locally · Next review: after controlled reconciliation or any scheduler/batch process change · Evidence: sanitized ticket/change and reconciled test result.
 
-## Modelo operacional
+For a visual introduction to the Batch → Journal Entry → Transaction → Investor Allocation hierarchy, see [Accounting cycle and batches](domain/03-accounting-cycle-and-batches.md).
 
-Batches podem ser criados manualmente, por ATM, API, Data Import ou Business Events. O suporte deve distinguir criação, validação, hold, postagem, exportação, exclusão lógica e remoção permanente conforme o fluxo e a configuração da instalação.
+## Operating model
 
-O Application Server documentado possui serviços scheduler para ATM, Data Import, DX Sync/Workflow, OLE DB, Reporting Services, RS Word e Report Wizard. Os mappings ficam no `Config.xml` da pasta Investran Servers na arquitetura descrita; confirme o caminho atual antes de usar essa informação.
+Batches can be created manually, by ATM, API, Data Import, or Business Events. Support must distinguish creation, validation, hold, posting, export, logical deletion, and permanent removal according to the flow and installation configuration.
 
-## Diagnóstico de batch
+The documented Application Server provides scheduler services for ATM, Data Import, DX Sync/Workflow, OLE DB, Reporting Services, RS Word, and Report Wizard. Mappings are stored in `Config.xml` in the Investran Servers folder in the described architecture. Confirm the current path before using it.
 
-Registrar BatchID, Legal Entity, tipo, status, criador/processo, datas GL/effective, quantidade de JEs/transações e último evento. Determinar se o problema está na geração, validação, posting ou integração seguinte.
+## Batch diagnosis
 
-O guia administrativo descreve `INV_spBatchValidation` como parte do Investran Maintenance Job e a view `Log_vwBatchValidation` para revisar erros. Execução direta de stored procedure em produção requer aprovação e procedimento local.
+Record BatchID, Legal Entity, type, status, creator/process, GL/effective dates, number of JEs/transactions, and the latest event. Determine whether the problem is in generation, validation, posting, or the next integration.
 
-## Retry/reprocessamento
+The Administrator's Guide describes `INV_spBatchValidation` as part of the Investran Maintenance Job and the `Log_vwBatchValidation` view for reviewing errors. Direct execution of a stored procedure in production requires approval and a local procedure.
 
-1. Preservar estado, log, IDs e output.
-2. Verificar se houve escrita parcial ou batch já criado.
-3. Identificar idempotência e efeito financeiro de duplicação.
-4. Obter autorização funcional.
-5. Preferir mecanismo suportado pela aplicação.
-6. Reprocessar uma única vez e reconciliar.
-7. Escalar se a causa continuar desconhecida.
+## Retry and reprocessing
 
-## Serviços
+1. Preserve the state, logs, IDs, and output.
+2. Check whether a partial write occurred or a batch already exists.
+3. Identify idempotency and the financial effect of duplication.
+4. Obtain functional authorization.
+5. Prefer the application-supported mechanism.
+6. Reprocess once and reconcile.
+7. Escalate if the cause is still unknown.
 
-Antes de restart, verificar dependências e trabalhos ativos. A documentação mostra manutenção via Service Manager e também `net start`/`net stop`; ela alerta que o status do console pode não refletir imediatamente comandos externos. Use o monitoramento real como fonte de verdade.
+## Services
 
-## KT pendente
+Before a restart, check dependencies and active work. Documentation shows maintenance through Service Manager and `net start`/`net stop`; it warns that console status may not immediately reflect external commands. Use real monitoring as the source of truth.
 
-- inventário de jobs/serviços com sequência, agenda e SLA;
-- critérios de stuck/timeout;
-- tabelas/consultas aprovadas para diagnóstico;
-- matriz de idempotência e instruções de reprocessamento;
-- owner de validação funcional por batch.
+## KT pending
 
-## Fontes
+- Inventory of jobs/services with sequence, schedule, and SLA.
+- Stuck/timeout criteria.
+- Approved tables and queries for diagnosis.
+- Idempotency matrix and reprocessing instructions.
+- Business-validation owner for each batch.
 
-- *Internal_Inv7_INV_Administrators_7.pdf*, seções Application Server, Scheduler Services e Batch Validation.
-- *Internal_Inv7_INV_Implementation.pdf*, páginas 4-5 e configuração dos schedulers.
-- *Internal_Inv7_INV_ATM_Dev_Guide_7.pdf*, execução e commit.
+## Sources
+
+- *Internal_Inv7_INV_Administrators_7.pdf*, Application Server, Scheduler Services, and Batch Validation sections.
+- *Internal_Inv7_INV_Implementation.pdf*, pages 4-5 and scheduler configuration.
+- *Internal_Inv7_INV_ATM_Dev_Guide_7.pdf*, execution and commit.

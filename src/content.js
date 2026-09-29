@@ -11,32 +11,38 @@ const modules = import.meta.glob(
 )
 
 const groupLabels = {
-  home: 'Início',
-  docs: 'Guias principais',
-  arquitetura: 'Arquitetura',
-  dominio: 'Domínio e entidades',
+  home: 'Home',
+  docs: 'Foundations and operations',
+  architecture: 'Architecture',
+  domain: 'Domain and entities',
+  'application-services': 'Application Server and Services',
   'active-templates': 'Active Templates',
   'allocation-rules': 'Allocation Rules',
-  api: 'API REST',
-  integracoes: 'Integrações e SDK',
-  reporting: 'Report Wizard e Web Reports',
+  'business-events': 'Business Events',
+  'data-import': 'Data Import',
+  api: 'REST API',
+  reporting: 'Report Wizard and Web Reports',
+  integrations: 'Integrations and SDK',
   step: 'STEP',
   runbooks: 'Runbooks',
   templates: 'Templates',
-  governance: 'Governança',
+  governance: 'Governance',
 }
 
 const groupOrder = [
   'home',
   'docs',
-  'arquitetura',
-  'dominio',
+  'architecture',
+  'domain',
+  'application-services',
   'active-templates',
   'allocation-rules',
+  'business-events',
+  'data-import',
   'reporting',
   'step',
   'api',
-  'integracoes',
+  'integrations',
   'runbooks',
   'templates',
   'governance',
@@ -76,7 +82,7 @@ function cleanForSearch(content) {
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/[#[\]()*_`>|-]/g, ' ')
     .replace(/\s+/g, ' ')
-    .toLocaleLowerCase('pt-BR')
+    .toLocaleLowerCase('en-US')
 }
 
 export const documents = Object.entries(modules)
@@ -95,7 +101,7 @@ export const documents = Object.entries(modules)
   })
   .sort((a, b) => {
     const groupDiff = groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group)
-    return groupDiff || a.path.localeCompare(b.path, 'pt-BR', { numeric: true })
+    return groupDiff || a.path.localeCompare(b.path, 'en-US', { numeric: true })
   })
 
 export const documentMap = new Map(documents.map((document) => [document.path.toLowerCase(), document]))

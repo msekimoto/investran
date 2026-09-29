@@ -1,20 +1,29 @@
-# Runbook - Nome
+# Runbook - Name
 
-- **Objetivo:**
-- **Impacto/risco:**
-- **Pré-condições e aprovações:**
-- **Ambiente/versão:**
-- **Owner:**
+## Document control
 
-## Diagnóstico
+| Field | Value |
+|---|---|
+| Status | Draft / Under validation / Approved / KT pending |
+| Technical owner | Responsible person or role |
+| Functional owner | Responsible person or role |
+| Scope and environment | Product/version; validated environment |
+| Last validation | Date, environment, and controlled execution result |
+| Next review | Date or review trigger |
+| Evidence | Ticket, change, sanitized output, or test that supports this procedure |
 
-## Procedimento
+- **Purpose:**
+- **Impact/risk:**
+- **Prerequisites and approvals:**
 
-## Critérios para parar/escalar
+## Diagnosis
 
-## Validação funcional
+## Procedure
 
-## Rollback/recuperação
+## Stop and escalation criteria
 
-## Evidências e encerramento
+## Business validation
 
+## Rollback and recovery
+
+## Evidence and closure

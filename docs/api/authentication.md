@@ -1,26 +1,26 @@
-# Autenticação
+# Authentication
 
-## OAuth2 com Client Credentials
+## OAuth2 with Client Credentials
 
-O código-fonte configura um cliente máquina a máquina usando o fluxo Client Credentials e o escopo da API `investran-api`.
+The source code configures a machine-to-machine client using the Client Credentials flow and the `investran-api` API scope.
 
 ```mermaid
 sequenceDiagram
-    participant Cliente
+    participant Client
     participant Auth as /Auth/connect/token
     participant API as /api/*
     participant Investran
 
-    Cliente->>Auth: client_id + client_secret + scope
-    Auth-->>Cliente: access_token
-    Cliente->>API: Authorization: Bearer token
-    API->>API: Valida token e escopo
-    API->>Investran: Chamada com a identidade de serviço configurada
-    Investran-->>API: Resultado
-    API-->>Cliente: JSON
+    Client->>Auth: client_id + client_secret + scope
+    Auth-->>Client: access_token
+    Client->>API: Authorization: Bearer token
+    API->>API: Validate token and scope
+    API->>Investran: Call with configured service identity
+    Investran-->>API: Result
+    API-->>Client: JSON
 ```
 
-## Solicitação do token
+## Requesting a token
 
 ```http
 POST /Auth/connect/token HTTP/1.1
@@ -30,7 +30,7 @@ Content-Type: application/x-www-form-urlencoded
 grant_type=client_credentials&client_id=<client-id>&client_secret=<client-secret>&scope=investran-api
 ```
 
-Exemplo de resposta:
+Example response:
 
 ```json
 {
@@ -40,47 +40,47 @@ Exemplo de resposta:
 }
 ```
 
-Use o token da seguinte forma:
+Use the token as follows:
 
 ```http
 Authorization: Bearer <access-token>
 ```
 
-## Comportamento da autorização
+## Authorization behavior
 
-Em geral, os controllers possuem o atributo `[Authorize]`, e a configuração da Web API também adiciona um filtro global de autorização. O código marca explicitamente `GET /api/investor/search/{vehicleId}` com `[AllowAnonymous]`.
+In general, controllers use the `[Authorize]` attribute, and Web API configuration also adds a global authorization filter. The code explicitly marks `GET /api/investor/search/{vehicleId}` with `[AllowAnonymous]`.
 
-Observações importantes:
+Important notes:
 
-- o Swagger marca globalmente as operações com a exigência de OAuth2, inclusive as que podem aceitar acesso anônimo;
-- `GET /api/lookups/reviewstatus` não possui `[Authorize]` no método, mas ainda deve ser protegido pelo filtro global;
-- valide os dois casos no ambiente implantado, pois a ordem de registro do OWIN/Web API pode alterar o comportamento efetivo.
+- Swagger globally marks operations as requiring OAuth2, including those that may allow anonymous access;
+- `GET /api/lookups/reviewstatus` has no `[Authorize]` on the method, but should still be protected by the global filter;
+- validate both cases in the deployed environment, because OWIN/Web API registration order can change the effective behavior.
 
-## Identidade interna do Investran
+## Internal Investran identity
 
-Depois da autenticação REST, a API recupera duas identidades configuráveis:
+After REST authentication, the API retrieves two configurable identities:
 
-- a conta normal de serviço do Investran;
-- uma identidade de impersonation usada em determinadas transições de status de batch.
+- the standard Investran service account;
+- an impersonation identity used in specific batch status transitions.
 
-A classe `Authentication` cria um escopo de aplicação do Investran usando `WebServicesUri`, `EndPointIdentity`, `ServicePrincipalName`, `Server` e `Database`. Ela valida a conta de serviço e atribui o `InvestranSuitePrincipal` resultante à thread atual.
+The `Authentication` class creates an Investran application scope using `WebServicesUri`, `EndPointIdentity`, `ServicePrincipalName`, `Server`, and `Database`. It validates the service account and assigns the resulting `InvestranSuitePrincipal` to the current thread.
 
-## Requisitos de segurança
+## Security requirements
 
-- implantar atrás de HTTPS, mesmo que as opções atuais do IdentityServer não exijam SSL;
-- armazenar client secrets, certificados e credenciais do serviço subsequente em um cofre aprovado;
-- nunca usar usuário e senha de bypass fora de um ambiente isolado de desenvolvimento;
-- rotacionar qualquer segredo que já tenha sido versionado no Git;
-- restringir o CORS às origens aprovadas;
-- usar identidades de serviço distintas e permissões mínimas no Team Security;
-- monitorar separadamente falhas de token e falhas de autenticação no Investran.
+- Deploy behind HTTPS, even if current IdentityServer options do not require SSL.
+- Store client secrets, certificates, and downstream service credentials in an approved vault.
+- Never use the bypass user and password outside an isolated development environment.
+- Rotate any secret that has already been versioned in Git.
+- Restrict CORS to approved origins.
+- Use separate service identities and least-privilege Team Security permissions.
+- Monitor token failures separately from Investran authentication failures.
 
-## Falhas comuns de autenticação
+## Common authentication failures
 
-| Sintoma | Fronteira provável | O que verificar |
+| Symptom | Likely boundary | What to check |
 |---|---|---|
-| endpoint de token rejeita o cliente | cliente OAuth | client ID, secret/certificado, grant e escopo |
-| API retorna 401 | validação do bearer token | issuer/authority, expiração do token e escopo |
-| API retorna 500 com erro de validação | identidade do Investran | consulta ao cofre, estado da conta e permissões no Investran |
-| apenas algumas entidades falham | Team Security | permissões de domínio/entidade da identidade de serviço |
-| erro de identidade no endpoint WCF | identidade de transporte | SPN, identidade DNS do endpoint e URI do serviço |
+| token endpoint rejects the client | OAuth client | client ID, secret/certificate, grant, and scope |
+| API returns 401 | Bearer-token validation | issuer/authority, token expiry, and scope |
+| API returns 500 with validation error | Investran identity | vault lookup, account status, and Investran permissions |
+| only some entities fail | Team Security | domain/entity permissions of the service identity |
+| identity error at the WCF endpoint | transport identity | SPN, endpoint DNS identity, and service URI |
