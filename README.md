@@ -34,6 +34,7 @@ Use the module guide as the entry point, then follow its detailed procedures and
 | Data Import | [Module guide](docs/data-import/README.md) |
 | Reporting and Web Reporting Services | [Reporting architecture](docs/reporting/01-reporting-architecture.md) |
 | REST API and SDK | [API and SDK overview](docs/08-apis-sdk-wrs.md) |
+| STEP | [Module guide](docs/step/README.md) |
 
 ## 4. Find technical reference
 

@@ -33,3 +33,4 @@ This path organizes the documentation in the most useful order for someone who n
 3. [Batches, jobs, and scheduler](06-batches-jobs-scheduler.md)
 4. [Business Events](14-business-events.md)
 5. [Troubleshooting](13-troubleshooting.md)
+6. [STEP user guide](step/README.md)
