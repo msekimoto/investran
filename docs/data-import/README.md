@@ -9,7 +9,7 @@ This section organizes the knowledge needed to prepare files, configure mappings
 1. [Data Import practical guide](data-import-practical-guide.md)
 2. [Templates, entities, and mappings](templates-entities-mappings.md)
 3. [Troubleshooting and recovery](troubleshooting.md)
-4. [Earlier summary: Data Import and interfaces](../10-data-import-and-interfaces.md)
+4. [Quick support routing](../10-data-import-and-interfaces.md)
 
 ## Summary flow
 

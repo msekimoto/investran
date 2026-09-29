@@ -1,5 +1,7 @@
 # Batches, jobs, and scheduler
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against installed version, job inventory, and environment · Last validation: not validated locally · Next review: after controlled reconciliation or any scheduler/batch process change · Evidence: sanitized ticket/change and reconciled test result.
+
 For a visual introduction to the Batch → Journal Entry → Transaction → Investor Allocation hierarchy, see [Accounting cycle and batches](domain/03-accounting-cycle-and-batches.md).
 
 ## Operating model

@@ -1,5 +1,7 @@
 # Deployment, maintenance release, and upgrade
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate for the target release and environment before use · Last validation: not validated locally · Next review: for each release, upgrade, or deployment-process change · Evidence: approved change, vendor release notes, test and recovery results.
+
 ## Source principles
 
 Maintenance packages are cumulative and must be validated with the supplied hash. FIS recommends testing first and keeping components compatible. The documented order starts with the database; customizations may need repackaging/recompiling according to release notes.

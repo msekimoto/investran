@@ -1,5 +1,7 @@
 # Data Import - troubleshooting and recovery
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any import/mapping change · Evidence: attach a sanitized ticket/change and reconciliation result.
+
 ## First: Validation or Load?
 
 Separate the failure into two phases:

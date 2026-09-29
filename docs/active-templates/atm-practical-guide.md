@@ -1,5 +1,7 @@
 # Active Template Manager - practical user guide
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: Investran 7 source material; validate installed version and environment · Last validation: not validated locally · Next review: after controlled validation or any template/process change · Evidence: attach a sanitized ticket/change and test result.
+
 This guide presents ATM as a tool: what each component does, how to navigate, how to create or change an Active Template, and how to follow a safe Simulation, Scheduler, Preview, and Commit workflow.
 
 > The screens belong to Investran 7 as documented in the 2014 guide. Appearance, permissions, and names may vary. Always confirm the environment, database, and internal process before execution.

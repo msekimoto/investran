@@ -1,5 +1,7 @@
 # Web Reporting Services - practical administration and integration guide
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: Investran 7 source material; validate installed version and environment · Last validation: not validated locally · Next review: after controlled validation or any WRS/IIS/security change · Evidence: attach a sanitized ticket/change and test result.
+
 This guide introduces **Investran Web Reporting Services (WRS)**: architecture, installation, configuration, security, report publishing, and SOAP API consumption.
 
 > In this context, Reporting Services means Investran WRS, not Microsoft SQL Server Reporting Services (SSRS). The screens belong to Investran 7 as documented in 2014; validate the version, TLS, IIS, and procedures in the current environment.

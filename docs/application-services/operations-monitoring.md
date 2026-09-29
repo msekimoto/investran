@@ -1,5 +1,7 @@
 # Application Services - operations, configuration, and monitoring
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any service/configuration change · Evidence: attach a sanitized ticket/change and test result.
+
 ## Accounts involved
 
 The documented Application Server can use up to three identities, in addition to the specific Business Events account:

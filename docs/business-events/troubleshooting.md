@@ -1,5 +1,7 @@
 # Business Events - troubleshooting and recovery
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any event/dependency change · Evidence: attach a sanitized ticket/change and execution result.
+
 ## Principle
 
 A BE can fail before execution, during request transport, in the event logic, in a dependent engine, or while persisting the output. First determine **which layer** execution stopped in. Do not rerun until you know whether any partial writes occurred.

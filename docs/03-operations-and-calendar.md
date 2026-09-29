@@ -1,5 +1,7 @@
 # Operations, criticality, and calendar
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: customer-specific schedules and SLAs remain to be confirmed · Last validation: not validated locally · Next review: after KT, calendar/process changes, or each agreed review cycle · Evidence: approved operating calendar and sanitized change/ticket.
+
 The manuals describe technical capabilities, not each organization's operating calendar. This document is intended to become the daily support dashboard for a customer. It is an initial suggestion for an analyst who already knows the Investran tools and needs the customer-specific details.
 
 ## Suggested minimum routine

@@ -1,5 +1,7 @@
 # Report Wizard - practical guide to development and use
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and reporting integrations · Last validation: not validated locally · Next review: after controlled validation or any report/contract change · Evidence: attach a sanitized ticket/change and output validation.
+
 This guide covers the lifecycle of a Report Wizard (RW) report: defining the contract, choosing data, configuring parameters, validating granularity, consuming the report in other tools, and diagnosing problems.
 
 > The RW development guide is primarily technical and describes the INVDEV Library. Integration and layout screenshots come from the Crystal Reports Guidebook. Captions clearly identify which tool appears in each image.

@@ -1,5 +1,7 @@
 # Partner Transfer in depth
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version, configuration, and each environment · Last validation: not validated locally · Next review: after controlled reconciliation or any rule/process change · Evidence: attach a sanitized ticket/change and approved before/after reconciliation.
+
 ## Purpose
 
 Partner Transfer automates the full or partial transfer of a **transferor**'s interest to one or more **transferees**. The process can move accounting balances, commitment, and unfunded commitment and, when configured, reallocate activity from the period between the transfer's effective date and its processing date.

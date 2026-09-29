@@ -1,5 +1,7 @@
 # Application Services - troubleshooting and safe restart
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any service/restart change · Evidence: attach a sanitized ticket/change and test result.
+
 ## Do not start with a restart
 
 A restart can erase evidence, interrupt jobs, and create duplicates if the requester repeats the operation. First determine whether the problem is in the scheduler, dispatcher, worker, database, queue, or external resource.

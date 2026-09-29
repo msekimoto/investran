@@ -1,5 +1,7 @@
 # Allocation Rule Manager - practical usage guide
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: Investran 7 source material; validate installed version and environment · Last validation: not validated locally · Next review: after controlled validation or any rule/process change · Evidence: attach a sanitized ticket/change and reconciliation result.
+
 This guide presents ARM as a tool: what it solves, how to navigate it, how to build a rule, and how to validate the result before making it available to Accounting or an Active Template.
 
 > The screens are from Investran 7 as documented in the 2014 guide. Appearance, permissions, and names may vary by version and configuration. Confirm the database and work in a non-production environment.

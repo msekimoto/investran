@@ -9,7 +9,7 @@ This section organizes the knowledge needed to deploy, configure, run, and suppo
 1. [Business Events practical guide](business-events-practical-guide.md)
 2. [Partner Transfer in depth](partner-transfer.md)
 3. [Troubleshooting and recovery](troubleshooting.md)
-4. [Earlier summary: Business Events and Partner Transfer](../14-business-events.md)
+4. [Quick support routing](../14-business-events.md)
 
 ## What the manuals confirm
 

@@ -1,5 +1,7 @@
 # Troubleshooting
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: cross-module triage; validate links and escalation routes for each environment · Last validation: not validated locally · Next review: after a material incident or any module/support-routing change · Evidence: link sanitized incident records and reviewed canonical guides.
+
 This document summarizes the recommended diagnostic method for Investran events. It is intentionally short: use it for triage and then follow the correct module guide.
 
 ## Standard method

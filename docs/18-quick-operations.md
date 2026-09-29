@@ -1,5 +1,7 @@
 # Quick operations and on-call guide
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: customer-specific environments and support process are not yet confirmed · Last validation: not validated locally · Next review: after each material incident, process change, or quarterly review · Evidence: link sanitized incident/change records and reviewed runbooks.
+
 Use this page as the entry point during an incident or before a change. It shortens the time to diagnosis without replacing approval, a ticket, or the specific runbook.
 
 > **Known limit:** owners, SLAs, cutoffs, topology, and environment contacts are still `KT pending`. Do not invent this information. Record the gap in the ticket and escalate through the current process.

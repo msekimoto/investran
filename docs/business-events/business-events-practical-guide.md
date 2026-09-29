@@ -1,5 +1,7 @@
 # Business Events practical guide
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any template/service change · Evidence: attach a sanitized ticket/change and execution result.
+
 ## 1. What a Business Event is
 
 A Business Event (BE) encapsulates a business process that can query data, apply rules, and make changes in Investran. The interface is in Investran Web, while execution can span web components, application services, and specialized engines.

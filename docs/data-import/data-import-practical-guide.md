@@ -1,5 +1,7 @@
 # Practical Data Import guide
 
+> **Document control:** Status: KT pending · Technical/functional owners: to be confirmed · Scope: validate against the installed version and each environment · Last validation: not validated locally · Next review: after controlled validation or any mapping/process change · Evidence: attach a sanitized ticket/change and reconciliation result.
+
 ## 1. What the tool does
 
 Data Import receives data in spreadsheets, associates each worksheet with an Investran entity, maps columns to system fields, validates the content, and, if approved, loads the records. It serves three broad groups:
