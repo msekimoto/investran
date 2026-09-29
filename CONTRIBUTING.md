@@ -19,4 +19,4 @@ An operational guide is complete only when another person can run the flow in a 
 - Request review from the functional and technical specialists.
 - Run the procedure in DEV/UAT when possible.
 - Record the evidence and validation date.
-- Update the status in the [KT plan](docs/16-plano-de-kt.md).
+- Update the status in the [KT plan](docs/16-kt-plan.md).

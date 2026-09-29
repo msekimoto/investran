@@ -6,12 +6,12 @@ This page is the wiki entry point. It shows how Investran modules connect and wh
 
 | Component | Main role | Learn more |
 |---|---|---|
-| Web and authentication | System access and security controls | [Architecture and environments](02-arquitetura-e-ambientes.md) |
+| Web and authentication | System access and security controls | [Architecture and environments](02-architecture-and-environments.md) |
 | ATM | Batch generation and execution from templates | [ATM](active-templates/README.md) |
 | Allocation Rules | Value allocation across investors | [Allocation Rules](allocation-rules/README.md) |
-| Reporting | Reports, filters, Crystal, and WRS | [Report Wizard and Crystal](07-report-wizard-e-crystal.md) |
+| Reporting | Reports, filters, Crystal, and WRS | [Report Wizard and Crystal](07-report-wizard-and-crystal.md) |
 | API and SDK | Programmatic integration and WCF contracts | [API, SDK, and WRS](08-apis-sdk-wrs.md) |
-| Data Import | Bulk XLSX loading and reconciliation | [Data Import and interfaces](10-data-import-e-interfaces.md) |
+| Data Import | Bulk XLSX loading and reconciliation | [Data Import and interfaces](10-data-import-and-interfaces.md) |
 | Application Server | Schedulers, workers, and execution services | [Application Server and Services](application-services/README.md) |
 | Business Events | Automated processes and Partner Transfer | [Business Events](14-business-events.md) |
 
@@ -25,10 +25,10 @@ This page is the wiki entry point. It shows how Investran modules connect and wh
 
 ## Recommended next steps
 
-- [Entities and relationships](dominio/01-entidades-e-relacionamentos.md)
-- [Accounting cycle and batches](dominio/03-ciclo-contabil-e-batches.md)
-- [Logical architecture](arquitetura/01-arquitetura-logica.md)
-- [End-to-end flows](arquitetura/03-fluxos-ponta-a-ponta.md)
+- [Entities and relationships](domain/01-entities-and-relationships.md)
+- [Accounting cycle and batches](domain/03-accounting-cycle-and-batches.md)
+- [Logical architecture](architecture/01-logical-architecture.md)
+- [End-to-end flows](architecture/03-end-to-end-flows.md)
 - [Troubleshooting](13-troubleshooting.md)
 
 ## KT pending

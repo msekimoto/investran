@@ -38,7 +38,7 @@ for (const file of files) {
   const displayName = relative(root, file);
 
   for (const pattern of secretPatterns) {
-    if (pattern.test(content)) errors.push(`${displayName}: possível segredo detectado (${pattern}).`);
+    if (pattern.test(content)) errors.push(`${displayName}: possible secret detected (${pattern}).`);
   }
 
   for (const match of content.matchAll(/!?\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
@@ -47,7 +47,7 @@ for (const file of files) {
 
     const fileTarget = target.split('#', 1)[0];
     if (fileTarget && !existsSync(resolve(dirname(file), fileTarget))) {
-      errors.push(`${displayName}: link local inexistente: ${target}`);
+      errors.push(`${displayName}: missing local link target: ${target}`);
     }
   }
 }
@@ -56,15 +56,15 @@ for (const file of markdownFiles(resolve(root, 'runbooks'))) {
   const content = readFileSync(file, 'utf8');
   for (const control of requiredRunbookControls) {
     if (!content.includes(control)) {
-      errors.push(`${relative(root, file)}: controle obrigatório ausente: ${control}`);
+      errors.push(`${relative(root, file)}: missing required control: ${control}`);
     }
   }
 }
 
 if (errors.length) {
-  console.error(`Validação da documentação encontrou ${errors.length} problema(s):`);
+  console.error(`Documentation validation found ${errors.length} issue(s):`);
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Documentação validada: ${files.length} arquivo(s), links locais e controles dos runbooks aprovados.`);
+  console.log(`Documentation validated: ${files.length} file(s); local links and runbook controls passed.`);
 }

@@ -4,19 +4,19 @@ This page is an entry point for programmatic integrations and reporting. Full de
 
 ## Main guides
 
-- [API and SDK in depth](integracoes/01-api-e-sdk.md): object model, DTOs, fetch options, versioning, and General Ledger.
-- [Reporting architecture](reporting/01-arquitetura-reporting.md): reporting chain and failure points.
+- [API and SDK in depth](integrations/01-api-and-sdk.md): object model, DTOs, fetch options, versioning, and General Ledger.
+- [Reporting architecture](reporting/01-reporting-architecture.md): reporting chain and failure points.
 - [Web Reporting Services](reporting/03-web-reporting-services.md): security, publication, and SOAP service support.
-- [Reporting failure runbook](../runbooks/falha-reporting.md): actions for active incidents.
+- [Reporting failure runbook](../runbooks/reporting-failure.md): actions for active incidents.
 
 ## When to use each path
 
 | Situation | Recommended guide |
 |---|---|
-| DTO, contract, Load/Publish/Remove problem | [API and SDK in depth](integracoes/01-api-e-sdk.md) |
+| DTO, contract, Load/Publish/Remove problem | [API and SDK in depth](integrations/01-api-and-sdk.md) |
 | Authentication, URL, or WRS failure | [Web Reporting Services](reporting/03-web-reporting-services.md) |
-| Report does not render or respond | [Report Wizard - development and operations](reporting/02-report-wizard-desenvolvimento-operacao.md) |
-| Production incident | [Reporting failure runbook](../runbooks/falha-reporting.md) |
+| Report does not render or respond | [Report Wizard - development and operations](reporting/02-report-wizard-development-operations.md) |
+| Production incident | [Reporting failure runbook](../runbooks/reporting-failure.md) |
 
 ## Integration checklist
 

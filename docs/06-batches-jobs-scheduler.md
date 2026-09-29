@@ -1,6 +1,6 @@
 # Batches, jobs, and scheduler
 
-For a visual introduction to the Batch → Journal Entry → Transaction → Investor Allocation hierarchy, see [Accounting cycle and batches](dominio/03-ciclo-contabil-e-batches.md).
+For a visual introduction to the Batch → Journal Entry → Transaction → Investor Allocation hierarchy, see [Accounting cycle and batches](domain/03-accounting-cycle-and-batches.md).
 
 ## Operating model
 

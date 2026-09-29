@@ -154,7 +154,7 @@ These IDs appear as constants in the ATM manual. Before using them directly:
 
 | Symptom | Method to investigate first |
 |---|---|
-| Percentual sempre igual, mas incorreto | Static Allocation Rule |
+| Percentage is always the same but incorrect | Static Allocation Rule |
 | Result changes by date | Dynamic Allocation Rule and reference dates |
 | Legal Entity total is correct, investors are wrong | Top Down and investor eligibility |
 | Individual values are correct, consolidated total is wrong | Bottom Up and aggregation |

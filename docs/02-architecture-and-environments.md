@@ -12,7 +12,7 @@ A typical architecture combines:
 - Reporting, ATM, ARM, Data Import, and Business Events as processing modules.
 - Certificates, service accounts, and MSMQ/RabbitMQ/MSDTC as critical dependencies.
 
-For the complete logical diagram, see [Logical architecture and components](arquitetura/01-arquitetura-logica.md).
+For the complete logical diagram, see [Logical architecture and components](architecture/01-logical-architecture.md).
 
 ## Checklist by environment
 
@@ -35,7 +35,7 @@ For the complete logical diagram, see [Logical architecture and components](arqu
 
 ## Learn more
 
-- [Logical architecture](arquitetura/01-arquitetura-logica.md)
+- [Logical architecture](architecture/01-logical-architecture.md)
 - [Application Server and Services](application-services/README.md)
 - [Batches, jobs, and scheduler](06-batches-jobs-scheduler.md)
 - [Business Events](14-business-events.md)
@@ -44,4 +44,4 @@ For the complete logical diagram, see [Logical architecture and components](arqu
 
 ## Next step
 
-Use the [KT plan](16-plano-de-kt.md) to record the real values for every environment and complete the inventory before operating in production.
+Use the [KT plan](16-kt-plan.md) to record the real values for every environment and complete the inventory before operating in production.

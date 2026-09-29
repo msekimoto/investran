@@ -6,10 +6,10 @@ This section organizes the knowledge needed to prepare files, configure mappings
 
 ## Guides
 
-1. [Data Import practical guide](guia-pratico-data-import.md)
-2. [Templates, entities, and mappings](templates-entidades-mappings.md)
+1. [Data Import practical guide](data-import-practical-guide.md)
+2. [Templates, entities, and mappings](templates-entities-mappings.md)
 3. [Troubleshooting and recovery](troubleshooting.md)
-4. [Earlier summary: Data Import and interfaces](../10-data-import-e-interfaces.md)
+4. [Earlier summary: Data Import and interfaces](../10-data-import-and-interfaces.md)
 
 ## Summary flow
 

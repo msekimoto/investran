@@ -5,8 +5,8 @@ This page is the entry point for the import module. Detailed material is in the 
 ## Detailed material
 
 - [Data Import](data-import/README.md): overview, limitations, and support flows.
-- [Data Import practical guide](data-import/guia-pratico-data-import.md): execution, mapping, and daily operations.
-- [Templates, entities, and mappings](data-import/templates-entidades-mappings.md): mappings and rules by entity.
+- [Data Import practical guide](data-import/data-import-practical-guide.md): execution, mapping, and daily operations.
+- [Templates, entities, and mappings](data-import/templates-entities-mappings.md): mappings and rules by entity.
 - [Data Import troubleshooting](data-import/troubleshooting.md): rejected-row and partial-load diagnosis.
 
 ## Recommended support flow
@@ -24,7 +24,7 @@ This page is the entry point for the import module. Detailed material is in the 
 | Question | Best guide |
 |---|---|
 | Job rejects rows or mapping fails | [Data Import troubleshooting](data-import/troubleshooting.md) |
-| Need to prepare the file and templates | [Templates, entities, and mappings](data-import/templates-entidades-mappings.md) |
+| Need to prepare the file and templates | [Templates, entities, and mappings](data-import/templates-entities-mappings.md) |
 | Need to understand the overall process | [Data Import](data-import/README.md) |
 
 ## KT pending

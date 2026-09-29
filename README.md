@@ -12,24 +12,24 @@ The wiki is organized by subject and support lifecycle. It provides search and l
 
 ## Start with the right path
 
-1. [Learning path](docs/17-trilha-de-aprendizado.md)
-2. [Overview and component map](docs/01-visao-geral.md)
-3. [Architecture and environments](docs/02-arquitetura-e-ambientes.md)
-4. [Entities and relationships](docs/dominio/01-entidades-e-relacionamentos.md)
-5. [Logical architecture and components](docs/arquitetura/01-arquitetura-logica.md)
-6. [Operations, criticality, and calendar](docs/03-operacao-e-calendario.md)
+1. [Learning path](docs/17-learning-path.md)
+2. [Overview and component map](docs/01-overview.md)
+3. [Architecture and environments](docs/02-architecture-and-environments.md)
+4. [Entities and relationships](docs/domain/01-entities-and-relationships.md)
+5. [Logical architecture and components](docs/architecture/01-logical-architecture.md)
+6. [Operations, criticality, and calendar](docs/03-operations-and-calendar.md)
 7. [Troubleshooting](docs/13-troubleshooting.md)
-8. [KT plan and gaps](docs/16-plano-de-kt.md)
-9. [Quick operations and on-call guide](docs/18-operacao-rapida.md)
-10. [Operational glossary](docs/19-glossario.md)
+8. [KT plan and gaps](docs/16-kt-plan.md)
+9. [Quick operations and on-call guide](docs/18-quick-operations.md)
+10. [Operational glossary](docs/19-glossary.md)
 
 ## Browse by area
 
 ### Foundations and operations
 
-- [Overview](docs/01-visao-geral.md)
-- [Architecture and environments](docs/02-arquitetura-e-ambientes.md)
-- [Operations, criticality, and calendar](docs/03-operacao-e-calendario.md)
+- [Overview](docs/01-overview.md)
+- [Architecture and environments](docs/02-architecture-and-environments.md)
+- [Operations, criticality, and calendar](docs/03-operations-and-calendar.md)
 - [Batches, jobs, and scheduler](docs/06-batches-jobs-scheduler.md)
 - [Database](docs/09-database.md)
 
@@ -37,19 +37,19 @@ The wiki is organized by subject and support lifecycle. It provides search and l
 
 - [ATM](docs/active-templates/README.md)
 - [Allocation Rules](docs/allocation-rules/README.md)
-- [Report Wizard and Crystal](docs/07-report-wizard-e-crystal.md)
+- [Report Wizard and Crystal](docs/07-report-wizard-and-crystal.md)
 - [API, SDK, and WRS](docs/08-apis-sdk-wrs.md)
-- [Data Import and interfaces](docs/10-data-import-e-interfaces.md)
+- [Data Import and interfaces](docs/10-data-import-and-interfaces.md)
 - [Application Server and Services](docs/application-services/README.md)
 - [Business Events](docs/14-business-events.md)
 
 ### Diagnosis and governance
 
 - [Troubleshooting](docs/13-troubleshooting.md)
-- [Runbooks](runbooks/incidente.md)
-- [Source catalog](docs/15-catalogo-de-fontes.md)
-- [Quick operations and on-call guide](docs/18-operacao-rapida.md)
-- [Operational glossary](docs/19-glossario.md)
+- [Runbooks](runbooks/incident.md)
+- [Source catalog](docs/15-source-catalog.md)
+- [Quick operations and on-call guide](docs/18-quick-operations.md)
+- [Operational glossary](docs/19-glossary.md)
 - [Contribution rules](CONTRIBUTING.md)
 - [Sensitive information policy](SECURITY.md)
 

@@ -6,10 +6,10 @@ This section explains the documented service set, its purpose, and how to operat
 
 ## Guides
 
-1. [Architecture and service catalog](catalogo-services.md)
-2. [Operations, configuration, and monitoring](operacao-monitoramento.md)
+1. [Architecture and service catalog](service-catalog.md)
+2. [Operations, configuration, and monitoring](operations-monitoring.md)
 3. [Troubleshooting and safe restart](troubleshooting-restart.md)
-4. [Earlier summary: Application Server, workers, and scheduler](../arquitetura/02-application-server.md)
+4. [Earlier summary: Application Server, workers, and scheduler](../architecture/02-application-server.md)
 
 ## Quick answer: which services exist?
 

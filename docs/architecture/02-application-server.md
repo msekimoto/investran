@@ -1,6 +1,6 @@
 # Application Server, workers, and scheduler
 
-> For the full Windows-service catalog, purpose, configuration, accounts, monitoring, and safe restart, see [Application Server and Services](../application-services/README.md), the [service catalog](../application-services/catalogo-services.md), [operations and monitoring](../application-services/operacao-monitoramento.md), and [troubleshooting and restart](../application-services/troubleshooting-restart.md).
+> For the full Windows-service catalog, purpose, configuration, accounts, monitoring, and safe restart, see [Application Server and Services](../application-services/README.md), the [service catalog](../application-services/service-catalog.md), [operations and monitoring](../application-services/operations-monitoring.md), and [troubleshooting and restart](../application-services/troubleshooting-restart.md).
 
 ## Application Server role
 

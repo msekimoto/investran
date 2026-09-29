@@ -6,15 +6,15 @@ This area explains how to find, understand, change, save, test, and run Active T
 
 ## Where to start
 
-- [ATM practical guide](guia-pratico-atm.md): interface, components, creation, change, Simulation, Scheduler, Preview, Commit, and publication with tool screenshots.
+- [ATM practical guide](atm-practical-guide.md): interface, components, creation, change, Simulation, Scheduler, Preview, Commit, and publication with tool screenshots.
 
 | Need | Document |
 |---|---|
-| Find ATM and locate a template | [Interface, access, and navigation](01-interface-acesso-navegacao.md) |
-| Understand how an AT creates batches | [Structure and behavior](02-estrutura-e-funcionamento.md) |
-| Know what and how to change/save | [Change, saving, and publication](03-alteracao-salvamento-publicacao.md) |
-| Simulate, debug, run, and check results | [Debug, execution, Preview, and Commit](04-debug-execucao-preview-commit.md) |
-| Gather environment-specific information | [KT pending](KT-PENDENCIAS.md) |
+| Find ATM and locate a template | [Interface, access, and navigation](01-interface-access-navigation.md) |
+| Understand how an AT creates batches | [Structure and behavior](02-structure-and-operation.md) |
+| Know what and how to change/save | [Change, saving, and publication](03-editing-saving-publishing.md) |
+| Simulate, debug, run, and check results | [Debug, execution, Preview, and Commit](04-debug-execution-preview-commit.md) |
+| Gather environment-specific information | [KT pending](KT-PENDING.md) |
 
 ## What is an Active Template?
 

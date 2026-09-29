@@ -1,214 +1,214 @@
-# Allocation Rules — Troubleshooting e Playbooks
+# Allocation Rules — Troubleshooting and Playbooks
 
-## Uso deste documento
+## Using this document
 
-Escolha o sintoma mais próximo do incidente. Reproduza o cenário em ambiente controlado e registre evidências antes de alterar a regra.
-
----
-
-## Playbook 1 — Total alocado não fecha com o total da transação
-
-### Verificações
-
-1. compare `Amount` e `LEAmount` da transação com a soma do resultado por investidor;
-2. confirme escalas e casas decimais;
-3. verifique diferenças de arredondamento;
-4. confirme se existe uma transação non-dominant responsável pelo balanceamento;
-5. verifique se o AT modifica valores antes ou depois da execução da AR;
-6. identifique investidores descartados por valor zero, data ou elegibilidade;
-7. confirme se existem valores `NULL`.
-
-### Possíveis causas
-
-- rounding sem tratamento do residual;
-- universo de investidores diferente entre cálculo e validação;
-- regra aplicada à transaction template errada;
-- valor alterado pelo VBA após a alocação;
-- lógica de rebook não rebalanceada;
-- local amount e LE amount calculados com escalas diferentes.
-
-### Evidência de encerramento
-
-- soma dos investidores igual ao total, dentro da tolerância aprovada;
-- débito e crédito balanceados;
-- relatório comparativo antes/depois anexado.
+Choose the symptom closest to the incident. Reproduce the scenario in a controlled environment and record evidence before changing the rule.
 
 ---
 
-## Playbook 2 — Investidor esperado não recebeu alocação
+## Playbook 1 — Allocated total does not reconcile to the transaction total
 
-### Verificações
+### Checks
 
-1. confirme que o investidor pertence à Legal Entity correta;
-2. confirme status e vigência na data da transação;
-3. valide commitment, closing date, unfunded commitment ou outra base usada;
-4. verifique filtros da AR e do processo chamador;
-5. confirme permissões/domínio;
-6. compare a execução com outra data;
-7. verifique se a regra é static e se o investidor está na tabela de percentuais.
+1. compare transaction `Amount` and `LEAmount` with the sum of the results per investor;
+2. confirm scales and decimal places;
+3. check rounding differences;
+4. confirm whether a non-dominant transaction is responsible for balancing;
+5. check whether the AT changes values before or after the AR runs;
+6. identify investors excluded because of zero value, date, or eligibility;
+7. confirm whether `NULL` values exist.
 
-### Possíveis causas
+### Possible causes
 
-- closing date posterior à data usada pela regra;
-- commitment zerado ou inexistente;
-- investidor fora do universo do fundo/vehicle;
-- static rule desatualizada;
-- filtro por Deal/Position ou Transaction Type;
-- parâmetro de data incorreto fornecido pelo Batch/AT.
+- rounding without residual handling;
+- different investor universes used for calculation and validation;
+- rule applied to the wrong transaction template;
+- value changed by VBA after allocation;
+- rebook logic not rebalanced;
+- local amount and LE amount calculated with different scales.
 
----
+### Closure evidence
 
-## Playbook 3 — Investidor indevido recebeu alocação
-
-### Verificações
-
-1. liste todo o InvestorSet retornado;
-2. determine a condição que deveria excluir o investidor;
-3. confira closing date e período de participação;
-4. valide se a regra usada é `By Commitment (No Date)` quando deveria considerar data;
-5. verifique se o consumidor substituiu a regra esperada;
-6. confirme se o investidor está indevidamente presente em uma static allocation table.
-
-### Ação segura
-
-Não aplique correção manual apenas no batch sem entender a causa. O mesmo defeito pode afetar outras execuções.
+- investor sum equals the total within the approved tolerance;
+- debits and credits balanced;
+- before/after comparison report attached.
 
 ---
 
-## Playbook 4 — Percentuais estão incorretos, mas somam 100%
+## Playbook 2 — Expected investor received no allocation
 
-### Verificações
+### Checks
 
-- identifique a base matemática da regra;
-- capture valores da base para cada investidor;
-- recalcule os ratios fora do Investran;
-- confirme a data usada para consultar a base;
-- procure overrides de management fee ou configurações específicas do investidor;
-- valide se o cálculo usa commitment, called capital, invested capital, cash balance ou investment cost.
+1. confirm that the investor belongs to the correct Legal Entity;
+2. confirm status and validity on the transaction date;
+3. validate commitment, closing date, unfunded commitment, or the other base used;
+4. check filters in the AR and the calling process;
+5. confirm permissions/domain;
+6. compare execution with a different date;
+7. check whether the rule is static and whether the investor is in the percentage table.
 
-### Diagnóstico
+### Possible causes
 
-Se os ratios reproduzidos com a mesma base forem iguais, a AR pode estar correta e a expectativa funcional pode estar errada. Confirme a regra de negócio com o cliente.
-
----
-
-## Playbook 5 — Allocation Rule funciona no ARM, mas falha no Active Template
-
-### Verificações
-
-1. confirme o Allocation Rule ID atribuído pelo AT;
-2. procure alterações em `Application.Context.AllocationRule`;
-3. confira se a regra muda por `JEIndex` ou `TXIndex`;
-4. valide os valores do `Application.Context` imediatamente antes da execução;
-5. confirme se o AT usa `User Provided` e preenche o `InvestorSet` manualmente;
-6. compare parâmetros e datas entre ARM e ATM;
-7. valide Driver Reports e Auxiliary Reports.
-
-### Causa provável
-
-A diferença geralmente está no contexto fornecido pelo consumidor, não necessariamente na regra.
+- closing date later than the date used by the rule;
+- zero or missing commitment;
+- investor outside the fund/vehicle universe;
+- outdated static rule;
+- filter by Deal/Position or Transaction Type;
+- incorrect date parameter supplied by the Batch/AT.
 
 ---
 
-## Playbook 6 — Valores NULL para todos os Investor IDs em GP Legal Entity
+## Playbook 3 — Ineligible investor received an allocation
 
-O guia de troubleshooting do ATM documenta um cenário em que uma transação de GP Legal Entity, não Draft, usa uma Allocation Rule diferente de `No Allocation` ou `Non-Dominant` e termina com valores `NULL` para todos os Investor IDs.
+### Checks
 
-### Procedimento documentado
+1. list the entire returned InvestorSet;
+2. determine the condition that should exclude the investor;
+3. check the closing date and participation period;
+4. validate whether the rule used is `By Commitment (No Date)` when it should consider the date;
+5. check whether the consumer replaced the expected rule;
+6. confirm whether the investor is incorrectly included in a static allocation table.
 
-1. execute o AT em Simulation Mode;
-2. coloque breakpoint em `Application_AfterTransaction`;
-3. verifique se o código está alocando a partir do primeiro elemento do InvestorSet, descrito como “unallocated investor”;
-4. altere a lógica para alocar a partir dos investidores associados à GP Legal Entity;
-5. repita a simulação e valide o InvestorSet.
+### Safe action
 
----
-
-## Playbook 7 — Rebook produziu distribuição diferente da esperada
-
-### Verificações
-
-1. identifique a regra original e a Rebook Allocation Rule;
-2. confirme start date, end date e subsequent close date;
-3. valide quais saldos foram incluídos por GL Account, Transaction Type, Deal, Position, Investor e Effective Date;
-4. confirme se atributos não transportados, como Lot ou Income Security, são relevantes para a expectativa;
-5. compare reversão e novo lançamento;
-6. valide rounding da non-dominant transaction.
-
-O material conceitual informa que o Subsequent Close AT pode reverter saldos e rebooká-los usando uma regra parametrizada, frequentemente `By Commitment & Closing Date`.
+Do not apply a manual correction only to the batch without understanding the cause. The same defect may affect other executions.
 
 ---
 
-## Playbook 8 — Resultado muda conforme a data
+## Playbook 4 — Percentages are incorrect but add up to 100%
 
-Isso pode ser comportamento esperado para Dynamic Allocation Rules.
+### Checks
 
-### Verificações
+- identify the mathematical base of the rule;
+- capture base values for each investor;
+- recalculate ratios outside Investran;
+- confirm the date used to query the base;
+- look for management fee overrides or investor-specific settings;
+- validate whether the calculation uses commitment, called capital, invested capital, cash balance, or investment cost.
 
-- qual data a regra utiliza: Effective Date, GL Date, closing date ou data de corte específica;
-- commitments vigentes em cada data;
+### Diagnosis
+
+If ratios reproduced with the same base match, the AR may be correct and the functional expectation may be wrong. Confirm the business rule with the client.
+
+---
+
+## Playbook 5 — Allocation Rule works in ARM but fails in the Active Template
+
+### Checks
+
+1. confirm the Allocation Rule ID assigned by the AT;
+2. look for changes to `Application.Context.AllocationRule`;
+3. check whether the rule changes by `JEIndex` or `TXIndex`;
+4. validate `Application.Context` values immediately before execution;
+5. confirm whether the AT uses `User Provided` and populates the `InvestorSet` manually;
+6. compare parameters and dates between ARM and ATM;
+7. validate Driver Reports and Auxiliary Reports.
+
+### Likely cause
+
+The difference is usually in the context supplied by the consumer, not necessarily in the rule.
+
+---
+
+## Playbook 6 — NULL values for all Investor IDs in a GP Legal Entity
+
+The ATM troubleshooting guide documents a scenario where a non-Draft GP Legal Entity transaction uses an Allocation Rule other than `No Allocation` or `Non-Dominant` and ends with `NULL` values for all Investor IDs.
+
+### Documented procedure
+
+1. run the AT in Simulation Mode;
+2. place a breakpoint in `Application_AfterTransaction`;
+3. check whether the code is allocating from the first element of the InvestorSet, described as the “unallocated investor”;
+4. change the logic to allocate from the investors associated with the GP Legal Entity;
+5. repeat the simulation and validate the InvestorSet.
+
+---
+
+## Playbook 7 — Rebook produced an unexpected distribution
+
+### Checks
+
+1. identify the original rule and the Rebook Allocation Rule;
+2. confirm start date, end date, and subsequent close date;
+3. validate which balances were included by GL Account, Transaction Type, Deal, Position, Investor, and Effective Date;
+4. confirm whether attributes not carried over, such as Lot or Income Security, are relevant to the expected result;
+5. compare the reversal and the new entry;
+6. validate rounding of the non-dominant transaction.
+
+The conceptual material states that the Subsequent Close AT can reverse balances and rebook them using a parameterized rule, often `By Commitment & Closing Date`.
+
+---
+
+## Playbook 8 — Result changes depending on the date
+
+This may be expected behavior for Dynamic Allocation Rules.
+
+### Checks
+
+- which date the rule uses: Effective Date, GL Date, closing date, or a specific cutoff date;
+- commitments valid on each date;
 - investor closings;
 - investment period;
 - investment cost “as of GL Date”;
-- mudanças em cash balance ou unfunded commitment.
+- changes in cash balance or unfunded commitment.
 
-### Conclusão
+### Conclusion
 
-Documente explicitamente a data de referência da regra. Não trate variação temporal como defeito sem confirmar a regra de negócio.
-
----
-
-## Playbook 9 — Management fee incorreta
-
-### Verificações
-
-1. determine se o fundo está dentro ou fora do investment period;
-2. confirme a base esperada:
-   - dentro do período: commitment;
-   - fora do período: invested capital, conforme o documento conceitual;
-3. confirme taxa no fundo;
-4. confirme taxas específicas ou overrides por investidor;
-5. valide datas de vigência;
-6. confirme se existe custom management fee allocation rule.
+Document the rule's reference date explicitly. Do not treat variation over time as a defect without confirming the business rule.
 
 ---
 
-## Playbook 10 — Usuário não consegue criar ou editar AR
+## Playbook 9 — Incorrect management fee
 
-### Verificações
+### Checks
 
-- o usuário possui `ARM Admin`?
-- possui apenas `ARM User`?
-- está conectado ao banco/ambiente correto?
-- a regra é de sistema ou possui restrição de edição?
-- existem controles específicos do cliente?
-
-O material recebido estabelece que `ARM Admin` permite criar, editar, executar e excluir; `ARM User` permite executar.
+1. determine whether the fund is within or outside the investment period;
+2. confirm the expected base:
+   - within the period: commitment;
+   - outside the period: invested capital, according to the conceptual document;
+3. confirm the fund-level rate;
+4. confirm specific rates or overrides per investor;
+5. validate effective dates;
+6. confirm whether a custom management fee allocation rule exists.
 
 ---
 
-## Checklist rápido de diagnóstico
+## Playbook 10 — User cannot create or edit an AR
+
+### Checks
+
+- does the user have `ARM Admin`?
+- do they only have `ARM User`?
+- are they connected to the correct database/environment?
+- is the rule a system rule or subject to editing restrictions?
+- are there client-specific controls?
+
+The supplied material establishes that `ARM Admin` allows creation, editing, execution, and deletion; `ARM User` allows execution.
+
+---
+
+## Quick diagnostic checklist
 
 ```text
-[ ] Regra e ID confirmados
-[ ] Ambiente confirmado
-[ ] Legal Entity confirmada
-[ ] Batch/JE/Transaction identificados
-[ ] Datas capturadas
-[ ] Amount e LEAmount capturados
-[ ] InvestorSet exportado
-[ ] Base de cálculo identificada
-[ ] Soma e rounding validados
-[ ] Componente chamador revisado
-[ ] Cenário reproduzido em teste
-[ ] Causa raiz registrada
+[ ] Rule and ID confirmed
+[ ] Environment confirmed
+[ ] Legal Entity confirmed
+[ ] Batch/JE/Transaction identified
+[ ] Dates captured
+[ ] Amount and LEAmount captured
+[ ] InvestorSet exported
+[ ] Calculation base identified
+[ ] Sum and rounding validated
+[ ] Calling component reviewed
+[ ] Scenario reproduced in testing
+[ ] Root cause recorded
 ```
 
-## Informações que ainda dependem de KT
+## Information still requiring KT
 
-- localização exata dos logs do ARM;
-- recursos de breakpoint/debug disponíveis na versão instalada;
-- método oficial de export/import de AR;
-- mecanismo de versionamento;
-- processo interno de aprovação e deploy;
-- rollback técnico suportado no ambiente.
+- exact location of ARM logs;
+- breakpoint/debug features available in the installed version;
+- official AR export/import method;
+- versioning mechanism;
+- internal approval and deployment process;
+- technical rollback supported in the environment.

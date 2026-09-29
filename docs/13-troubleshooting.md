@@ -18,12 +18,12 @@ This document summarizes the recommended diagnostic method for Investran events.
 
 | Symptom | Check first |
 |---|---|
-| Login/SSO failure | [Architecture and environments](02-arquitetura-e-ambientes.md) |
+| Login/SSO failure | [Architecture and environments](02-architecture-and-environments.md) |
 | Job stopped or queued | [Application Server and Services](application-services/README.md) |
 | AT does not create a batch | [ATM](active-templates/README.md) |
 | AR produces incorrect values | [Allocation Rules](allocation-rules/README.md) |
-| Report fails or is slow | [Report Wizard and Crystal](07-report-wizard-e-crystal.md) |
-| Import rejected | [Data Import and interfaces](10-data-import-e-interfaces.md) |
+| Report fails or is slow | [Report Wizard and Crystal](07-report-wizard-and-crystal.md) |
+| Import rejected | [Data Import and interfaces](10-data-import-and-interfaces.md) |
 | API fault or invalid contract | [API, SDK, and WRS](08-apis-sdk-wrs.md) |
 | Business Event fails | [Business Events](14-business-events.md) |
 
@@ -37,4 +37,4 @@ This document summarizes the recommended diagnostic method for Investran events.
 
 ## Next step
 
-Use the [runbooks](../runbooks/incidente.md) for the operational flow by incident, batch failure, reporting failure, or Business Event failure.
+Use the [runbooks](../runbooks/incident.md) for the operational flow by incident, batch failure, reporting failure, or Business Event failure.

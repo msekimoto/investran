@@ -108,6 +108,6 @@ Send the evidence package to:
 
 ## References
 
-- [Reporting architecture](../docs/reporting/01-arquitetura-reporting.md)
-- [Report Wizard - development and operations](../docs/reporting/02-report-wizard-desenvolvimento-operacao.md)
+- [Reporting architecture](../docs/reporting/01-reporting-architecture.md)
+- [Report Wizard - development and operations](../docs/reporting/02-report-wizard-development-operations.md)
 - [Web Reporting Services](../docs/reporting/03-web-reporting-services.md)

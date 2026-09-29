@@ -62,44 +62,44 @@ Represents valid Investors in a Legal Entity and their local-allocation, Legal E
 
 ### Identity and context
 
-| Membro | Uso |
+| Member | Use |
 |---|---|
 | `Count` | Number of valid Investors |
-| `GPCount` | quantidade classificada como General Partner |
+| `GPCount` | Number classified as General Partners |
 | `Index(investorID)` | Find the index by Investor Account ID |
-| `InvestorID(index)` | obter o Investor Account ID |
-| `InvestorName(index)` | obter o nome |
-| `IsGP(index)` | identificar GP |
-| `IsParticipant(index)` | identificar participant vehicle |
-| `VehicleName(index)` | obter o Vehicle relacionado |
+| `InvestorID(index)` | Get the Investor Account ID |
+| `InvestorName(index)` | Get the name |
+| `IsGP(index)` | Identify a GP |
+| `IsParticipant(index)` | Identify a participant vehicle |
+| `VehicleName(index)` | Get the related Vehicle |
 
 ### Values
 
-| Membro | Uso |
+| Member | Use |
 |---|---|
-| `Amount(index)` | valor em moeda local |
-| `LEAmount(index)` | valor na moeda da Legal Entity |
-| `Quantity(index)` | quantidade |
-| `TotalAmount(scale)` | total local arredondado |
-| `TotalLEAmount(scale)` | total da Legal Entity arredondado |
-| `TotalQuantity(scale)` | quantidade total arredondada |
+| `Amount(index)` | Value in local currency |
+| `LEAmount(index)` | Value in the Legal Entity currency |
+| `Quantity(index)` | Quantity |
+| `TotalAmount(scale)` | Rounded local-currency total |
+| `TotalLEAmount(scale)` | Rounded Legal Entity-currency total |
+| `TotalQuantity(scale)` | Rounded total quantity |
 
 ### Relevant supported methods
 
 | Method | Behavior |
 |---|---|
 | `AllocateSets(amount, leAmount, quantity)` | Distributes totals proportionally to bases in the set |
-| `RoundSets(...)` | arredonda valores e totais usando escalas separadas |
-| `CopySet(source)` | copia Amount, LEAmount e Quantity de outro set |
-| `Add(source)` | soma outro set por Investor |
-| `Subtract(source)` | subtrai outro set por Investor |
+| `RoundSets(...)` | Rounds values and totals using separate scales |
+| `CopySet(source)` | Copies Amount, LEAmount, and Quantity from another set |
+| `Add(source)` | Adds another set by Investor |
+| `Subtract(source)` | Subtracts another set by Investor |
 
 ### Obsolete members
 
-O manual marca como obsoletos e mantidos apenas por compatibilidade:
+The manual marks the following as obsolete and retained only for compatibility:
 
 - `RoundScale`;
-- `Value` e `Total`;
+- `Value` and `Total`;
 - `Split`;
 - `SplitGPLP`;
 - `Accumulate`;
@@ -113,12 +113,12 @@ Do not introduce new uses of these members. When finding legacy code, record the
 
 Available directly in the rule VBA.
 
-| Membro | Uso |
+| Member | Use |
 |---|---|
-| `Properties(name)` | ler property recebida do Accounting/consumidor |
+| `Properties(name)` | Read a property received from Accounting/the consumer |
 | `Parameters(name)` | Read runtime parameter |
 | `Reports.Item(...)` | Get associated report by index or book/name |
-| `Results` | `InvestorSet` especial devolvido ao chamador |
+| `Results` | Special `InvestorSet` returned to the caller |
 | `NewInvestorSet()` | Create an empty auxiliary set for calculation |
 
 > The manual text reverses the descriptions of `Parameters()` and `Properties()`, but examples and code use make this clear: properties are read through `AllocationRule.Properties(...)` and parameters through `AllocationRule.Parameters(...)`.

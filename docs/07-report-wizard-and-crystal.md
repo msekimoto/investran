@@ -4,21 +4,21 @@ This area brings together Investran reporting material. For operational support,
 
 ## Where to find a quick answer
 
-- [Reporting architecture](reporting/01-arquitetura-reporting.md): foundations and where a failure sits in the chain.
-- [Report Wizard - development and operations](reporting/02-report-wizard-desenvolvimento-operacao.md): creation, parameters, maintenance, and diagnosis.
+- [Reporting architecture](reporting/01-reporting-architecture.md): foundations and where a failure sits in the chain.
+- [Report Wizard - development and operations](reporting/02-report-wizard-development-operations.md): creation, parameters, maintenance, and diagnosis.
 - [Web Reporting Services](reporting/03-web-reporting-services.md): publication, security, services, integrators, and formats.
-- [Report Wizard practical guide](reporting/guia-pratico-report-wizard.md): daily workflows and validation.
-- [WRS practical guide](reporting/guia-pratico-reporting-services.md): web-service operations and support.
-- [Reporting failure runbook](../runbooks/falha-reporting.md): actions for real incidents.
+- [Report Wizard practical guide](reporting/report-wizard-practical-guide.md): daily workflows and validation.
+- [WRS practical guide](reporting/reporting-services-practical-guide.md): web-service operations and support.
+- [Reporting failure runbook](../runbooks/reporting-failure.md): actions for real incidents.
 
 ## Quick decision
 
 | Situation | Recommended guide |
 |---|---|
-| Report returns no data or an incorrect result | [Report Wizard - development and operations](reporting/02-report-wizard-desenvolvimento-operacao.md) |
+| Report returns no data or an incorrect result | [Report Wizard - development and operations](reporting/02-report-wizard-development-operations.md) |
 | WRS authentication, publication, or output failure | [Web Reporting Services](reporting/03-web-reporting-services.md) |
-| Crystal layout, section, or presentation problem | [Report Wizard practical guide](reporting/guia-pratico-report-wizard.md) |
-| Active incident with business impact | [Reporting failure runbook](../runbooks/falha-reporting.md) |
+| Crystal layout, section, or presentation problem | [Report Wizard practical guide](reporting/report-wizard-practical-guide.md) |
+| Active incident with business impact | [Reporting failure runbook](../runbooks/reporting-failure.md) |
 
 ## Golden rule
 

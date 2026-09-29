@@ -36,7 +36,7 @@ When investigating a disabled or missing option, first confirm the user, databas
 
 After login, ARM loads Dynamic Allocation Rules from the database and displays them in a tree. Expanding a rule makes the following available:
 
-![Allocation Rule Manager main screen](../assets/allocation-rules/02-tela-principal.png)
+![Allocation Rule Manager main screen](../assets/allocation-rules/02-main-screen.png)
 
 *ARM main screen, with the rule tree on the left, central actions, and connection details on the right. Source: ARM guide, p. 6.*
 
@@ -48,7 +48,7 @@ After login, ARM loads Dynamic Allocation Rules from the database and displays t
 
 The rule panel shows creator, created date, last modified by/date, notes, type, and status. Capture this information before any change.
 
-![Allocation Rule selected in the tree](../assets/allocation-rules/03-regra-selecionada.png)
+![Allocation Rule selected in the tree](../assets/allocation-rules/03-selected-rule.png)
 
 *Selected rule with expanded attributes and dependencies. Source: ARM guide, p. 7.*
 
@@ -96,7 +96,7 @@ Allows adding/removing RW reports and sorting by book, name, creator, or dates. 
 
 ## Rule attributes
 
-![Add Allocation Rule window](../assets/allocation-rules/04-adicionar-regra.png)
+![Add Allocation Rule window](../assets/allocation-rules/04-add-rule.png)
 
 *Rule Add/Edit window, with name, Notes, Status, Type, Use VBA, Locked, and optimization. Source: ARM guide, p. 5.*
 
@@ -110,7 +110,7 @@ Allows adding/removing RW reports and sorting by book, name, creator, or dates. 
 | `Locked` | Only the developer who locked it can change it |
 | `Allow performance optimization` | Lets ATM reuse cached values obtained by the driver report |
 
-### Estados
+### States
 
 ```mermaid
 stateDiagram-v2
@@ -125,7 +125,7 @@ stateDiagram-v2
 - `Normal`: available after tests are complete.
 - `System`: reserved for supplier-developed rules.
 
-![Allocation Rule alterada para Normal](../assets/allocation-rules/17-rule-normal-status.png)
+![Allocation Rule changed to Normal](../assets/allocation-rules/17-rule-normal-status.png)
 
 *Top Down rule changed from Draft to Normal after testing, making it available for use. Source: ARM guide, p. 17.*
 
@@ -137,7 +137,7 @@ stateDiagram-v2
 
 These represent fields from a transaction context. `Legal Entity` and `GL Date` are always required and sent whenever Accounting calls the rule. Others, such as Account, Deal, `Amount`, `LEAmount`, and `Quantity`, are optional and must be selected when the rule needs them.
 
-![Properties configuradas na Allocation Rule](../assets/allocation-rules/05-properties.png)
+![Properties configured in the Allocation Rule](../assets/allocation-rules/05-properties.png)
 
 *Rule Properties list. Legal Entity and GL Date are required; select the others according to the calculation. Source: ARM guide, p. 8.*
 
@@ -145,23 +145,23 @@ These represent fields from a transaction context. `Legal Entity` and `GL Date` 
 
 These represent runtime values that do not belong to predefined properties, such as `StartDate` or `EndDate`. A parameter can be required, optional, and have a default.
 
-![Parameters configurados na Allocation Rule](../assets/allocation-rules/06-parameters.png)
+![Parameters configured in the Allocation Rule](../assets/allocation-rules/06-parameters.png)
 
 *Parameters associated with the rule, including type, required state, default, and description. Source: ARM guide, p. 8.*
 
 ### Propagation to Report Wizard
 
-O ARM Engine envia properties e parameters para os reports associados quando os nomes coincidem. Portanto:
+The ARM Engine sends properties and parameters to associated reports when their names match. Therefore:
 
 ![Reports associated with the Allocation Rule](../assets/allocation-rules/07-reports.png)
 
 *Report Wizard reports associated with the rule. Source: ARM guide, p. 9.*
 
-![Columns do report associado](../assets/allocation-rules/08-report-columns.png)
+![Columns of the associated report](../assets/allocation-rules/08-report-columns.png)
 
 *Columns expanded from the report node. Use this view to check names, order, and types. Source: ARM guide, p. 9.*
 
-![Parameters do report associado](../assets/allocation-rules/09-report-parameters.png)
+![Parameters of the associated report](../assets/allocation-rules/09-report-parameters.png)
 
 *Parameters of the associated report, used for automatic propagation by name. Source: ARM guide, p. 10.*
 
@@ -178,19 +178,19 @@ O ARM Engine envia properties e parameters para os reports associados quando os 
 2. Create and validate RW reports in a Public Read-only folder.
 3. Create the rule as `Draft`.
 
-![Criação de uma Simple Dynamic Allocation Rule](../assets/allocation-rules/12-simple-rule-create.png)
+![Creating a Simple Dynamic Allocation Rule](../assets/allocation-rules/12-simple-rule-create.png)
 
-*Exemplo de criação de regra Top Down em Draft e sem VBA. Fonte: guia de ARM, p. 14.*
+*Example of a Top Down rule created in Draft without VBA. Source: ARM guide, p. 14.*
 
 4. Associate properties, parameters, and reports.
 
-![Associação do report à Allocation Rule](../assets/allocation-rules/13-simple-rule-associate-report.png)
+![Associating the report with the Allocation Rule](../assets/allocation-rules/13-simple-rule-associate-report.png)
 
-*Report do Report Wizard associado à regra dinâmica simples. Fonte: guia de ARM, p. 14.*
+*Report Wizard report associated with the simple dynamic rule. Source: ARM guide, p. 14.*
 
-![Properties obrigatórias da regra simples](../assets/allocation-rules/14-simple-rule-properties.png)
+![Required properties of the simple rule](../assets/allocation-rules/14-simple-rule-properties.png)
 
-*Properties exigidas pelo report e pelo cálculo da regra. Fonte: guia de ARM, p. 15.*
+*Properties required by the report and the rule calculation. Source: ARM guide, p. 15.*
 5. Enable `Use VBA` only when a single driver report cannot represent the calculation.
 6. Implement `Sub Main` when VBA is used.
 7. Run simulations with normal and edge cases.
@@ -251,4 +251,4 @@ The manual confirms that **Import-Export Console** transfers Allocation Rules an
 
 ## Source
 
-- *Internal_INV7_ARM_Dev_Guide.pdf*, capítulos Getting Started with ARM, Navigation, Simple/Complex Dynamic Allocation Rules e Allocation Rule Development.
+- *Internal_INV7_ARM_Dev_Guide.pdf*, chapters Getting Started with ARM, Navigation, Simple/Complex Dynamic Allocation Rules, and Allocation Rule Development.

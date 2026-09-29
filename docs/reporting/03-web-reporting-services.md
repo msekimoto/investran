@@ -1,18 +1,18 @@
-# Web Reporting Services - arquitetura, segurança e suporte
+# Web Reporting Services - architecture, security, and support
 
-## Objetivo
+## Purpose
 
-O Investran Web Reporting Services (WRS) permite executar reports do Report Wizard em tempo real por meio do Data Exchange ou de aplicações customizadas. A interface documentada é um Web Service legado que expõe descoberta de reports, parâmetros e execução com saída XML, HTML ou PDF.
+Investran Web Reporting Services (WRS) allows Report Wizard reports to be executed in real time through Data Exchange or custom applications. The documented interface is a legacy Web Service that exposes report discovery, parameters, and execution with XML, HTML, or PDF output.
 
-WRS não é a Web API REST construída pela equipe. São integrações distintas, com autenticação, contratos e troubleshooting diferentes.
+WRS is not the REST Web API built by the team. They are separate integrations with different authentication, contracts, and troubleshooting.
 
-## Arquitetura
+## Architecture
 
 ```mermaid
 flowchart LR
     DX[Data Exchange] -->|HTTPS| IIS[IIS + WRS]
-    APP[Aplicação customizada] -->|SOAP/HTTPS| IIS
-    IIS --> CFG[WRS Admin DB / configuração]
+    APP[Custom application] -->|SOAP/HTTPS| IIS
+    IIS --> CFG[WRS Admin DB / configuration]
     IIS --> RW[Report Wizard Engine]
     RW --> INV[(Banco Investran)]
     CONTACT[Contact + relacionamento] --> SEC[Security level + WRS filter]
@@ -20,241 +20,241 @@ flowchart LR
     RW --> OUT[XML / HTML / PDF]
 ```
 
-## Componentes e dependências
+## Components and dependencies
 
-| Componente | Responsabilidade | Verificações de suporte |
+| Component | Responsibility | Support checks |
 |---|---|---|
-| IIS / site WRS | hospedar o Web Service | site, binding HTTPS, app pool, ISAPI/ASP e logs |
-| certificado SSL | criptografar o tráfego | validade, cadeia, hostname e binding |
-| WRS Admin database | armazenar configurações administrativas | conexão, disponibilidade e versão |
-| configuração da empresa | mapear `CompanyID` ao banco do Investran | server, database, company name e teste de conexão |
-| usuário WRS | acesso SQL usado pelo serviço | senha, lock, permissão e política da conta |
-| Report Wizard | definir e executar o report | book, report, parâmetros e performance |
-| Contact | identidade funcional do consumidor | e-mail principal e `WebServicesEnabled` |
-| relacionamento | vincular o Contact a Legal Entity, Investor ou Specific Investor | entidade, role e vigência |
-| security level | limitar disponibilidade, parâmetros e dados | correspondência entre contato e report |
-| WRS filter | definir nível de saída | Legal Entity, Investor ou Specific Investor |
+| IIS / WRS site | host the Web Service | site, HTTPS binding, app pool, ISAPI/ASP, and logs |
+| SSL certificate | encrypt traffic | validity, chain, hostname, and binding |
+| WRS Admin database | store administrative settings | connection, availability, and version |
+| company configuration | map `CompanyID` to the Investran database | server, database, company name, and connection test |
+| WRS user | SQL access used by the service | password, lockout, permissions, and account policy |
+| Report Wizard | define and execute the report | book, report, parameters, and performance |
+| Contact | consumer's functional identity | primary email and `WebServicesEnabled` |
+| relationship | link the Contact to a Legal Entity, Investor, or Specific Investor | entity, role, and validity period |
+| security level | restrict availability, parameters, and data | match between contact and report |
+| WRS filter | define the output level | Legal Entity, Investor, or Specific Investor |
 
-## Instalação e configuração
+## Installation and configuration
 
-O procedimento documentado inclui:
+The documented procedure includes:
 
 ![WRS Configuration Editor](../assets/reporting-services/12-wrs-configuration-editor.png)
 
-*Editor histórico usado para configurar domínio, path, porta, protocolo e Company ID do WRS. Fonte: WRS Installation and Administration Guide, p. 12.*
+*Historical editor used to configure the WRS domain, path, port, protocol, and Company ID. Source: WRS Installation and Administration Guide, p. 12.*
 
-1. instalar e configurar o IIS;
-2. habilitar ASP e extensões ISAPI exigidas pela versão;
-3. habilitar WRS no banco do Investran pelo parâmetro `UseERW`;
-4. criar/configurar o WRS Admin database;
-5. configurar o usuário de serviço WRS;
-6. instalar os componentes WRS e, quando aplicável, Crystal;
-7. cadastrar a conexão com o banco do Investran;
-8. testar a conexão e registrar o `CompanyID` atribuído;
-9. configurar hostname, path, porta e protocolo no consumidor/Data Exchange;
-10. validar o acesso fim a fim por HTTPS.
+1. install and configure IIS;
+2. enable ASP and ISAPI extensions required by the version;
+3. enable WRS in the Investran database using the `UseERW` parameter;
+4. create/configure the WRS Admin database;
+5. configure the WRS service user;
+6. install WRS components and, where applicable, Crystal;
+7. register the connection to the Investran database;
+8. test the connection and record the assigned `CompanyID`;
+9. configure hostname, path, port, and protocol in the consumer/Data Exchange;
+10. validate end-to-end access over HTTPS.
 
-O manual antigo menciona ASP, ISAPI e Windows Server 2008. Não replique essa configuração sem validar a arquitetura e a versão realmente implantadas.
+The old manual mentions ASP, ISAPI, and Windows Server 2008. Do not replicate this configuration without validating the architecture and version actually deployed.
 
-### Valores que precisam constar no inventário de cada ambiente
+### Values required in each environment's inventory
 
-- hostname/FQDN e URL do WRS;
-- site, aplicação, app pool e identidade no IIS;
-- certificado e data de expiração;
-- caminho virtual, porta e protocolo;
-- `CompanyID`, nome lógico da empresa, servidor e banco;
-- banco administrativo WRS;
-- conta de serviço e cofre responsável;
-- versões dos componentes WRS, RW e Crystal;
-- diretórios de logs e owners operacionais.
+- WRS hostname/FQDN and URL;
+- IIS site, application, app pool, and identity;
+- certificate and expiration date;
+- virtual path, port, and protocol;
+- `CompanyID`, logical company name, server, and database;
+- WRS administrative database;
+- service account and responsible vault;
+- WRS, RW, and Crystal component versions;
+- log directories and operational owners.
 
-Não registre senhas ou chaves nesta base.
+Do not record passwords or keys in this knowledge base.
 
-## Modelo de segurança
+## Security model
 
-O acesso efetivo resulta da interseção de quatro elementos:
+Effective access is the intersection of four elements:
 
 ```text
-Contact habilitado
-  + relacionamento com uma entidade
-  + security level atribuído ao relacionamento
-  + mesmo security level e filtro configurados no report
-  = report visível e dados permitidos
+Enabled Contact
+  + relationship with an entity
+  + security level assigned to the relationship
+  + the same security level and filter configured on the report
+  = visible report and permitted data
 ```
 
-### Preparação de um usuário
+### Preparing a user
 
-![Contact habilitado para Web Services](../assets/reporting-services/14-contact-web-services-enabled.png)
+![Contact enabled for Web Services](../assets/reporting-services/14-contact-web-services-enabled.png)
 
-*Contact com Web Services Enabled. A habilitação precisa ser combinada com relationships e security levels. Fonte: guia WRS, p. 16.*
+*Contact with Web Services Enabled. Enablement must be combined with relationships and security levels. Source: WRS guide, p. 16.*
 
-1. Criar os security levels necessários.
-2. Garantir que o Contact possua e-mail principal.
-3. Marcar `WebServicesEnabled` no Contact.
-4. Criar o relacionamento do Contact com Legal Entity, Investor ou Specific Investor e atribuir a role.
-5. Atribuir um ou mais security levels ao relacionamento.
-6. Se houver Data Exchange, criar/habilitar o usuário e configurar os relacionamentos correspondentes.
+1. Create the required security levels.
+2. Ensure the Contact has a primary email address.
+3. Select `WebServicesEnabled` on the Contact.
+4. Create the Contact's relationship with a Legal Entity, Investor, or Specific Investor and assign the role.
+5. Assign one or more security levels to the relationship.
+6. If Data Exchange is used, create/enable the user and configure the corresponding relationships.
 
-O privilégio de publicar reports e administrar security levels requer o entitlement `WebRS Report Publisher` no Team Security, conforme o manual.
+Publishing reports and administering security levels requires the `WebRS Report Publisher` entitlement in Team Security, according to the manual.
 
-### Efeito dos filtros
+### Filter effects
 
-| WRS filter do report | Relação necessária para saída nesse nível |
+| Report WRS filter | Relationship required for output at that level |
 |---|---|
-| Legal Entity | relação direta ou relação que possa ser resolvida até uma Legal Entity permitida |
-| Investor | relação de Investor; combinações sem Investor podem não produzir seleção/saída |
-| Specific Investor | relação de Specific Investor; relações somente de Legal Entity ou Investor não bastam |
+| Legal Entity | direct relationship or a relationship that can be resolved to a permitted Legal Entity |
+| Investor | Investor relationship; combinations without an Investor may not produce selection/output |
+| Specific Investor | Specific Investor relationship; Legal Entity-only or Investor-only relationships are insufficient |
 
-Um usuário pode ter security levels diferentes em relacionamentos diferentes. Portanto, “o Contact tem acesso” não é uma validação suficiente; confirme a entidade, o relacionamento e o security level usados na execução.
+A user can have different security levels on different relationships. Therefore, “the Contact has access” is not sufficient validation; confirm the entity, relationship, and security level used during execution.
 
-## Publicação de um report no WRS
+## Publishing a report in WRS
 
-![Configurações WRS do report](../assets/reporting-services/18-rw-wrs-publishing-settings.png)
+![Report WRS settings](../assets/reporting-services/18-rw-wrs-publishing-settings.png)
 
-*Aba WRS do Report Wizard com filtros, security levels e Publish Report. Fonte: guia WRS, p. 23.*
+*Report Wizard WRS tab with filters, security levels, and Publish Report. Source: WRS guide, p. 23.*
 
-Pré-requisitos:
+Prerequisites:
 
-- report RW validado;
-- parâmetros aplicados como filtros quando necessário;
-- descrição clara para cada parâmetro;
-- WRS filter coerente com o público;
-- security level criado e atribuído aos relacionamentos de teste;
-- formato de saída suportado.
+- validated RW report;
+- parameters applied as filters where needed;
+- a clear description for each parameter;
+- WRS filter appropriate for the audience;
+- security level created and assigned to test relationships;
+- supported output format.
 
-Procedimento documentado:
+Documented procedure:
 
-1. abrir o report no Report Wizard;
-2. acessar **Tools > Report Options**;
-3. abrir a aba **Web Reporting Services**;
-4. definir `WRS Filters` como Legal Entity, Investor, Specific Investor ou combinação aplicável;
-5. selecionar um ou mais `WRS Security Levels`;
-6. marcar `Publish Report`;
-7. salvar o report;
-8. validar que aparece como publicado e executar com um Contact representativo.
+1. open the report in Report Wizard;
+2. go to **Tools > Report Options**;
+3. open the **Web Reporting Services** tab;
+4. set `WRS Filters` to Legal Entity, Investor, Specific Investor, or the applicable combination;
+5. select one or more `WRS Security Levels`;
+6. select `Publish Report`;
+7. save the report;
+8. verify that it appears as published and execute it with a representative Contact.
 
-![Report identificado como Published](../assets/reporting-services/19-rw-published-report.png)
+![Report identified as Published](../assets/reporting-services/19-rw-published-report.png)
 
-*Report publicado no Report Wizard. Fonte: guia WRS, p. 24.*
+*Published report in Report Wizard. Source: WRS guide, p. 24.*
 
-Para Crystal Dynamic Reporting, configure filtros e security levels de forma idêntica no shell e nos drivers. Marque `Publish Report` somente no shell.
+For Crystal Dynamic Reporting, configure identical filters and security levels on the shell and drivers. Select `Publish Report` only on the shell.
 
-## Interface SOAP do WRS
+## WRS SOAP interface
 
-A URL documentada segue o padrão legado:
+The documented URL follows the legacy pattern:
 
 ```text
 https://<host>:<port>/<path>/FTIRWWS.dll?Handler=Default
 ```
 
-O consumidor configura credenciais de rede para o serviço. Use HTTPS e restrinja o firewall aos consumidores autorizados.
+The consumer configures network credentials for the service. Use HTTPS and restrict the firewall to authorized consumers.
 
-### Métodos documentados
+### Documented methods
 
-| Método | Retorno | Uso |
+| Method | Return value | Use |
 |---|---|---|
-| `ServiceVersion()` | string | obter versão do Web Service |
-| `GetBooksAndReports(...)` | XML | listar books e reports publicados no WRS |
-| `GetReportParameters(...)` | XML | listar parâmetros e seus IDs/tipos |
-| `GetReportDataXML(...)` | XML | executar report e retornar dados estruturados |
-| `GetReportDataXMLLocalizedDate(...)` | XML | executar com formato de data localizado |
-| `GetReportDataHTML(...)` | HTML | executar e retornar documento HTML |
-| `GetReportDataHTMLLocalizedDate(...)` | HTML | executar HTML com formato de data informado |
-| `GetReportDataHTMLFirstPage(...)` | HTML + IDs de saída | executar e obter a primeira página |
-| `GetReportDataHTMLPage(...)` | HTML | recuperar outra página da execução |
-| `GetReportDataPDF(...)` | `byte[]` | executar e retornar o PDF |
+| `ServiceVersion()` | string | get the Web Service version |
+| `GetBooksAndReports(...)` | XML | list books and reports published in WRS |
+| `GetReportParameters(...)` | XML | list parameters and their IDs/types |
+| `GetReportDataXML(...)` | XML | execute a report and return structured data |
+| `GetReportDataXMLLocalizedDate(...)` | XML | execute with a localized date format |
+| `GetReportDataHTML(...)` | HTML | execute and return an HTML document |
+| `GetReportDataHTMLLocalizedDate(...)` | HTML | execute HTML with the specified date format |
+| `GetReportDataHTMLFirstPage(...)` | HTML + output IDs | execute and retrieve the first page |
+| `GetReportDataHTMLPage(...)` | HTML | retrieve another page from the execution |
+| `GetReportDataPDF(...)` | `byte[]` | execute and return the PDF |
 
-Os métodos recebem, conforme a operação, `companyID`, usuário, senha, `bookName`, `reportName` e uma coleção de `ParameterValue` contendo `id` e `value`.
+Depending on the operation, methods receive `companyID`, user, password, `bookName`, `reportName`, and a collection of `ParameterValue` containing `id` and `value`.
 
-### Sequência de integração recomendada
+### Recommended integration sequence
 
 ```mermaid
 sequenceDiagram
     participant C as Consumidor
     participant W as WRS
     C->>W: ServiceVersion()
-    W-->>C: versão
+    W-->>C: version
     C->>W: GetBooksAndReports(companyID, user, ...)
     W-->>C: books/reports publicados
     C->>W: GetReportParameters(...)
     W-->>C: IDs, nomes, tipos e defaults
     C->>W: GetReportDataXML/HTML/PDF(..., ParameterValue[])
-    W-->>C: resultado ou falha
+    W-->>C: result or failure
 ```
 
-Não grave IDs de parâmetro presumindo que serão iguais em todos os ambientes. Descubra-os pelo contrato publicado e valide-os após promoção ou mudança do report.
+Do not hard-code parameter IDs assuming they will be identical across all environments. Discover them through the published contract and validate them after promotion or a report change.
 
-## Identidade SQL versus Contact
+## SQL identity versus Contact
 
-O guia diferencia duas formas de informar o usuário:
+The guide distinguishes two ways to specify the user:
 
-- usuário SQL Server: executa com a identidade informada, mas o manual alerta que filtros e security levels WRS do report não são aplicados;
-- e-mail de um Contact habilitado: permite aplicar os relacionamentos, filtros e security levels, ficando a autenticação sob responsabilidade da aplicação consumidora.
+- SQL Server user: executes with the supplied identity, but the manual warns that the report's WRS filters and security levels are not applied;
+- email of an enabled Contact: allows relationships, filters, and security levels to be applied, with authentication remaining the consuming application's responsibility.
 
-Essa diferença é crítica. Nunca use uma execução com usuário SQL como prova de que a segurança funcional do Contact está correta.
+This difference is critical. Never use an execution with a SQL user as proof that the Contact's functional security is correct.
 
-## Formatos e volume
+## Formats and volume
 
 ### XML
 
-Indicado para integração e transformação de dados. O manual recomenda filtrar reports com mais de 1.000 linhas para evitar timeout durante a construção de XML. Trate esse número como orientação histórica, não como SLA atual.
+Suitable for data integration and transformation. The manual recommends filtering reports with more than 1,000 rows to avoid timeouts while building XML. Treat this number as historical guidance, not a current SLA.
 
 ### HTML
 
-Pode ser retornado integralmente ou paginado. Na paginação:
+Can be returned in full or paginated. For pagination:
 
-- `GetReportDataHTMLFirstPage` devolve `reportProcessId` e `totalPages`;
-- `GetReportDataHTMLPage` usa `pageNumber` e o mesmo `reportProcessId`;
-- formatos de data documentados incluem `DD-MM-YYYY`, `MM-DD-YYYY` e `YYYY-MM-DD`.
+- `GetReportDataHTMLFirstPage` returns `reportProcessId` and `totalPages`;
+- `GetReportDataHTMLPage` uses `pageNumber` and the same `reportProcessId`;
+- documented date formats include `DD-MM-YYYY`, `MM-DD-YYYY`, and `YYYY-MM-DD`.
 
 ### PDF
 
-`GetReportDataPDF` devolve um `byte[]`. O consumidor deve definir `Content-Type: application/pdf`, transmitir o binário sem conversão textual e controlar tamanho, timeout e armazenamento.
+`GetReportDataPDF` returns a `byte[]`. The consumer must set `Content-Type: application/pdf`, transmit the binary without text conversion, and control size, timeout, and storage.
 
-## Monitoramento recomendado
+## Recommended monitoring
 
-Colete, sem payloads sensíveis:
+Collect, without sensitive payloads:
 
-- timestamp UTC e correlation ID do consumidor;
-- hostname, `CompanyID`, book e report;
-- identidade funcional/Contact usada;
-- parâmetros sanitizados;
-- formato, duração e tamanho do resultado;
-- status HTTP/SOAP fault;
-- app pool recycle, CPU e memória;
-- latência/erro de conexão com o banco;
-- duração do report RW isolado.
+- UTC timestamp and consumer correlation ID;
+- hostname, `CompanyID`, book, and report;
+- functional identity/Contact used;
+- sanitized parameters;
+- format, duration, and result size;
+- HTTP status/SOAP fault;
+- app pool recycling, CPU, and memory;
+- database connection latency/errors;
+- standalone RW report duration.
 
-## Troubleshooting por sintoma
+## Troubleshooting by symptom
 
-| Sintoma | Verificações principais |
+| Symptom | Main checks |
 |---|---|
-| WRS indisponível | DNS, rede, firewall, certificado, binding IIS, site e app pool |
-| conexão com empresa falha | `CompanyID`, configuração WRS, servidor, banco, conta e teste de conexão |
-| report não aparece | publicação, book/report, security level, Contact e relacionamento |
-| parâmetros vazios | definição/descrição, filtro WRS, relacionamento e security level |
-| report retorna dados demais | tipo de identidade, filtros e segurança funcional não aplicados |
-| report retorna vazio | parâmetro, relacionamento, nível do filtro, data e ausência real de dados |
-| XML causa timeout | volume, filtros, duração RW e tamanho da serialização |
-| primeira página funciona e demais falham | `reportProcessId`, `pageNumber`, expiração/estado da execução e afinidade |
-| PDF inválido | shell/Crystal, binário truncado, timeout e `Content-Type` |
-| funciona no RW, falha no WRS | publicação, identidade, IIS, WRS config e serialização/formato |
+| WRS unavailable | DNS, network, firewall, certificate, IIS binding, site, and app pool |
+| company connection fails | `CompanyID`, WRS configuration, server, database, account, and connection test |
+| report does not appear | publishing, book/report, security level, Contact, and relationship |
+| empty parameters | definition/description, WRS filter, relationship, and security level |
+| report returns too much data | identity type, filters, and functional security not applied |
+| report returns no data | parameter, relationship, filter level, date, and actual absence of data |
+| XML causes a timeout | volume, filters, RW duration, and serialization size |
+| first page works and subsequent pages fail | `reportProcessId`, `pageNumber`, execution expiration/state, and affinity |
+| invalid PDF | shell/Crystal, truncated binary, timeout, and `Content-Type` |
+| works in RW, fails in WRS | publishing, identity, IIS, WRS configuration, and serialization/format |
 
-## Checklist de mudança
+## Change checklist
 
-1. Identifique consumidores e janela de uso.
-2. Registre configuração e versão atuais.
-3. Salve a versão do report e faça backup da configuração aplicável.
-4. Teste a mudança fora de produção.
-5. Valide descoberta, parâmetros e cada formato utilizado.
-6. Teste Contacts de cada nível de relacionamento relevante.
-7. Faça testes negativos para provar isolamento de dados.
-8. Compare duração e volume com o baseline.
-9. Publique e monitore.
-10. Reverta se houver exposição indevida, quebra de contrato ou divergência financeira.
+1. Identify consumers and the usage window.
+2. Record the current configuration and version.
+3. Save the report version and back up the applicable configuration.
+4. Test the change outside production.
+5. Validate discovery, parameters, and every format in use.
+6. Test Contacts at each relevant relationship level.
+7. Run negative tests to prove data isolation.
+8. Compare duration and volume against the baseline.
+9. Publish and monitor.
+10. Roll back if there is unauthorized exposure, a broken contract, or a financial discrepancy.
 
-## Fontes
+## Sources
 
-- *Internal_Inv7_INV_WRS_Install-Admin_7.pdf*, seções Introduction, Installation, Users e Reports.
-- *Internal_Inv7_InWRS_API_Guide.pdf*, seções Interface Specifications e Web Service Interface Methods.
-- *Internal_Inv7_INV_RW_Dev_Guide_7.pdf*, seção Executing Reports from Web Applications.
+- *Internal_Inv7_INV_WRS_Install-Admin_7.pdf*, Introduction, Installation, Users, and Reports sections.
+- *Internal_Inv7_InWRS_API_Guide.pdf*, Interface Specifications and Web Service Interface Methods sections.
+- *Internal_Inv7_INV_RW_Dev_Guide_7.pdf*, Executing Reports from Web Applications section.

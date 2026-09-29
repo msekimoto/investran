@@ -80,10 +80,10 @@ IIS authentication does not prove functional authorization in the report. Likewi
 
 ## Related guides
 
-- [Report Wizard - development and operations](02-report-wizard-desenvolvimento-operacao.md)
+- [Report Wizard - development and operations](02-report-wizard-development-operations.md)
 - [Web Reporting Services](03-web-reporting-services.md)
-- [Report Wizard, Crystal Reports, and WRS](../07-report-wizard-e-crystal.md)
-- [Runbook - Reporting failure](../../runbooks/falha-reporting.md)
+- [Report Wizard, Crystal Reports, and WRS](../07-report-wizard-and-crystal.md)
+- [Runbook - Reporting failure](../../runbooks/reporting-failure.md)
 
 ## Sources
 

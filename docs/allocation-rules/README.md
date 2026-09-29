@@ -72,7 +72,7 @@ Without the right permissions, an access issue can look like a rule defect.
 
 ## Module documents
 
-- [ARM practical guide](guia-pratico-arm.md): navigation, components, creation, execution, validation, and publication with tool screenshots.
+- [ARM practical guide](arm-practical-guide.md): navigation, components, creation, execution, validation, and publication with tool screenshots.
 - [ARM interface and lifecycle](arm-interface-and-lifecycle.md)
 - [Object model and technical contracts](object-model.md)
 - [Architecture and flow](architecture.md)
@@ -81,7 +81,7 @@ Without the right permissions, an access issue can look like a rule defect.
 - [Development and change](development.md)
 - [Maintenance guide](maintenance-guide.md)
 - [Troubleshooting and playbooks](troubleshooting.md)
-- [KT pending](KT-PENDENCIAS.md)
+- [KT pending](KT-PENDING.md)
 
 ## Support principle
 

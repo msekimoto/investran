@@ -1,6 +1,6 @@
 # Business Events and Partner Transfer
 
-> For step-by-step architecture, import, configuration, operations, and diagnosis, see [Business Events](business-events/README.md), the [practical guide](business-events/guia-pratico-business-events.md), the [Partner Transfer guide](business-events/partner-transfer.md), and [troubleshooting](business-events/troubleshooting.md).
+> For step-by-step architecture, import, configuration, operations, and diagnosis, see [Business Events](business-events/README.md), the [practical guide](business-events/business-events-practical-guide.md), the [Partner Transfer guide](business-events/partner-transfer.md), and [troubleshooting](business-events/troubleshooting.md).
 
 ## Business Events
 

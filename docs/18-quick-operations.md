@@ -16,11 +16,11 @@ Use this page as the entry point during an incident or before a change. It short
 
 | Situation | First procedure |
 |---|---|
-| Unknown impact or multiple layers | [Incident triage](../runbooks/incidente.md) |
-| Batch, scheduler, or job failure | [Batch/job failure](../runbooks/falha-batch-job.md) |
-| Report Wizard, Crystal, WRS, or export | [Reporting failure](../runbooks/falha-reporting.md) |
-| Business Event or Partner Transfer | [Business Event failure](../runbooks/falha-business-event.md) |
-| Planned deployment, upgrade, or maintenance | [Deployment and maintenance](../runbooks/deploy-manutencao.md) |
+| Unknown impact or multiple layers | [Incident triage](../runbooks/incident.md) |
+| Batch, scheduler, or job failure | [Batch/job failure](../runbooks/batch-job-failure.md) |
+| Report Wizard, Crystal, WRS, or export | [Reporting failure](../runbooks/reporting-failure.md) |
+| Business Event or Partner Transfer | [Business Event failure](../runbooks/business-event-failure.md) |
+| Planned deployment, upgrade, or maintenance | [Deployment and maintenance](../runbooks/deployment-maintenance.md) |
 
 ## Stop and escalate when
 
@@ -39,6 +39,6 @@ Before closing, validate the original scenario, a negative security case when ap
 ## References
 
 - [General troubleshooting](13-troubleshooting.md)
-- [KT plan](16-plano-de-kt.md)
-- [Glossary](19-glossario.md)
+- [KT plan](16-kt-plan.md)
+- [Glossary](19-glossary.md)
 - [Sensitive information policy](../SECURITY.md)

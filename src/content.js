@@ -11,18 +11,18 @@ const modules = import.meta.glob(
 )
 
 const groupLabels = {
-  home: 'Início',
-  docs: 'Guias principais',
-  arquitetura: 'Arquitetura',
-  dominio: 'Domínio e entidades',
+  home: 'Home',
+  docs: 'Core guides',
+  arquitetura: 'Architecture',
+  dominio: 'Domain and entities',
   'active-templates': 'Active Templates',
   'allocation-rules': 'Allocation Rules',
-  api: 'API REST',
-  integracoes: 'Integrações e SDK',
-  reporting: 'Report Wizard e Web Reports',
+  api: 'REST API',
+  integracoes: 'Integrations and SDK',
+  reporting: 'Report Wizard and Web Reports',
   runbooks: 'Runbooks',
   templates: 'Templates',
-  governance: 'Governança',
+  governance: 'Governance',
 }
 
 const groupOrder = [
@@ -74,7 +74,7 @@ function cleanForSearch(content) {
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/[#[\]()*_`>|-]/g, ' ')
     .replace(/\s+/g, ' ')
-    .toLocaleLowerCase('pt-BR')
+    .toLocaleLowerCase('en-US')
 }
 
 export const documents = Object.entries(modules)
@@ -93,7 +93,7 @@ export const documents = Object.entries(modules)
   })
   .sort((a, b) => {
     const groupDiff = groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group)
-    return groupDiff || a.path.localeCompare(b.path, 'pt-BR', { numeric: true })
+    return groupDiff || a.path.localeCompare(b.path, 'en-US', { numeric: true })
   })
 
 export const documentMap = new Map(documents.map((document) => [document.path.toLowerCase(), document]))
