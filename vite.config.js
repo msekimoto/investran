@@ -14,6 +14,6 @@ function copyDocumentationAssets() {
 }
 
 export default defineConfig({
-  base: '/investran/',
+  base: process.env.CF_PAGES ? '/' : '/investran/',
   plugins: [vue(), copyDocumentationAssets()],
 })
