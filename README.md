@@ -56,4 +56,4 @@ Treat `KT pending` as an open knowledge gap. Confirm operational details with th
 - [Information security policy](SECURITY.md)
 - [Runbook template](templates/runbook.md) and [knowledge transfer template](templates/knowledge-transfer.md)
 
-The wiki covers standard product behavior and documented practices. Validate environment-specific procedures before production use. New Markdown files in `docs/`, `runbooks/`, and `templates/` appear in the wiki automatically. To work locally, run `npm install` and `npm run dev`; use `npm run check` to validate links, runbook controls, and the production build, then `npm run preview` to serve the built site.
+The wiki covers standard product behavior and documented practices. Validate environment-specific procedures before production use. New Markdown files in `docs/`, `runbooks/`, and `templates/` appear in the wiki automatically. To work locally, run `npm install` and `npm run dev`; use `npm run check` to validate links, runbook controls, and the production build, then `npm run preview` to serve the built site. 
